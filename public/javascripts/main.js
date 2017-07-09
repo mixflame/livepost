@@ -12,12 +12,12 @@ socket.connect()
     })
 
 function new_board(board){
-  $("#board-list").append("<li>" + board['board'] + "</li>")
+  $("#board-list").append("<li><a href='/b/" + board['board'] + "'>" + board['board'] + "</a></li>")
 }
 
 function new_post(msg){
   console.log(msg);
-  $("#post-list").append("<p>" + msg['message'] + " - " + msg['author'] + "</p>")
+  $("#post-list").prepend("<p>" + msg['message'] + " - " + msg['author'] + "</p>")
 }
 
 $("#create-board").submit(function(e) {

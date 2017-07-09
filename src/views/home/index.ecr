@@ -28,7 +28,7 @@
   <h3>Message Boards</h3>
   <ul id="board-list">
     <%- collection.find({"name" => {"$ne" => ""}}) do |board| %>
-      <li><a href="/b/<%= URI.escape(board["name"].to_s, true) %>"><%= board["name"] %></a></li>
+      <li><a href="/b/<%= URI.escape(HTML.escape(board["name"].to_s), true) %>"><%= HTML.escape(board["name"].to_s) %></a></li>
     <% end %>
   </ul>
 </div>

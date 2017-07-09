@@ -1,5 +1,5 @@
 <div>
-  <h1><%= @board_name %></h1>
+  <h1><%= HTML.escape(@board_name.to_s) %></h1>
 </div>
 
 <div>
@@ -17,7 +17,7 @@
 <div>
   <h3>Posts</h3>
   <ul id="post-list">
-    <%- collection.find({"name" => {"$eq" => @board_name}}) do |post| %>
+    <%- collection.find({"$query" => {"name" => {"$eq" => @board_name}}, "$orderby" => {"_id" => -1}}) do |post| %>
       <p><%= HTML.escape(post["message"].to_s) %> - <%= HTML.escape(post["author"].to_s) %></p>
     <% end %>
   </ul>
