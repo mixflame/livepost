@@ -18,8 +18,10 @@ end
 puts "building app"
 run "crystal build /home/mixflame/livepost/src/livepost.cr"
 
-puts "killing off old server daemon"
-run 'killall livepost'
+if `pgrep -f` != ""
+  puts "killing off old server daemon"
+  run 'killall livepost'
+end
 
 puts "running livepost as a daemon"
 run "nohup /home/mixflame/livepost/livepost &"
