@@ -1,6 +1,16 @@
 # livepost
 
-Your description here
+Ever wanted to use 4chan, 8chan, Facebook and IRC, ALL at the same time?!
+
+With LivePost, now you can do it!!!!!!!!!
+
+Also it is open source because we love you.
+
+Now be good, and LIVEPOST!!!!!!!!!!!!!
+
+Also, it's live and post. LivePost!
+
+[LivePost](http://livepost.mixflame.com:3000)
 
 ## Installation
 
