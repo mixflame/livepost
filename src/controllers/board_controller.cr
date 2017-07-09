@@ -19,7 +19,11 @@ class BoardController < ApplicationController
 
     collection = db["messages"]
 
-    collection.insert({ "name" => params["board_name"], "message" => HTML.escape(params["message"]), "author" => HTML.escape(params["author"]) })
-    {board: params["board_name"], message: params["message"], author: params["author"], csrf: csrf_tag}.to_json
+    if collection.count({"message" => {"$eq" => HTML.escape(params["message"])}}) == 0
+      collection.insert({ "name" => params["board_name"], "message" => HTML.escape(params["message"]), "author" => HTML.escape(params["author"]) })
+      {board: params["board_name"], message: params["message"], author: params["author"], csrf: csrf_tag}.to_json
+    else
+      {error: "Already posted this.", csrf: csrf_tag}.to_json
+    end
   end
 end
