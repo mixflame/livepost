@@ -1,6 +1,6 @@
-require "redis"
 require "mongo"
 require "amber"
+require "daemonize"
 require "./sockets/**"
 require "./channels/**"
 require "./controllers/**"
@@ -10,4 +10,12 @@ require "./models/**"
 require "./views/**"
 require "../config/*"
 
-Amber::Server.instance.run
+
+amber = Amber::Server.instance
+
+if amber.env == "production"
+  puts "production mode. daemonizing."
+  Daemonize.daemonize
+end
+
+amber.run

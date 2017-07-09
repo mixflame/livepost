@@ -3,4 +3,4 @@
 echo 'killing livepost'
 pkill livepost
 echo 'starting livepost'
-nohup /home/mixflame/livepost/livepost & disown
+AMBER_ENV="production" /home/mixflame/livepost/livepost
