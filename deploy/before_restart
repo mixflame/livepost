@@ -6,10 +6,10 @@ end
 
 use_shards = File.file? 'shard.yml'
 
-if `pgrep -f livepost` != ""
-  puts "killing off old server daemon"
-  run "pkill livepost"
-end
+# if `pgrep -f livepost` != ""
+#   puts "killing off old server daemon"
+#   run "pkill livepost"
+# end
 
 puts "installing shards"
 if use_shards
@@ -19,6 +19,3 @@ end
 
 puts "building app"
 run "crystal build /home/mixflame/livepost/src/livepost.cr"
-
-puts "running livepost as a daemon"
-run "nohup /home/mixflame/livepost/livepost &"
