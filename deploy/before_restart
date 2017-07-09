@@ -9,9 +9,17 @@ end
 
 use_shards = File.file? 'shard.yml'
 
+puts "installing shards"
 if use_shards
   # update gem bundle
   run "shards install"
 end
 
+puts "building app"
 run "crystal build src/livepost.cr"
+
+puts "killing off old server daemon"
+run 'killall livepost'
+
+puts "running livepost as a daemon"
+run "nohup ./livepost &"
