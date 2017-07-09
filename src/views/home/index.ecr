@@ -1,0 +1,34 @@
+<div>
+  <h2>LivePost</h2>
+</div>
+
+<div>
+  <ul>
+    <li>LivePost is an anonymous live messaging forum.</li>
+    <li>It is a forum, but replies appear in real-time.</li>
+    <li>Users can create any message board they want.</li>
+    <li>And they can add as many messages to those boards as they want.</li>
+    <li>Messages are never deleted unless the user deletes them.</li>
+    <li>Once a board is created, it stays at the same URL forever.</li>
+    <li>Only the creator of the board can delete it.</li>
+  </ul>
+</div>
+
+<div>
+  <p>Create a message board</p>
+  <form id="create-board" action="/create_board" method="post">
+    Board name: <input type="text" name="board_name"><br>
+    Password (to delete): <input type="text" name="password"><br>
+    <%= csrf_tag %>
+    <input type="submit" value="Submit">
+  </form>
+</div>
+
+<div>
+  <h3>Message Boards</h3>
+  <ul id="board-list">
+    <%- collection.find({"name" => {"$ne" => ""}}) do |board| %>
+      <li><a href="/b/<%= URI.escape(board["name"].to_s, true) %>"><%= board["name"] %></a></li>
+    <% end %>
+  </ul>
+</div>

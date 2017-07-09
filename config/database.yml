@@ -1,0 +1,2 @@
+sqlite:
+  database: sqlite3:./db/livepost_development.db

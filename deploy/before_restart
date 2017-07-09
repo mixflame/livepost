@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+# hi this is mixflame love u
+# i forgot libbson and i love you
+# no this isnt a suicide note
+
+def run(cmd)
+  exit($?.exitstatus) unless system "umask 002 && #{cmd}"
+end
+
+use_shards = File.file? 'shard.yml'
+
+if use_shards
+  # update gem bundle
+  run "shards install"
+end
+
+run "crystal build src/livepost.cr"

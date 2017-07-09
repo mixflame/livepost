@@ -1,0 +1,30 @@
+name: livepost
+version: 0.1.0
+
+authors:
+  - Amber <contact@ambercr.io>
+
+crystal: 0.23.0
+
+license: MIT
+
+dependencies:
+  amber:
+    github: amber-crystal/amber
+    branch: master
+
+  quartz-mailer:
+    github: amber-crystal/quartz-mailer
+    branch: master
+
+  granite_orm:
+    github: kemalyst/granite-orm
+    version: ~> 0.6.0
+
+  redis:
+      github: stefanwille/crystal-redis
+      version: ~> 1.8.0
+
+  mongo:
+    github: datanoise/mongo.cr
+    branch: master

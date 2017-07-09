@@ -1,0 +1,3 @@
+#!/bin/sh
+# echo "Restarting LivePost"
+# supervisorctl restart livepost

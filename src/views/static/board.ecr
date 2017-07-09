@@ -1,0 +1,24 @@
+<div>
+  <h1><%= @board_name %></h1>
+</div>
+
+<div>
+  <p>Create Post</p>
+  <form id="create-post" action="/create_post" method="post">
+    <input type="hidden" name="board_name" value="<%= @board_name %>" />
+    Message: <textarea name="message"></textarea><br>
+    Author: <input type="text" name="author" value="anonymous" /><br>
+    Password (to delete): <input type="text" name="password"><br>
+    <%= csrf_tag %>
+    <input type="submit" value="Submit">
+  </form>
+</div>
+
+<div>
+  <h3>Posts</h3>
+  <ul id="post-list">
+    <%- collection.find({"name" => {"$eq" => @board_name}}) do |post| %>
+      <p><%= HTML.escape(post["message"].to_s) %> - <%= HTML.escape(post["author"].to_s) %></p>
+    <% end %>
+  </ul>
+</div>
