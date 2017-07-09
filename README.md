@@ -14,25 +14,17 @@ Also, it's live and post. LivePost!
 
 ## Installation
 
-There's no database except mongo.
+Get Crystal [Crystal](https://crystal-lang.org)
 
-```apt-get install libmongoc-dev mongodb libbson-dev crystal build-essentials```
+* Install dependencies: ```apt-get install libmongoc-dev mongodb libbson-dev crystal build-essentials```
 
-```shards install```
+* Compile and install amber_cmd [amber_cmd](https://github.com/amber-crystal/amber_cmd)
 
-```crystal build src/livepost.cr```
+* Install shards ```shards install```
 
-```./livepost```
+* Run in development mode and reload on changes (watch): ```amber w```
 
-Optionally get Amber::CMD. Clone amber-crystal/amber_cmd and make.
-
-## Usage
-
-To run the demo:
-```
-crystal build src/livepost.cr
-./livepost
-```
+* Run in production mode and daemonize: ```AMBER_ENV="production" ./livepost```
 
 ## Contributing
 
