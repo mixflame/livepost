@@ -1,7 +1,4 @@
 #!/usr/bin/env ruby
-# hi this is mixflame love u
-# i forgot libbson and i love you
-# no this isnt a suicide note
 
 def run(cmd)
   exit($?.exitstatus) unless system "umask 002 && #{cmd}"
