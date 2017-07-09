@@ -15,9 +15,9 @@ end
 puts "building app"
 run "crystal build /home/mixflame/livepost/src/livepost.cr"
 
-if `pgrep -f` != ""
+if `pgrep -f livepost` != ""
   puts "killing off old server daemon"
-  `pgrep -f`.split("\n").each do |pid|
+  `pgrep -f livepost`.split("\n").each do |pid|
     run "kill #{pid}"
   end
 end
