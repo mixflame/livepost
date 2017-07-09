@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # echo "Restarting LivePost"
 echo 'killing livepost'
 pkill livepost
