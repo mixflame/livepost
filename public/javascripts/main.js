@@ -1,4 +1,4 @@
-var socket, channel, message_channel, home_channel
+var socket, channel, message_channel, home_channel, base64
 
 socket = new Amber.Socket("/chat")
 socket.connect()
@@ -20,6 +20,7 @@ function new_board(board){
 
 function new_post(msg){
   console.log(msg);
+  $("#post-list").prepend("<img src='" + msg['image'] + "' />")
   $("#post-list").prepend("<p>" + msg['message'] + " - " + msg['author'] + "</p>")
 }
 
@@ -45,14 +46,27 @@ $("#create-board").submit(function(e) {
 
 $("#create-post").submit(function(e) {
   e.preventDefault();
-  $.post("/create_post", $('#create-post').serialize(), function(e){
+  base64 = base64 || "";
+  $.post("/create_post", $('#create-post').serialize() + "&image=" + encodeURIComponent(base64), function(e){
     // console.log(e);
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(!e['error']) {
-      message_channel.push('post:new', {board: e['board'], message: e['message'], author: e['author']})
+      message_channel.push('post:new', {board: e['board'], message: e['message'], author: e['author'], image: e['image']})
       home_channel.push('post:increment', {board: e['board']})
     } else {
       alert(e['error'])
     }
   }, "json");
+})
+
+function createImage(e) {
+  base64 = e.target.result;
+  $("#preview").attr("src", base64);
+}
+
+$('#image').change(function(){
+  var file = $('#image')[0].files[0];
+  var fr = new FileReader();
+  fr.onload = createImage;   // onload fires after reading is complete
+  fr.readAsDataURL(file);    // begin reading
 })

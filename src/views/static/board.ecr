@@ -6,6 +6,8 @@
   <p>Create Post</p>
   <form id="create-post" action="/create_post" method="post">
     <input type="hidden" name="board_name" value="<%= @board_name %>" />
+    Image: <input type="file" name="image" id="image" />
+    <p><img id="preview" /></p>
     Message: <textarea name="message"></textarea><br>
     Author: <input type="text" name="author" value="anonymous" /><br>
     Password (to delete): <input type="text" name="password"><br>
@@ -18,6 +20,10 @@
   <h3>Posts</h3>
   <ul id="post-list">
     <%- collection.find({"$query" => {"name" => {"$eq" => @board_name}}, "$orderby" => {"_id" => -1}}) do |post| %>
+      <% image = post["image"].to_s rescue "" %>
+      <% if image != "" %>
+        <p><img width="640" height="480" src="<%= image %>" /></p>
+      <% end %>
       <p><%= HTML.escape(post["message"].to_s) %> - <%= HTML.escape(post["author"].to_s) %></p>
     <% end %>
   </ul>

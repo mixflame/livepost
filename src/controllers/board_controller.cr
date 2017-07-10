@@ -14,14 +14,15 @@ class BoardController < ApplicationController
   end
 
   def create_post
+    p params
     client = Mongo::Client.new "mongodb://localhost:27017/livepost"
     db = client["live_post"]
 
     collection = db["messages"]
 
     if collection.count({"message" => {"$eq" => HTML.escape(params["message"])}, "name" => {"$eq" => params["board_name"]} }) == 0
-      collection.insert({ "name" => params["board_name"], "message" => HTML.escape(params["message"]), "author" => HTML.escape(params["author"]), "timestamp" => Time.now.to_s })
-      {board: params["board_name"], message: params["message"], author: params["author"], csrf: csrf_tag}.to_json
+      collection.insert({ "name" => params["board_name"], "message" => HTML.escape(params["message"]), "author" => HTML.escape(params["author"]), "image" => params["image"], "timestamp" => Time.now.to_s })
+      {board: params["board_name"], message: params["message"], author: params["author"], image: params["image"], csrf: csrf_tag}.to_json
     else
       {error: "Already posted this.", csrf: csrf_tag}.to_json
     end
