@@ -54,7 +54,7 @@ $("#create-post").submit(function(e) {
   e.preventDefault();
   base64 = base64 || ""
   image = encodeURIComponent(reverseString(base64))
-  if(image.length / 1024 > 150){
+  if(image.length / 1024 > 250){
     alert("image too big.")
     return;
   }
