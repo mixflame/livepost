@@ -3,6 +3,10 @@
 </div>
 
 <div>
+  <p>Users have liveposted <%= messages.count %> times!</p>
+</div>
+
+<div>
   <ul>
     <li>LivePost is an anonymous live messaging forum.</li>
     <li>It is a forum, but replies appear in real-time.</li>
@@ -28,7 +32,7 @@
   <h3>Message Boards</h3>
   <ul id="board-list">
     <%- collection.find({"name" => {"$ne" => ""}}) do |board| %>
-      <li><a href="/b/<%= URI.escape(HTML.escape(board["name"].to_s), true) %>"><%= HTML.escape(board["name"].to_s) %></a></li>
+      <li><a href="/b/<%= URI.escape(HTML.escape(board["name"].to_s), true) %>"><%= HTML.escape(board["name"].to_s) %></a> (<%= messages.count({"name" => {"$eq" => board["name"]}}) %> posts)</li>
     <% end %>
   </ul>
 </div>

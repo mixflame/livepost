@@ -5,6 +5,8 @@ class HomeController < ApplicationController
 
     collection = db["boards"]
 
+    messages = db["messages"]
+
     @board_name = "home"
     render("index.ecr")
   end
