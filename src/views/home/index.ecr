@@ -3,7 +3,7 @@
 </div>
 
 <div>
-  <p>Users have liveposted <%= messages.count %> times!</p>
+  <p>Users have liveposted <span id="total-posts"><%= messages.count %></span> times!</p>
 </div>
 
 <div>
@@ -32,7 +32,7 @@
   <h3>Message Boards</h3>
   <ul id="board-list">
     <%- collection.find({"name" => {"$ne" => ""}}) do |board| %>
-      <li><a href="/b/<%= URI.escape(HTML.escape(board["name"].to_s), true) %>"><%= HTML.escape(board["name"].to_s) %></a> (<%= messages.count({"name" => {"$eq" => board["name"]}}) %> posts)</li>
+      <li><a href="/b/<%= URI.escape(HTML.escape(board["name"].to_s), true) %>"><%= HTML.escape(board["name"].to_s) %></a> (<span id="posts-<%=board["name"].to_s.gsub(" ", "-")%>"><%= messages.count({"name" => {"$eq" => board["name"]}}) %></span> posts)</li>
     <% end %>
   </ul>
 </div>

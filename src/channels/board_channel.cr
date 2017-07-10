@@ -10,10 +10,14 @@ class BoardChannel < Amber::WebSockets::Channel
     if subject == "post:new"
       message = msg["payload"]["message"]
       author = msg["payload"]["author"]
-      rebroadcast!({"event" => event, "topic" => topic, "subject" => subject, "payload" => {"message" => HTML.escape(message.to_s), "author" => HTML.escape(author.to_s)}})
+      board = msg["payload"]["board"]
+      rebroadcast!({"event" => event, "topic" => topic, "subject" => subject, "payload" => {"message" => HTML.escape(message.to_s), "author" => HTML.escape(author.to_s), "board" => board.to_s}})
     elsif subject == "board:new"
       board = msg["payload"]["board"]
       rebroadcast!({"event" => event, "topic" => topic, "subject" => subject, "payload" => {"board" => HTML.escape(board.to_s)}})
+    elsif subject == "post:increment"
+      board = msg["payload"]["board"]
+      rebroadcast!({"event" => event, "topic" => topic, "subject" => subject, "payload" => {"board" => board.to_s.gsub(" ", "-")}})
     end
   end
 end

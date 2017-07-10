@@ -19,7 +19,7 @@ class BoardController < ApplicationController
 
     collection = db["messages"]
 
-    if collection.count({"message" => {"$eq" => HTML.escape(params["message"])}}) == 0
+    if collection.count({"message" => {"$eq" => HTML.escape(params["message"])}, "name" => {"$eq" => params["board_name"]} }) == 0
       collection.insert({ "name" => params["board_name"], "message" => HTML.escape(params["message"]), "author" => HTML.escape(params["author"]), "timestamp" => Time.now.to_s })
       {board: params["board_name"], message: params["message"], author: params["author"], csrf: csrf_tag}.to_json
     else
