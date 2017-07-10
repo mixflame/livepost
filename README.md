@@ -1,6 +1,6 @@
 # livepost
 
-Ever wanted to use 4chan, 8chan, Facebook and IRC, ALL at the same time?!
+Ever wanted to use 4chan, 8chan and IRC, ALL at the same time?!
 
 With LivePost, now you can do it!!!!!!!!!
 
