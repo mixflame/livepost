@@ -20,11 +20,11 @@ class BoardController < ApplicationController
 
     collection = db["messages"]
 
-    if collection.count({"message" => {"$eq" => HTML.escape(params["message"])}, "name" => {"$eq" => params["board_name"]} }) == 0
+    if collection.count({"message" => {"$eq" => HTML.escape(params["message"])}, "name" => {"$eq" => params["board_name"]} }) == 0 && params["image"].size / 1024 < 150
       collection.insert({ "name" => params["board_name"], "message" => HTML.escape(params["message"]), "author" => HTML.escape(params["author"]), "image" => params["image"], "timestamp" => Time.now.to_s })
       {board: params["board_name"], message: params["message"], author: params["author"], image: params["image"], csrf: csrf_tag}.to_json
     else
-      {error: "Already posted this.", csrf: csrf_tag}.to_json
+      {error: "Already posted this or image too big.", csrf: csrf_tag}.to_json
     end
   end
 end

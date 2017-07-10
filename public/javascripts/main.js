@@ -20,7 +20,9 @@ function new_board(board){
 
 function new_post(msg){
   console.log(msg);
-  $("#post-list").prepend("<img src='" + msg['image'] + "' />")
+  if(msg['image'] != "") {
+    $("#post-list").prepend("<img src='" + msg['image'] + "' />")
+  }
   $("#post-list").prepend("<p>" + msg['message'] + " - " + msg['author'] + "</p>")
 }
 
@@ -44,10 +46,19 @@ $("#create-board").submit(function(e) {
   }, "json");
 })
 
+function reverseString(str) {
+    return str.split("").reverse().join("");
+}
+
 $("#create-post").submit(function(e) {
   e.preventDefault();
-  base64 = base64 || "";
-  $.post("/create_post", $('#create-post').serialize() + "&image=" + encodeURIComponent(base64), function(e){
+  base64 = base64 || ""
+  image = encodeURIComponent(reverseString(base64))
+  if(image.length / 1024 > 150){
+    alert("image too big.")
+    return;
+  }
+  $.post("/create_post", $('#create-post').serialize() + "&image=" + image, function(e){
     // console.log(e);
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(!e['error']) {
