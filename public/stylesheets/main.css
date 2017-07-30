@@ -2,6 +2,7 @@
  * Globals
  */
 body {
+  background-color: #eeeeee;
   font-family: Georgia, "Times New Roman", Times, serif;
   color: #555;
 }
@@ -31,7 +32,7 @@ h6, .h6 {
  * Masthead for nav
  */
 .masthead {
-  background-color: #f4994b;
+  background-color: #ff8533;
   -webkit-box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);
           box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);
 }
