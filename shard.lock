@@ -2,7 +2,7 @@ version: 1.0
 shards:
   amber:
     github: amber-crystal/amber
-    commit: 358b21789626326a4094f1ab8d1c41ff03c8c2cf
+    commit: 26fba1ca652a6c1f73f51d7931ccb665cd08a429
 
   daemonize:
     github: DougEverly/daemonize.cr

@@ -24,6 +24,11 @@ function new_post(msg){
     $("#post-list").prepend("<img src='" + msg['image'] + "' />")
   }
   $("#post-list").prepend("<p>" + msg['message'] + " - " + msg['author'] + "</p>")
+  // board screen new message post ding
+  if($('textarea').val() != msg['message']){
+    ding = new Audio("/ding.wav")
+    ding.play()
+  }
 }
 
 function increment_posts(board) {
