@@ -4,6 +4,8 @@ LivePost is a browser-based communication system that allows truely live forum-s
 
 Also, it is anonymous.
 
+Soon: SSL and end-to-end encryption. Port 80 support.
+
 [LivePost](http://livepost.mixflame.com:3000)
 
 ## Installation
