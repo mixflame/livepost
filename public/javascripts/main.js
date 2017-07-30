@@ -12,6 +12,7 @@ socket.connect()
       this.channel.on('board:new', (board) => new_board(board))
       this.message_channel.on('post:new', (msg) => new_post(msg))
       this.home_channel.on('post:increment', (board) => increment_posts(board))
+      notifyMe("")
     })
 
 function new_board(board){
@@ -28,6 +29,7 @@ function new_post(msg){
   if($('textarea').val() != msg['message']){
     ding = new Audio("/ding.wav")
     ding.play()
+    notifyMe(msg['message'] + " - " + msg['author'])
   } else {
     $('textarea').val('')
   }
@@ -94,3 +96,30 @@ $('#image').change(function(){
   fr.onload = createImage;   // onload fires after reading is complete
   fr.readAsDataURL(file);    // begin reading
 })
+
+
+function notifyMe(msg) {
+  // Let's check if the browser supports notifications
+  if (!("Notification" in window)) {
+    console.log("This browser does not support desktop notification");
+  }
+
+  // Let's check whether notification permissions have already been granted
+  else if (Notification.permission === "granted" && msg != "") {
+    // If it's okay let's create a notification
+    var notification = new Notification(msg);
+  }
+
+  // Otherwise, we need to ask the user for permission
+  else if (Notification.permission !== "denied") {
+    Notification.requestPermission(function (permission) {
+      // If the user accepts, let's create a notification
+      if (permission === "granted" && msg != "") {
+        var notification = new Notification(msg);
+      }
+    });
+  }
+
+  // At last, if the user has denied notifications, and you 
+  // want to be respectful there is no need to bother them any more.
+}
