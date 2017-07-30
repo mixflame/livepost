@@ -10,6 +10,12 @@ class StaticController < ApplicationController
     collection = db["messages"]
     @board_name = URI.unescape(params["slug"])
 
+    last_posted = collection.find_one({"$query" => {"timestamp" => {"$ne" => ""}}, "$orderby": {"timestamp" => -1}})
+
+    last_posted_author = last_posted.nil? ? "" : last_posted["author"]
+
+    last_posted = last_posted.nil? ? "" : last_posted["name"]
+
     render("board.ecr")
   end
 end

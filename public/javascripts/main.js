@@ -17,6 +17,7 @@ socket.connect()
 
 function new_board(board){
   $("#board-list").append("<li><a href='/b/" + board['board'] + "'>" + board['board'] + "</a> (<span id='posts-" + board['board'].replace(" ", "-") + "'>0 posts)</li>")
+  alert_bottom("<a href='/b/" + board['board'] + "'>" + board['board'] + "</a>" + " was created.")
 }
 
 function new_post(msg){
@@ -43,10 +44,17 @@ function increment_posts(board) {
   $('.post-count').css("font-weight", "");
   $('#li-' + board['board']).css("font-weight", "bold");
   $('#posts-' + board['board']).html(board_posts_count + 1);
+  alert_bottom(board['author'] + " posted in <a href='/b/" + board['board'].replace(/-/g, " ") + "'>" + board['board'].replace(/-/g, " ") + "</a>")
   if($('#last-posted').length > 0){
     console.log(board['board'])
     $('#last-posted').html("<a href='/b/" + board['board'] + "'>" + board['board'] + "</a>");
   }
+}
+
+function alert_bottom(msg) {
+  $('.last-posted').show();
+  $('.last-posted').html(msg);
+  $('.last-posted').fadeOut(10000);
 }
 
 $("#create-board").submit(function(e) {
@@ -78,7 +86,7 @@ $("#create-post").submit(function(e) {
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(!e['error']) {
       message_channel.push('post:new', {board: e['board'], message: e['message'], author: e['author'], image: e['image']})
-      home_channel.push('post:increment', {board: e['board']})
+      home_channel.push('post:increment', {board: e['board'], author: e['author']})
     } else {
       alert(e['error'])
     }
@@ -128,6 +136,6 @@ function notifyMe(msg) {
     });
   }
 
-  // At last, if the user has denied notifications, and you 
+  // At last, if the user has denied notifications, and you
   // want to be respectful there is no need to bother them any more.
 }

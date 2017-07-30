@@ -5,15 +5,8 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
-
-    <!-- Optional theme -->
     <link rel="stylesheet" href="/stylesheets/bootstrap-theme.min.css">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="/javascripts/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/stylesheets/main.css" />
   <head>
   <body>
@@ -25,7 +18,7 @@
       </div>
     </div>
 
-    <div class="container">
+    <div class="container" style="padding-bottom: 70px">
       <div class="row">
         <%- flash.each do |key, value| %>
           <div class="alert alert-<%= key %>">
@@ -40,8 +33,16 @@
         </div>
       </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    </div>
+
+    <footer class="footer navbar-fixed-bottom">
+      <div class="container">
+        <p class="text-muted last-posted"></p>
+      </div>
+    </footer>
+
+    <script src="/javascripts/jquery.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
     <script src="/javascripts/amber.js"></script>
     <script>window.board_name = "<%= @board_name.to_s %>";</script>
     <script src="/javascripts/main.js"></script>

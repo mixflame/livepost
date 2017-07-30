@@ -72,3 +72,11 @@ h6, .h6 {
 .main {
   padding-top: 20px;
 }
+
+.footer {
+  background-color: white;
+}
+
+.last-posted {
+  display: none;
+}

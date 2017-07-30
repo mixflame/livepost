@@ -9,6 +9,8 @@ class HomeController < ApplicationController
 
     last_posted = messages.find_one({"$query" => {"timestamp" => {"$ne" => ""}}, "$orderby": {"timestamp" => -1}})
 
+    last_posted_author = last_posted.nil? ? "" : last_posted["author"]
+
     last_posted = last_posted.nil? ? "" : last_posted["name"]
 
     @board_name = "home"
