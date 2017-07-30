@@ -7,8 +7,11 @@ class HomeController < ApplicationController
 
     messages = db["messages"]
 
+    last_posted = messages.find_one({"$query" => {"name" => {"$ne" => ""}}, "$orderby": {"$natural" => 1}})
+
+    last_posted = last_posted.nil? ? "" : last_posted["name"]
+
     @board_name = "home"
     render("index.ecr")
   end
 end
-

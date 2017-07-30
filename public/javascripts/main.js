@@ -32,6 +32,10 @@ function increment_posts(board) {
   $('#total-posts').html(posts_count + 1);
   var board_posts_count = parseInt($('#posts-' + board['board']).html());
   $('#posts-' + board['board']).html(board_posts_count + 1);
+  if($('#last-posted').length > 0){
+    console.log(board['board'])
+    $('#last-posted').html("<a href='/b/" + board['board'] + "'>" + board['board'] + "</a>");
+  }
 }
 
 $("#create-board").submit(function(e) {
