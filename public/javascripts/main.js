@@ -31,6 +31,8 @@ function increment_posts(board) {
   var posts_count = parseInt($('#total-posts').html());
   $('#total-posts').html(posts_count + 1);
   var board_posts_count = parseInt($('#posts-' + board['board']).html());
+  $('.post-count').css("font-weight", "");
+  $('#li-' + board['board']).css("font-weight", "bold");
   $('#posts-' + board['board']).html(board_posts_count + 1);
   if($('#last-posted').length > 0){
     console.log(board['board'])
