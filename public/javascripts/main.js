@@ -12,7 +12,7 @@ socket.connect()
       this.channel.on('board:new', (board) => new_board(board))
       this.message_channel.on('post:new', (msg) => new_post(msg))
       this.home_channel.on('post:increment', (board) => increment_posts(board))
-      notifyMe("")
+      notifyMe("") // enable notifications (no msg)
     })
 
 function new_board(board){
@@ -83,6 +83,14 @@ $("#create-post").submit(function(e) {
       alert(e['error'])
     }
   }, "json");
+})
+
+$("#author").change(function(e){
+  localStorage.setItem("author", $("#author").val())
+})
+
+$(document).ready(function(){
+  $("#author").val(localStorage.getItem("author") || "anonymous")
 })
 
 function createImage(e) {
