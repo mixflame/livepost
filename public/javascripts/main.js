@@ -28,6 +28,8 @@ function new_post(msg){
   if($('textarea').val() != msg['message']){
     ding = new Audio("/ding.wav")
     ding.play()
+  } else {
+    $('textarea').val('')
   }
 }
 

@@ -1,14 +1,8 @@
 # livepost
 
-Ever wanted to use 4chan, 8chan and IRC, ALL at the same time?!
+LivePost is a browser-based communication system that allows truely live forum-style communication with images.
 
-With LivePost, now you can do it!!!!!!!!!
-
-Also it is open source because we love you.
-
-Now be good, and LIVEPOST!!!!!!!!!!!!!
-
-Also, it's live and post. LivePost!
+Also, it is anonymous.
 
 [LivePost](http://livepost.mixflame.com:3000)
 
