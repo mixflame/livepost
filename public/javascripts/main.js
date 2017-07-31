@@ -138,7 +138,9 @@ $(document).ready(function(){
     localStorage.setItem("ding", ding);
   }
   $("#ding").prop("checked", ding);
-  $('.comment-text').html(stripCombiningMarks($('.comment-text').html()))
+  $('.comment-text').each(function(i,e) {
+    $(e).html(stripCombiningMarks($(e).html()))
+  });
 })
 
 function createImage(e) {
