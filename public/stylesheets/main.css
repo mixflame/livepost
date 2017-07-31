@@ -80,3 +80,12 @@ h6, .h6 {
 .last-posted {
   display: none;
 }
+
+li.comment {
+  background: #ddd;
+  margin: 20px;
+}
+
+p.comment-text {
+  overflow: hidden;
+}

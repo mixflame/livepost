@@ -105,7 +105,11 @@ $("#create-post").submit(function(e) {
   base64 = canvas.toDataURL("image/jpeg", parseFloat($("#scale").val()));
   image = LZString.compressToEncodedURIComponent(base64)
   if(image.length / 1024 > 350){
-    alert("Image is too big. Max size: 350kb, any dimensions")
+    alert("Image is too big: " + (image.length/1024) + " kb Max size: 350kb, any dimensions")
+    return;
+  }
+  if($("textarea#message").val().length > 2000){
+    alert("Message is too large: " + $("textarea#message").val().length + " Max: 2000")
     return;
   }
   $.post("/create_post", $('#create-post').serialize() + "&image=" + image, function(e){
