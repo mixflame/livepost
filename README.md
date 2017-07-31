@@ -6,9 +6,11 @@ Also, it is anonymous.
 
 Soon: SSL and end-to-end encryption. Port 80 support.
 
-[LivePost](http://livepost.mixflame.com:3000)
+[LivePost](http://livepost.mixflame.com)
 
 Support LivePost Development: 1J71oJ9g6Z4L7kDzaSYjaXKA1z1QLWWWAj
+
+Gather with the LivePost developers: irc.rizon.net #livepost
 
 ## Installation
 
