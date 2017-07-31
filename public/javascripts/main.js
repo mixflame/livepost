@@ -83,7 +83,7 @@ $("#create-post").submit(function(e) {
   e.preventDefault();
   base64 = base64 || ""
   image = LZString.compressToEncodedURIComponent(base64)
-  if(image.length / 1024 > 200){
+  if(image.length / 1024 > 350){
     alert("image too big.")
     return;
   }
