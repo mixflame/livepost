@@ -28,7 +28,8 @@ class BoardChannel < Amber::WebSockets::Channel
       author = msg["payload"]["author"]
       rebroadcast!({"event" => event, "topic" => topic, "subject" => subject, "payload" => {"board" => board.to_s.gsub(" ", "-"), "author" => HTML.escape(author.to_s)}})
     elsif subject == "socket:connected"
-      UserSocket.broadcast("message", "board_room:connected", "socket:connected", {"connected" => Amber::WebSockets::ClientSockets.client_sockets.size})
+      board = msg["payload"]["board"]
+      UserSocket.broadcast("message", "board_room:connected", "socket:connected", {"connected" => Amber::WebSockets::ClientSockets.client_sockets.size, "this_board" => Amber::WebSockets::ClientSockets.get_subscribers_for_topic("board_room:#{board.to_s}").size})
     end
   end
 end

@@ -1,5 +1,6 @@
 <div>
   <h1><%= HTML.escape(@board_name.to_s) %></h1>
+  <p id="board-connected"><%= Amber::WebSockets::ClientSockets.get_subscribers_for_topic("board_room:#{@board_name.to_s}").size %> connected</p>
   Ding: <input type="checkbox" id="ding" />
 </div>
 

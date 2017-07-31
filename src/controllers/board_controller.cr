@@ -85,7 +85,8 @@ class BoardController < ApplicationController
   end
 
   def update_socket_count
-    UserSocket.broadcast("message", "board_room:connected", "socket:connected", {"connected" => Amber::WebSockets::ClientSockets.client_sockets.size})
+    board = params["board"]
+    UserSocket.broadcast("message", "board_room:connected", "socket:connected", {"connected" => Amber::WebSockets::ClientSockets.client_sockets.size, "this_board" => Amber::WebSockets::ClientSockets.get_subscribers_for_topic("board_room:#{board.to_s}").size})
     return {success: "true"}.to_json
   end
 end

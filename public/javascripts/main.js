@@ -15,18 +15,19 @@ socket.connect()
       this.message_channel.on('post:new', (msg) => new_post(msg))
       this.home_channel.on('post:increment', (board) => increment_posts(board))
       this.connected_channel.on('socket:connected', (socket) => connected_socket(socket))
-      this.connected_channel.push('socket:connected') // i connected
+      this.connected_channel.push('socket:connected', {board: window.board_name}) // i connected
       notifyMe("") // enable notifications (no msg)
     })
 
 $(window).on("beforeunload", function (e) {
   this.socket.ws.close();
-  $.get("/update_socket_count");
+  $.get("/update_socket_count", {board: window.board_name});
 });
 
 function connected_socket(socket){
   console.log(socket);
   $("#sockets-connected").html(socket["connected"] + " sockets connected");
+  $("#board-connected").html(socket["this_board"] + " connected")
 }
 
 function new_board(board){
