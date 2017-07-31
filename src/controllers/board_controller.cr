@@ -21,7 +21,7 @@ class BoardController < ApplicationController
     collection = db["messages"]
 
     if collection.count({"message" => {"$eq" => HTML.escape(params["message"])}, "name" => {"$eq" => params["board_name"]} }) == 0 && ((params["image"].size / 1024) < 350)
-      collection.insert({ "name" => params["board_name"], "message" => HTML.escape(params["message"]), "author" => HTML.escape(params["author"]), "image" => params["image"], "timestamp" => Time.now.to_s })
+      collection.insert({ "name" => params["board_name"], "message" => HTML.escape(params["message"]), "author" => HTML.escape(params["author"]), "image" => params["image"], "timestamp" => Time.now.to_s, "password" => params["password"] })
       {board: params["board_name"], message: params["message"], author: params["author"], image: params["image"], csrf: csrf_tag}.to_json
     else
       {error: "Already posted this or image too big.", csrf: csrf_tag}.to_json
@@ -72,12 +72,18 @@ class BoardController < ApplicationController
     messages = db["messages"]
 
     password = collection.find_one({"$query" => {"name" => {"$eq" => params["board_name"]}}})
-    password = password.nil? ? "" : password["password"]
+    password = password.nil? || !password.has_key?("password") ? "" : password["password"]
+    # change to find by id
+    post_password = messages.find_one({"$query" => {"name" => {"$eq" => params["board_name"]}, "message" => {"$eq" => params["message"]}}})
+    post_password = post_password.nil? || !post_password.has_key?("password") ? "" : post_password["password"]
     if(params["password"] == ENV["LIVEPOST_PASSWORD"]) # admin
-      messages.remove({"name" => params["board_name"], "message" => params["message"]})
+      messages.remove({"name" => params["board_name"], "message" => params["message"]}) # change to use id
       return "deleted"
     elsif(params["password"] == password && password != "")
-      messages.remove({"name" => params["board_name"], "message" => params["message"]})
+      messages.remove({"name" => params["board_name"], "message" => params["message"]}) # change to use id
+      return "deleted"
+    elsif(params["password"] == post_password && post_password != "")
+      messages.remove({"name" => params["board_name"], "message" => params["message"]}) # change to use id
       return "deleted"
     else
       return "not deleted (incorrect password)"
