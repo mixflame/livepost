@@ -37,8 +37,8 @@ function new_board(board){
 
 function new_post(msg){
   console.log(msg);
+  $("#post-list").prepend("<div class='post'></div>")
   if(msg['image'] != "" && msg['image'] != "Q" && msg['image'] != "CYQwLiBcA0Q") {
-    $("#post-list").prepend("<div class='post'></div>")
     $("#post-list > .post").first().append("<p class='image'><img src='" + LZString.decompressFromEncodedURIComponent(msg['image']) + "' /></p>")
   }
   $("#post-list > .post").first().append("<div class='comment'><p class='comment-text'>" + msg['message'] + " - " + msg['author'] + " <a href='/delete_post?board_name=" + msg["board"] + "&message=" + msg["message"] +"'>delete</a></p></div>")
@@ -138,6 +138,7 @@ $(document).ready(function(){
     localStorage.setItem("ding", ding);
   }
   $("#ding").prop("checked", ding);
+  $('.comment-text').html(stripCombiningMarks($('.comment-text').html()))
 })
 
 function createImage(e) {
