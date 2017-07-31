@@ -90,7 +90,7 @@ $("#create-post").submit(function(e) {
   base64 = canvas.toDataURL("image/jpeg", parseFloat($("#scale").val()));
   image = LZString.compressToEncodedURIComponent(base64)
   if(image.length / 1024 > 350){
-    alert("image too big.")
+    alert("Image is too big. Max size: 350kb, any dimensions")
     return;
   }
   $.post("/create_post", $('#create-post').serialize() + "&image=" + image, function(e){
