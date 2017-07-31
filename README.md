@@ -22,6 +22,8 @@ Get Crystal [Crystal](https://crystal-lang.org)
 
 * Install shards ```shards install```
 
+* Set admin password ```export LIVEPOST_PASSWORD="something1212"```
+
 * Run in development mode and reload on changes (watch): ```amber w```
 
 * Run in production mode and daemonize: ```AMBER_ENV="production" ./livepost```
