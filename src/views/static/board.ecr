@@ -25,7 +25,9 @@
       <% if image != "Q" && image != "" && image != "CYQwLiBcA0Q" %>
         <p><img data-src="<%= image %>" /></p>
       <% end %>
-        <p><%= post["message"].to_s %> - <%= post["author"].to_s.blank? ? "anonymous" : post["author"].to_s %></p>
+        <p><%= post["message"].to_s %> - <%= post["author"].to_s.blank? ? "anonymous" : post["author"].to_s %>
+        <a href='/delete_post?board_name=<%= URI.escape(post["name"].to_s) %>&message=<%= URI.escape(post["message"].to_s) %>'>delete</a>
+        </p>
     <% end %>
   </ul>
 </div>

@@ -55,4 +55,32 @@ class BoardController < ApplicationController
       return "not deleted (incorrect password)"
     end
   end
+
+
+  def delete_post
+    @board_name = URI.unescape(params["board_name"])
+    @message = URI.unescape(params["message"])
+    render("delete_post.ecr")
+  end
+
+  def remove_post
+    client = Mongo::Client.new "mongodb://localhost:27017/livepost"
+    db = client["live_post"]
+
+    collection = db["boards"]
+
+    messages = db["messages"]
+
+    password = collection.find_one({"$query" => {"name" => {"$eq" => params["board_name"]}}})
+    password = password.nil? ? "" : password["password"]
+    if(params["password"] == ENV["LIVEPOST_PASSWORD"]) # admin
+      messages.remove({"name" => params["board_name"], "message" => params["message"]})
+      return "deleted"
+    elsif(params["password"] == password && password != "")
+      messages.remove({"name" => params["board_name"], "message" => params["message"]})
+      return "deleted"
+    else
+      return "not deleted (incorrect password)"
+    end
+  end
 end

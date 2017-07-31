@@ -27,6 +27,8 @@ Amber::Server.instance.config do |app|
     post "/create_post", BoardController, :create_post
     get "/delete_board", BoardController, :delete_board
     post "/remove_board", BoardController, :remove_board
+    get "/delete_post", BoardController, :delete_post
+    post "/remove_post", BoardController, :remove_post
   end
 
   routes :static do
