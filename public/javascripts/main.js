@@ -105,7 +105,7 @@ $("#create-post").submit(function(e) {
   base64 = canvas.toDataURL("image/jpeg", parseFloat($("#scale").val()));
   image = LZString.compressToEncodedURIComponent(base64)
   if(image.length / 1024 > 350){
-    alert("Image is too big: " + (image.length/1024) + " kb Max size: 350kb, any dimensions")
+    alert("Image is too big: " + parseInt(image.length/1024) + " kb Max size: 350kb, any dimensions")
     return;
   }
   if($("textarea#message").val().length > 2000){
@@ -130,7 +130,7 @@ $("#author").change(function(e){
 
 $(document).ready(function(){
   $("#author").val(localStorage.getItem("author") || "anonymous")
-  $("ul#post-list > p > img").each(function(i, e) { $(e).attr("src", LZString.decompressFromEncodedURIComponent($(e).data("src")))});
+  $("div.post > p > img").each(function(i, e) { $(e).attr("src", LZString.decompressFromEncodedURIComponent($(e).data("src")))});
   var ding = localStorage.getItem("ding");
   if(ding == null) {
     ding = true;

@@ -81,9 +81,11 @@ h6, .h6 {
   display: none;
 }
 
-li.comment {
+.post {
   background: #ddd;
   margin: 20px;
+  padding: 30px;
+  width: 100%;
 }
 
 p.comment-text {

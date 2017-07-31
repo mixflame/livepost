@@ -20,17 +20,19 @@
 
 <div>
   <h3>Posts</h3>
-  <ul id="post-list">
+  <div id="post-list">
     <%- collection.find({"$query" => {"name" => {"$eq" => @board_name}}, "$orderby" => {"_id" => -1}}) do |post| %>
-      <li class="comment">
-      <% image = post["image"].to_s rescue "" %>
-      <% if image != "Q" && image != "" && image != "CYQwLiBcA0Q" %>
-        <p class="image"><img data-src="<%= image %>" /></p>
-      <% end %>
-        <p class="comment-text"><%= post["message"].to_s[0..2000] %> - <%= post["author"].to_s.blank? ? "anonymous" : post["author"].to_s %>
-        <a href='/delete_post?board_name=<%= URI.escape(post["name"].to_s) %>&message=<%= URI.escape(post["message"].to_s) %>'>delete</a>
-        </p>
-      </li>
+        <div class="post">
+          <% image = post["image"].to_s rescue "" %>
+          <% if image != "Q" && image != "" && image != "CYQwLiBcA0Q" %>
+            <p class="image"><img data-src="<%= image %>" /></p>
+          <% end %>
+          <div class="comment">
+            <p class="comment-text"><%= post["message"].to_s[0..2000] %> - <%= post["author"].to_s.blank? ? "anonymous" : post["author"].to_s %>
+            <a href='/delete_post?board_name=<%= URI.escape(post["name"].to_s) %>&message=<%= URI.escape(post["message"].to_s) %>'>delete</a>
+            </p>
+          </div>
+        </div>
     <% end %>
-  </ul>
+  </div>
 </div>
