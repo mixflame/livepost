@@ -5,11 +5,11 @@ class BoardController < ApplicationController
 
     collection = db["boards"]
 
-    if collection.count({"name" => {"$eq" => params["board_name"]}}) == 0
+    if collection.count({"name" => {"$eq" => params["board_name"]}}) == 0 && params["board_name"].size < 50
       collection.insert({ "name" => params["board_name"], "password" => params["password"] })
       {board: params["board_name"], csrf: csrf_tag}.to_json
     else
-      {error: "Not unique", csrf: csrf_tag}.to_json
+      {error: "Not unique or name over 50 characters.", csrf: csrf_tag}.to_json
     end
   end
 

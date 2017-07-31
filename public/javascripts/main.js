@@ -81,6 +81,7 @@ function alert_bottom(msg) {
 
 $("#create-board").submit(function(e) {
   e.preventDefault();
+  $("#board_name").val(stripCombiningMarks($("#board_name").val()))
   $.post("/create_board", $('#create-board').serialize(), function(e){
     // console.log(e);
     $("input[name*=_csrf]").replaceWith(e['csrf']);
@@ -97,6 +98,8 @@ function reverseString(str) {
 
 $("#create-post").submit(function(e) {
   e.preventDefault();
+  $("#message").val(stripCombiningMarks($("#message").val()))
+  $("#author").val(stripCombiningMarks($("#author").val()))
   var base64 = $("#preview").attr("src") || ""
   var canvas = document.createElement('canvas');
   var context = canvas.getContext("2d");
@@ -139,6 +142,12 @@ $(document).ready(function(){
   }
   $("#ding").prop("checked", ding);
   $('.comment-text').each(function(i,e) {
+    $(e).html(stripCombiningMarks($(e).html()))
+  });
+  $('.board-link').each(function(i,e) {
+    $(e).html(stripCombiningMarks($(e).html()))
+  });
+  $('.board-name').each(function(i,e) {
     $(e).html(stripCombiningMarks($(e).html()))
   });
 })

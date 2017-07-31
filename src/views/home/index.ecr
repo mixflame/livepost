@@ -23,7 +23,7 @@
 <div>
   <p>Create a message board</p>
   <form id="create-board" action="/create_board" method="post">
-    Board name: <input type="text" name="board_name"><br>
+    Board name: <input type="text" id="board_name" name="board_name"><br>
     Password (to delete): <input type="text" name="password"><br>
     <%= csrf_tag %>
     <input type="submit" value="Submit">
@@ -34,7 +34,7 @@
   <h3>Message Boards</h3>
   <ul id="board-list">
     <%- collection.find({"name" => {"$ne" => ""}}) do |board| %>
-      <li style="<%= board["name"].to_s == last_posted.to_s ? "font-weight: bold" : "" %>" class="post-count" id="li-<%=board["name"].to_s.gsub(" ", "-")%>"><a href="/b/<%= URI.escape(HTML.escape(board["name"].to_s), true) %>"><%= HTML.escape(board["name"].to_s) %></a> (<span class="post-count" id="posts-<%=board["name"].to_s.gsub(" ", "-")%>"><%= messages.count({"name" => {"$eq" => board["name"]}}) %></span> posts) <a href="/delete_board?name=<%= URI.escape(HTML.escape(board["name"].to_s)) %>">delete</a></li>
+      <li style="<%= board["name"].to_s == last_posted.to_s ? "font-weight: bold" : "" %>" class="post-count" id="li-<%=board["name"].to_s.gsub(" ", "-")%>"><a class="board-link" href="/b/<%= URI.escape(HTML.escape(board["name"].to_s), true) %>"><%= HTML.escape(board["name"].to_s) %></a> (<span class="post-count" id="posts-<%=board["name"].to_s.gsub(" ", "-")%>"><%= messages.count({"name" => {"$eq" => board["name"]}}) %></span> posts) <a href="/delete_board?name=<%= URI.escape(HTML.escape(board["name"].to_s)) %>">delete</a></li>
     <% end %>
   </ul>
 </div>
