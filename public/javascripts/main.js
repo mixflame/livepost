@@ -28,8 +28,11 @@ function new_post(msg){
   $("#post-list").prepend("<p>" + msg['message'] + " - " + msg['author'] + "</p>")
   // board screen new message post ding
   if($('textarea').val() != msg['message']){
-    ding = new Audio("/ding.wav")
-    ding.play()
+    var should_ding = localStorage.getItem("ding");
+    if(should_ding == "true"){
+      ding = new Audio("/ding.wav")
+      ding.play()
+    }
     notifyMe(msg['message'] + " - " + msg['author'])
   } else {
     $('textarea').val('');
@@ -103,6 +106,12 @@ $("#author").change(function(e){
 $(document).ready(function(){
   $("#author").val(localStorage.getItem("author") || "anonymous")
   $("ul#post-list > p > img").each(function(i, e) { $(e).attr("src", LZString.decompressFromEncodedURIComponent($(e).data("src")))});
+  var ding = localStorage.getItem("ding");
+  if(ding == null) {
+    ding = true;
+    localStorage.setItem("ding", ding);
+  }
+  $("#ding").prop("checked", ding);
 })
 
 function createImage(e) {
@@ -117,6 +126,9 @@ $('#image').change(function(){
   fr.readAsDataURL(file);    // begin reading
 })
 
+$("#ding").change(function(){
+  localStorage.setItem("ding", $("#ding").is(":checked"));
+})
 
 function notifyMe(msg) {
   // Let's check if the browser supports notifications
