@@ -32,7 +32,10 @@ function new_post(msg){
     ding.play()
     notifyMe(msg['message'] + " - " + msg['author'])
   } else {
-    $('textarea').val('')
+    $('textarea').val('');
+    base64 = '';
+    $("#preview").attr("src", base64);
+    $("#image").val('');
   }
 }
 
