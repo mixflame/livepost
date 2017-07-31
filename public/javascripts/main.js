@@ -23,7 +23,7 @@ function new_board(board){
 function new_post(msg){
   console.log(msg);
   if(msg['image'] != "") {
-    $("#post-list").prepend("<img src='" + msg['image'] + "' />")
+    $("#post-list").prepend("<img src='" + LZString.decompressFromEncodedURIComponent(msg['image']) + "' />")
   }
   $("#post-list").prepend("<p>" + msg['message'] + " - " + msg['author'] + "</p>")
   // board screen new message post ding
@@ -76,8 +76,8 @@ function reverseString(str) {
 $("#create-post").submit(function(e) {
   e.preventDefault();
   base64 = base64 || ""
-  image = encodeURIComponent(reverseString(base64))
-  if(image.length / 1024 > 250){
+  image = LZString.compressToEncodedURIComponent(base64)
+  if(image.length / 1024 > 200){
     alert("image too big.")
     return;
   }
@@ -99,6 +99,7 @@ $("#author").change(function(e){
 
 $(document).ready(function(){
   $("#author").val(localStorage.getItem("author") || "anonymous")
+  $("ul#post-list > p > img").each(function(i, e) { $(e).attr("src", LZString.decompressFromEncodedURIComponent($(e).data("src")))});
 })
 
 function createImage(e) {
