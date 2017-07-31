@@ -39,13 +39,17 @@ class BoardController < ApplicationController
 
     collection = db["boards"]
 
+    messages = db["messages"]
+
     password = collection.find_one({"$query" => {"name" => {"$eq" => params["board_name"]}}})
     password = password.nil? ? "" : password["password"]
     if(params["password"] == ENV["LIVEPOST_PASSWORD"]) # admin
       collection.remove({"name" => params["board_name"]})
+      messages.remove({"name" => params["board_name"]})
       return "deleted"
     elsif(params["password"] == password && password != "")
       collection.remove({"name" => params["board_name"]})
+      messages.remove({"name" => params["board_name"]})
       return "deleted"
     else
       return "not deleted (incorrect password)"
