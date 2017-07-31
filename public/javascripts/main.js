@@ -81,7 +81,13 @@ function reverseString(str) {
 
 $("#create-post").submit(function(e) {
   e.preventDefault();
-  base64 = base64 || ""
+  var base64 = $("#preview").attr("src") || ""
+  var canvas = document.createElement('canvas');
+  var context = canvas.getContext("2d");
+  context.canvas.width = $("#preview").width()
+  context.canvas.height = $("#preview").height()
+  context.drawImage(document.getElementById("preview"), 0, 0);
+  base64 = canvas.toDataURL("image/jpeg", parseFloat($("#scale").val()));
   image = LZString.compressToEncodedURIComponent(base64)
   if(image.length / 1024 > 350){
     alert("image too big.")
@@ -115,7 +121,7 @@ $(document).ready(function(){
 })
 
 function createImage(e) {
-  base64 = e.target.result;
+  var base64 = e.target.result;
   $("#preview").attr("src", base64);
 }
 
