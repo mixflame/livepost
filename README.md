@@ -8,6 +8,8 @@ Soon: SSL and end-to-end encryption. Port 80 support.
 
 [LivePost](http://livepost.mixflame.com:3000)
 
+Support LivePost Development: 1J71oJ9g6Z4L7kDzaSYjaXKA1z1QLWWWAj
+
 ## Installation
 
 Get Crystal [Crystal](https://crystal-lang.org)
