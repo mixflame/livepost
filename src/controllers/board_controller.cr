@@ -83,4 +83,9 @@ class BoardController < ApplicationController
       return "not deleted (incorrect password)"
     end
   end
+
+  def update_socket_count
+    UserSocket.broadcast("message", "board_room:connected", "socket:connected", {"connected" => Amber::WebSockets::ClientSockets.client_sockets.size})
+    return {success: "true"}.to_json
+  end
 end

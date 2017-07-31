@@ -6,14 +6,28 @@ socket.connect()
       this.channel = socket.channel(`board_room:boards`)
       this.message_channel = socket.channel(`board_room:${window.board_name}`)
       this.home_channel = socket.channel(`board_room:home`)
+      this.connected_channel = socket.channel(`board_room:connected`)
       this.channel.join()
       this.message_channel.join();
       this.home_channel.join();
+      this.connected_channel.join();
       this.channel.on('board:new', (board) => new_board(board))
       this.message_channel.on('post:new', (msg) => new_post(msg))
       this.home_channel.on('post:increment', (board) => increment_posts(board))
+      this.connected_channel.on('socket:connected', (socket) => connected_socket(socket))
+      this.connected_channel.push('socket:connected') // i connected
       notifyMe("") // enable notifications (no msg)
     })
+
+$(window).on("beforeunload", function (e) {
+  this.socket.ws.close();
+  $.get("/update_socket_count");
+});
+
+function connected_socket(socket){
+  console.log(socket);
+  $("#sockets-connected").html(socket["connected"] + " sockets connected");
+}
 
 function new_board(board){
   $("#board-list").append("<li><a href='/b/" + board['board'] + "'>" + board['board'] + "</a> (<span id='posts-" + board['board'].replace(" ", "-") + "'>0 posts)</li>")

@@ -1,6 +1,13 @@
 class BoardChannel < Amber::WebSockets::Channel
-  def handle_joined
+
+  def handle_joined(client_socket, message)
+    UserSocket.broadcast("message", "board_room:connected", "socket:connected", {"connected" => Amber::WebSockets::ClientSockets.client_sockets.size})
   end
+
+  # def handle_leave(client_socket)
+  #   puts "left"
+  #   UserSocket.broadcast("message", "board_room:connected", "socket:connected", {"connected" => Amber::WebSockets::ClientSockets.client_sockets.size})
+  # end
 
   def handle_message(msg)
     p msg
@@ -20,6 +27,8 @@ class BoardChannel < Amber::WebSockets::Channel
       board = msg["payload"]["board"]
       author = msg["payload"]["author"]
       rebroadcast!({"event" => event, "topic" => topic, "subject" => subject, "payload" => {"board" => board.to_s.gsub(" ", "-"), "author" => HTML.escape(author.to_s)}})
+    elsif subject == "socket:connected"
+      UserSocket.broadcast("message", "board_room:connected", "socket:connected", {"connected" => Amber::WebSockets::ClientSockets.client_sockets.size})
     end
   end
 end
