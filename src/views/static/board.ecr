@@ -25,7 +25,7 @@
       <% if image != "Q" && image != "" && image != "CYQwLiBcA0Q" %>
         <p><img data-src="<%= image %>" /></p>
       <% end %>
-        <p><%= HTML.escape(post["message"].to_s) %> - <%= HTML.escape(post["author"].to_s).blank? ? "anonymous" : HTML.escape(post["author"].to_s) %></p>
+        <p><%= post["message"].to_s %> - <%= post["author"].to_s.blank? ? "anonymous" : post["author"].to_s %></p>
     <% end %>
   </ul>
 </div>
