@@ -25,7 +25,7 @@ function new_post(msg){
   if(msg['image'] != "" && msg['image'] != "Q" && msg['image'] != "CYQwLiBcA0Q") {
     $("#post-list").prepend("<img src='" + LZString.decompressFromEncodedURIComponent(msg['image']) + "' />")
   }
-  $("#post-list").prepend("<p>" + msg['message'] + " - " + msg['author'] + "<a href='/delete_post?board_name=" + msg["board"] + "&message=" + msg["message"] +"'>delete</a></p>")
+  $("#post-list").prepend("<p>" + msg['message'] + " - " + msg['author'] + " <a href='/delete_post?board_name=" + msg["board"] + "&message=" + msg["message"] +"'>delete</a></p>")
   // board screen new message post ding
   if($('textarea').val() != msg['message']){
     var should_ding = localStorage.getItem("ding");
