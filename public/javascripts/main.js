@@ -38,9 +38,10 @@ function new_board(board){
 function new_post(msg){
   console.log(msg);
   if(msg['image'] != "" && msg['image'] != "Q" && msg['image'] != "CYQwLiBcA0Q") {
-    $("#post-list").prepend("<img src='" + LZString.decompressFromEncodedURIComponent(msg['image']) + "' />")
+    $("#post-list").prepend("<div class='post'></div>")
+    $("#post-list > .post").first().append("<p class='image'><img src='" + LZString.decompressFromEncodedURIComponent(msg['image']) + "' /></p>")
   }
-  $("#post-list").prepend("<p>" + msg['message'] + " - " + msg['author'] + " <a href='/delete_post?board_name=" + msg["board"] + "&message=" + msg["message"] +"'>delete</a></p>")
+  $("#post-list > .post").first().append("<div class='comment'><p class='comment-text'>" + msg['message'] + " - " + msg['author'] + " <a href='/delete_post?board_name=" + msg["board"] + "&message=" + msg["message"] +"'>delete</a></p></div>")
   // board screen new message post ding
   if($('textarea').val() != msg['message']){
     var should_ding = localStorage.getItem("ding");
