@@ -22,7 +22,7 @@ function new_board(board){
 
 function new_post(msg){
   console.log(msg);
-  if(msg['image'] != "" && msg['image'] != "Q") {
+  if(msg['image'] != "" && msg['image'] != "Q" && msg['image'] != "CYQwLiBcA0Q") {
     $("#post-list").prepend("<img src='" + LZString.decompressFromEncodedURIComponent(msg['image']) + "' />")
   }
   $("#post-list").prepend("<p>" + msg['message'] + " - " + msg['author'] + "</p>")

@@ -22,7 +22,7 @@
   <ul id="post-list">
     <%- collection.find({"$query" => {"name" => {"$eq" => @board_name}}, "$orderby" => {"_id" => -1}}) do |post| %>
       <% image = post["image"].to_s rescue "" %>
-      <% if image != "Q" && image != "" %>
+      <% if image != "Q" && image != "" && image != "CYQwLiBcA0Q" %>
         <p><img data-src="<%= image %>" /></p>
       <% end %>
         <p><%= HTML.escape(post["message"].to_s) %> - <%= HTML.escape(post["author"].to_s).blank? ? "anonymous" : HTML.escape(post["author"].to_s) %></p>
