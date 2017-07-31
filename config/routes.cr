@@ -17,10 +17,6 @@ Amber::Server.instance.config do |app|
 
   socket_endpoint "/chat", UserSocket
 
-  routes :static do
-    get "/*", StaticController, :index
-  end
-
   routes :web do
     get "/b/:slug", StaticController, :slug
   end
@@ -29,5 +25,11 @@ Amber::Server.instance.config do |app|
     get "/", HomeController, :index
     post "/create_board", BoardController, :create_board
     post "/create_post", BoardController, :create_post
+    get "/delete_board", BoardController, :delete_board
+    post "/remove_board", BoardController, :remove_board
+  end
+
+  routes :static do
+    get "/*", StaticController, :index
   end
 end

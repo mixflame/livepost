@@ -27,4 +27,28 @@ class BoardController < ApplicationController
       {error: "Already posted this or image too big.", csrf: csrf_tag}.to_json
     end
   end
+
+  def delete_board
+    @board_name = URI.unescape(params["name"])
+    render("delete_board.ecr")
+  end
+
+  def remove_board
+    client = Mongo::Client.new "mongodb://localhost:27017/livepost"
+    db = client["live_post"]
+
+    collection = db["boards"]
+
+    password = collection.find_one({"$query" => {"name" => {"$eq" => params["board_name"]}}})
+    password = password.nil? ? "" : password["password"]
+    if(params["password"] == ENV["LIVEPOST_PASSWORD"]) # admin
+      collection.remove({"name" => params["board_name"]})
+      return "deleted"
+    elsif(params["password"] == password && password != "")
+      collection.remove({"name" => params["board_name"]})
+      return "deleted"
+    else
+      return "not deleted (incorrect password)"
+    end
+  end
 end
