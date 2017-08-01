@@ -1,12 +1,9 @@
 Amber::Server.instance.config do |app|
   pipeline :web do
-    # Plug is the method to use connect a pipe (middleware)
-    # A plug accepts an instance of HTTP::Handler
-    # plug Amber::Pipe::Params.new
-    plug Amber::Pipe::Logger.new
     plug Amber::Pipe::Session.new
+    plug Amber::Pipe::Logger.new
     plug Amber::Pipe::Flash.new
-    # plug Amber::Pipe::CSRF.new # need help re-enabling this, see #9
+    # plug Amber::Pipe::CSRF.new # bug in amber right now
   end
 
   # All static content will run these transformations
