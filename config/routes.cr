@@ -27,6 +27,10 @@ Amber::Server.instance.config do |app|
     get "/delete_post", BoardController, :delete_post
     post "/remove_post", BoardController, :remove_post
     get "/update_socket_count", BoardController, :update_socket_count
+    get "/ban_hash", BoardController, :ban_hash
+    post "/ban_hash", BoardController, :commit_ban_hash
+    get "/unban_hash", BoardController, :unban_hash
+    post "/unban_hash", BoardController, :commit_unban_hash
   end
 
   routes :static do

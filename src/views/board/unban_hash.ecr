@@ -1,0 +1,10 @@
+<h1>Unban Hash</h1>
+
+<div>
+  <form action="/unban_hash" method="post">
+    <p><input type="text" name="ip_hash" /></p>
+    <p>Admin Password: <input type="text" name="password"><br></p>
+    <%= csrf_tag %>
+    <input type="submit" value="Submit">
+  </form>
+</div>

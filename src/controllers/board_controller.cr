@@ -106,4 +106,47 @@ class BoardController < ApplicationController
     UserSocket.broadcast("message", "board_room:connected", "socket:connected", {"connected" => Amber::WebSockets::ClientSockets.client_sockets.size, "this_board" => Amber::WebSockets::ClientSockets.get_subscribers_for_topic("board_room:#{board.to_s}").size})
     return {success: "true"}.to_json
   end
+
+  def ban_hash
+    hash = params["hash"].to_s
+    render("ban_hash.ecr")
+  end
+
+  def commit_ban_hash
+    # admins only
+    if(params["password"] != ENV["LIVEPOST_PASSWORD"])
+      return "bad password"
+    end
+
+    client = Mongo::Client.new "mongodb://localhost:27017/livepost"
+    db = client["live_post"]
+
+    collection = db["banned_hashes"]
+
+    collection.insert({"ip_hash" => params["ip_hash"]})
+
+    "banned"
+
+  end
+
+  def unban_hash
+    render("unban_hash.ecr")
+  end
+
+  def commit_unban_hash
+    # admins only
+    if(params["password"] != ENV["LIVEPOST_PASSWORD"])
+      return "bad password"
+    end
+
+    client = Mongo::Client.new "mongodb://localhost:27017/livepost"
+    db = client["live_post"]
+
+    collection = db["banned_hashes"]
+
+    collection.remove({"ip_hash" => params["ip_hash"]})
+
+    "unbanned"
+
+  end
 end
