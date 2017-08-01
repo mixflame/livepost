@@ -31,7 +31,7 @@ function connected_socket(socket){
 }
 
 function new_board(board){
-  $("#board-list").append("<li><a href='/b/" + board['board'] + "'>" + board['board'] + "</a> (<span id='posts-" + board['board'].replace(" ", "-") + "'>0 posts)</li>")
+  $("#board-list").append("<li><a href='/b/" + board['board'] + "'>" + board['board'] + "</a> (<span id='posts-" + board['board'].replace(" ", "-") + "'>0 posts) <a href='/delete_board?name=" + board["board"] + "'>delete</a></li>")
   alert_bottom("<a href='/b/" + board['board'] + "'>" + board['board'] + "</a>" + " was created.")
 }
 
@@ -85,9 +85,7 @@ $("#create-board").submit(function(e) {
   $.post("/create_board", $('#create-board').serialize(), function(e){
     // console.log(e);
     $("input[name*=_csrf]").replaceWith(e['csrf']);
-    if(!e['error'])
-      channel.push('board:new', {board: e['board']})
-    else
+    if(e['error'])
       alert(e['error'])
   }, "json");
 })
@@ -119,10 +117,7 @@ $("#create-post").submit(function(e) {
   $.post("/create_post", $('#create-post').serialize() + "&image=" + image, function(e){
     // console.log(e);
     $("input[name*=_csrf]").replaceWith(e['csrf']);
-    if(!e['error']) {
-      message_channel.push('post:new', {board: e['board'], message: e['message'], author: e['author'], image: e['image']})
-      home_channel.push('post:increment', {board: e['board'], author: e['author']})
-    } else {
+    if(e['error']) {
       alert(e['error'])
     }
   }, "json");

@@ -6,7 +6,11 @@ class BoardController < ApplicationController
     collection = db["boards"]
 
     if collection.count({"name" => {"$eq" => params["board_name"]}}) == 0 && params["board_name"].size < 50
-      collection.insert({ "name" => params["board_name"], "password" => params["password"] })
+      ip_hash = OpenSSL::Digest.new("SHA256").update(request.host.to_s).to_s
+      collection.insert({ "name" => params["board_name"],
+                          "password" => params["password"],
+                          "ip_hash" => ip_hash })
+      UserSocket.broadcast("message", "board_room:boards", "board:new", {:board => params["board_name"]})
       {board: params["board_name"], csrf: csrf_tag}.to_json
     else
       {error: "Not unique or name over 50 characters.", csrf: csrf_tag}.to_json
@@ -14,14 +18,21 @@ class BoardController < ApplicationController
   end
 
   def create_post
-    p params
     client = Mongo::Client.new "mongodb://localhost:27017/livepost"
     db = client["live_post"]
 
     collection = db["messages"]
 
     if collection.count({"message" => {"$eq" => HTML.escape(params["message"])}, "name" => {"$eq" => params["board_name"]} }) == 0 && ((params["image"].size / 1024) < 350 && params["message"].to_s.size < 2000)
-      collection.insert({ "name" => params["board_name"], "message" => HTML.escape(params["message"]), "author" => HTML.escape(params["author"]), "image" => params["image"], "timestamp" => Time.now.to_s, "password" => params["password"] })
+      ip_hash = OpenSSL::Digest.new("SHA256").update(request.host.to_s).to_s
+      collection.insert({ "name" => params["board_name"],
+                          "message" => HTML.escape(params["message"]),
+                          "author" => HTML.escape(params["author"]),
+                          "image" => params["image"], "timestamp" => Time.now.to_s,
+                          "password" => params["password"],
+                          "ip_hash" => ip_hash })
+      UserSocket.broadcast("message", "board_room:#{params["board_name"]}", "post:new", {:board => params["board_name"], :message => params["message"], :author => params["author"], :image => params["image"]})
+      UserSocket.broadcast("message", "board_room:home", "post:increment", {:board => params["board_name"], :author => params["author"]})
       {board: params["board_name"], message: params["message"], author: params["author"], image: params["image"], csrf: csrf_tag}.to_json
     else
       {error: "Already posted this or image too big.", csrf: csrf_tag}.to_json
