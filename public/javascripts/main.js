@@ -87,10 +87,9 @@ function createBoard() {
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error'])
       alert(e['error'])
-    else
-      grecaptcha.reset();
   }, "json");
 }
+$("#create-board-button").click(createBoard);
 
 function reverseString(str) {
     return str.split("").reverse().join("");
@@ -125,12 +124,10 @@ function createPost() {
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error']) {
       alert(e['error'])
-    } else {
-      // reset the captcha so they can post again
-      grecaptcha.reset();
     }
   }, "json");
 }
+$("#create-post-button").click(createPost);
 
 $("#author").change(function(e){
   localStorage.setItem("author", $("#author").val())

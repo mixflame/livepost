@@ -1,7 +1,7 @@
 Amber::Server.instance.config do |app|
   pipeline :web do
-    plug Amber::Pipe::Session.new
     plug Amber::Pipe::Logger.new
+    plug Amber::Pipe::Session.new
     plug Amber::Pipe::Flash.new
     # plug Amber::Pipe::CSRF.new # bug in amber right now
   end

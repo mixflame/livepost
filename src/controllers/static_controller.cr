@@ -22,6 +22,7 @@ class StaticController < ApplicationController
 
     last_posted = last_posted.nil? ? "" : last_posted["name"]
 
+    session["test"] = "test"
     render("board.ecr")
   end
 end
