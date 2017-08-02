@@ -8,4 +8,6 @@ Amber::Server.instance.config do |app|
   app.env = (ENV["AMBER_ENV"] ||= "development").to_s
   app.log = ::Logger.new(STDOUT)
   app.log.level = ::Logger::INFO
+  app.ssl_key_file = "config/privkey.pem"
+  app.ssl_cert_file = "config/fullchain.pem"
 end
