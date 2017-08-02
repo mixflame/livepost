@@ -16,6 +16,7 @@ Amber::Server.instance.config do |app|
 
   routes :web do
     get "/b/:slug", StaticController, :slug
+    get "/captcha_image", StaticController, :captcha_image
   end
 
   routes :web do

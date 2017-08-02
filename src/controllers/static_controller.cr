@@ -25,4 +25,12 @@ class StaticController < ApplicationController
     session["test"] = "test"
     render("board.ecr")
   end
+
+  def captcha_image
+    images = Dir.glob("#{File.dirname(APP_PATH)}/../public/captcha_images/*")
+    image = File.basename(images[rand(images.size)])
+    name = image.split(".png").first
+    session["captcha_key"] = OpenSSL::Digest.new("SHA256").update(name.to_s)
+    File.read("#{File.dirname(APP_PATH)}/../public/captcha_images/#{image}")
+  end
 end

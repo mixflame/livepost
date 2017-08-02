@@ -30,6 +30,8 @@
   <form id="create-board" action="/create_board" method="post">
     Board name: <input type="text" id="board_name" name="board_name"><br>
     Password (to delete): <input type="text" name="password"><br>
+    What is it? <img id="captcha_image" src="/captcha_image">
+    <input type="text" name="captcha_response"><br>
     <%= csrf_tag %>
     <input type="submit" value="Submit"/>
   </form>

@@ -21,18 +21,20 @@ class ApplicationController < Amber::Controller::Base
     end
   end
 
-  # def check_recaptcha # modify for non-google captcha
-  #   if !params.has_key?("g-recaptcha-response")
-  #     response.close
-  #     puts "no recaptcha response... connection closed."
-  #     return
-  #   end
-  #   recaptcha_info = JSON.parse(HTTP::Client.post("https://www.google.com/recaptcha/api/siteverify?secret=6LfXZysUAAAAAK0vVqxKP9dBYvAnSsrtpcmFSicr&response=#{params["g-recaptcha-response"]}").body)
-  #   puts recaptcha_info
-  #   bot = recaptcha_info["success"] == false
-  #   if bot
-  #     response.close
-  #     puts "attempted botting... connection closed."
-  #   end
-  # end
+  def check_captcha
+    if !params.has_key?("captcha_response")
+      raise "botting"
+      # response.close
+      puts "no recaptcha response... connection closed."
+      return
+    end
+    p "hash response: #{OpenSSL::Digest.new("SHA256").update(params["captcha_response"])}"
+    p "captcha_key: #{session["captcha_key"]}"
+    bot = OpenSSL::Digest.new("SHA256").update(params["captcha_response"]).to_s != session["captcha_key"].to_s
+    if bot
+      raise "botting"
+      # response.close
+      puts "attempted botting... connection closed."
+    end
+  end
 end

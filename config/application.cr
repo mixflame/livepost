@@ -1,4 +1,5 @@
 AMBER_ENV = ARGV[0]? || ENV["AMBER_ENV"]? || "development"
+APP_PATH = __FILE__
 
 Amber::Server.instance.config do |app|
   # Server options

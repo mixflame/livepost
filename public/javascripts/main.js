@@ -88,6 +88,7 @@ $("#create-board").submit(function createBoard(e) {
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error'])
       alert(e['error'])
+    $("#captcha_img").attr("src", "/captcha_image?"+ new Date().getTime());
   }, "json");
 })
 
@@ -126,6 +127,7 @@ $("#create-post").submit(function(e) {
     if(e['error']) {
       alert(e['error'])
     }
+    $("#captcha_img").attr("src", "/captcha_image?"+ new Date().getTime());
   }, "json");
 })
 

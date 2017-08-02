@@ -13,6 +13,8 @@
     Message: <textarea id="message" name="message"></textarea><br>
     Author: <input id="author" type="text" name="author" /><br>
     Password (to delete): <input type="text" name="password"><br>
+    What is it? <img id="captcha_img" src="/captcha_image">
+    <input type="text" name="captcha_response"><br>
     <%= csrf_tag %>
     <input type="submit" value="Submit"/>
   </form>
