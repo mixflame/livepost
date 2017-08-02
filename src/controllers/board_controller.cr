@@ -10,7 +10,7 @@ class BoardController < ApplicationController
       collection.insert({ "name" => params["board_name"],
                           "password" => params["password"],
                           "ip_hash" => ip_hash })
-      UserSocket.broadcast("message", "board_room:boards", "board:new", {:board => params["board_name"]})
+      UserSocket.broadcast("message", "board_room:boards", "board:new", {:board => HTML.escape(params["board_name"])})
       {board: params["board_name"], csrf: csrf_tag}.to_json
     else
       {error: "Not unique or name over 50 characters.", csrf: csrf_tag}.to_json
@@ -31,8 +31,8 @@ class BoardController < ApplicationController
                           "image" => params["image"], "timestamp" => Time.now.to_s,
                           "password" => params["password"],
                           "ip_hash" => ip_hash })
-      UserSocket.broadcast("message", "board_room:#{params["board_name"]}", "post:new", {:board => params["board_name"], :message => params["message"], :author => params["author"], :image => params["image"]})
-      UserSocket.broadcast("message", "board_room:home", "post:increment", {:board => params["board_name"], :author => params["author"]})
+      UserSocket.broadcast("message", "board_room:#{params["board_name"]}", "post:new", {:board => HTML.escape(params["board_name"]), :message => HTML.escape(params["message"]), :author => HTML.escape(params["author"]), :image => params["image"]})
+      UserSocket.broadcast("message", "board_room:home", "post:increment", {:board => HTML.escape(params["board_name"]), :author => HTML.escape(params["author"])})
       {board: params["board_name"], message: params["message"], author: params["author"], image: params["image"], csrf: csrf_tag}.to_json
     else
       {error: "Already posted this or image too big.", csrf: csrf_tag}.to_json
