@@ -130,6 +130,10 @@ class BoardController < ApplicationController
   end
 
   def unban_hash
+    client = Mongo::Client.new "mongodb://localhost:27017/livepost"
+    db = client["live_post"]
+
+    collection = db["banned_hashes"]
     render("unban_hash.ecr")
   end
 

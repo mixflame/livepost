@@ -1,5 +1,13 @@
 <h1>Unban Hash</h1>
 
+<p>Banned Hashes:</p>
+
+<ul>
+  <% collection.find({"ip_hash" => {"$ne" => ""}}) do |hash| %>
+    <li><strong><%= hash["ip_hash"] %></strong></li>
+  <% end %>
+</ul>
+
 <div>
   <form action="/unban_hash" method="post">
     <p><input type="text" name="ip_hash" /></p>
