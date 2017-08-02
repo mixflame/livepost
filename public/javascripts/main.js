@@ -42,6 +42,7 @@ function new_post(msg){
     $("#post-list > .post").first().append("<p class='image'><img src='" + LZString.decompressFromEncodedURIComponent(msg['image']) + "' /></p>")
   }
   $("#post-list > .post").first().append("<div class='comment'><p class='comment-text'>" + msg['message'] + " - " + msg['author'] + " <a href='/delete_post?board_name=" + msg["board"] + "&message=" + msg["message"] +"'>delete</a></p></div>")
+  load_embedded_one_post($(".comment-text").first());
   // board screen new message post ding
   if($('textarea').val() != msg['message']){
     var should_ding = localStorage.getItem("ding");
@@ -145,7 +146,24 @@ $(document).ready(function(){
   $('.board-name').each(function(i,e) {
     $(e).html(stripCombiningMarks($(e).html()))
   });
+  load_embedded_data();
 })
+
+function load_embedded_data(){
+  $(".comment-text").each(function(i, e){
+    var matches = $(e).html().match(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/)
+    $(matches).each(function(i, url) {
+      $.getJSON("https://noembed.com/embed?url=" + url, function(data) { $(e).html($(e).html().replace(url, data["html"])) })
+    })
+  });
+}
+
+function load_embedded_one_post(comment_text) {
+  var matches = comment_text.html().match(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/)
+  $(matches).each(function(i, url) {
+    $.getJSON("https://noembed.com/embed?url=" + url, function(data) { comment_text.html(comment_text.html().replace(url, data["html"])) })
+  })
+}
 
 function createImage(e) {
   var base64 = e.target.result;
