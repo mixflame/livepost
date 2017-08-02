@@ -22,6 +22,11 @@ class ApplicationController < Amber::Controller::Base
   end
 
   def check_recaptcha
+    if !params.has_key?("g-recaptcha-response")
+      response.close
+      puts "no recaptcha response... connection closed."
+      return
+    end
     recaptcha_info = JSON.parse(HTTP::Client.post("https://www.google.com/recaptcha/api/siteverify?secret=6LfXZysUAAAAAK0vVqxKP9dBYvAnSsrtpcmFSicr&response=#{params["g-recaptcha-response"]}").body)
     puts recaptcha_info
     bot = recaptcha_info["success"] == false
