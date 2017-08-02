@@ -16,7 +16,7 @@ class ApplicationController < Amber::Controller::Base
 
   def check_ban
     if banned?
-      # response.close
+      response.close
       puts "BANNED ip hash just tried connecting. connection closed."
     end
   end
