@@ -7,8 +7,14 @@ class StaticController < ApplicationController
     client = Mongo::Client.new "mongodb://localhost:27017/livepost"
     db = client["live_post"]
 
+    boards = db["boards"]
+
     collection = db["messages"]
     @board_name = URI.unescape(params["slug"])
+
+    if boards.find_one({"name" => @board_name}).nil?
+      return "invalid board"
+    end
 
     last_posted = collection.find_one({"$query" => {"timestamp" => {"$ne" => ""}}, "$orderby": {"timestamp" => -1}})
 
