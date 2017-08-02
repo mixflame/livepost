@@ -102,6 +102,10 @@ $("#create-post").submit(function(e) {
   var base64 = $("#preview").attr("src") || ""
   var canvas = document.createElement('canvas');
   var context = canvas.getContext("2d");
+  if($("#preview").width() > 1200 || $("#preview").height() > 900){
+    alert("This image is too large. Max: 1200x900");
+    return;
+  }
   context.canvas.width = $("#preview").width()
   context.canvas.height = $("#preview").height()
   context.drawImage(document.getElementById("preview"), 0, 0);
