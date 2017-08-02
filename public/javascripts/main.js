@@ -80,7 +80,8 @@ function alert_bottom(msg) {
   $('.last-posted').fadeOut(10000);
 }
 
-function createBoard() {
+$("#create-board").submit(function createBoard(e) {
+  e.preventDefault();
   $("#board_name").val(stripCombiningMarks($("#board_name").val()))
   $.post("/create_board", $('#create-board').serialize(), function(e){
     // console.log(e);
@@ -88,14 +89,14 @@ function createBoard() {
     if(e['error'])
       alert(e['error'])
   }, "json");
-}
-$("#create-board-button").click(createBoard);
+})
 
 function reverseString(str) {
     return str.split("").reverse().join("");
 }
 
-function createPost() {
+$("#create-post").submit(function(e) {
+  e.preventDefault();
   console.log("called CreatePost")
   $("#message").val(stripCombiningMarks($("#message").val()))
   $("#author").val(stripCombiningMarks($("#author").val()))
@@ -126,8 +127,7 @@ function createPost() {
       alert(e['error'])
     }
   }, "json");
-}
-$("#create-post-button").click(createPost);
+})
 
 $("#author").change(function(e){
   localStorage.setItem("author", $("#author").val())
