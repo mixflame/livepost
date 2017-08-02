@@ -2,9 +2,9 @@
 
 LivePost is a browser-based communication system that allows truely live forum-style communication with images.
 
-Also, it is anonymous.
+Also, it is anonymous and encrypted with SSL.
 
-[LivePost](http://livepost.mixflame.com)
+[LivePost](https://livepost.mixflame.com)
 
 Support LivePost Development: 1J71oJ9g6Z4L7kDzaSYjaXKA1z1QLWWWAj
 
@@ -25,6 +25,10 @@ Get Crystal [Crystal](https://crystal-lang.org)
 * Set admin password ```export LIVEPOST_PASSWORD="something1212"```
 
 * Run in development mode and reload on changes (watch): ```amber w```
+
+* Run certbot on your domain ```certbot certonly``` and choose standalone mode
+
+* Move fullchain.pem and privkey.pem to config/ after getting them from certbot (required)
 
 * Run in production mode and daemonize: ```AMBER_ENV="production" ./livepost```
 

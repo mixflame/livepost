@@ -80,23 +80,24 @@ function alert_bottom(msg) {
   $('.last-posted').fadeOut(10000);
 }
 
-$("#create-board").submit(function(e) {
-  e.preventDefault();
+function createBoard() {
   $("#board_name").val(stripCombiningMarks($("#board_name").val()))
   $.post("/create_board", $('#create-board').serialize(), function(e){
     // console.log(e);
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error'])
       alert(e['error'])
+    else
+      grecaptcha.reset();
   }, "json");
-})
+}
 
 function reverseString(str) {
     return str.split("").reverse().join("");
 }
 
-$("#create-post").submit(function(e) {
-  e.preventDefault();
+function createPost() {
+  console.log("called CreatePost")
   $("#message").val(stripCombiningMarks($("#message").val()))
   $("#author").val(stripCombiningMarks($("#author").val()))
   var base64 = $("#preview").attr("src") || ""
@@ -124,9 +125,12 @@ $("#create-post").submit(function(e) {
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error']) {
       alert(e['error'])
+    } else {
+      // reset the captcha so they can post again
+      grecaptcha.reset();
     }
   }, "json");
-})
+}
 
 $("#author").change(function(e){
   localStorage.setItem("author", $("#author").val())

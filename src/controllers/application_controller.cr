@@ -20,4 +20,14 @@ class ApplicationController < Amber::Controller::Base
       puts "BANNED ip hash just tried connecting. connection closed."
     end
   end
+
+  def check_recaptcha
+    recaptcha_info = JSON.parse(HTTP::Client.post("https://www.google.com/recaptcha/api/siteverify?secret=6LfXZysUAAAAAK0vVqxKP9dBYvAnSsrtpcmFSicr&response=#{params["g-recaptcha-response"]}").body)
+    puts recaptcha_info
+    bot = recaptcha_info["success"] == false
+    if bot
+      response.close
+      puts "attempted botting... connection closed."
+    end
+  end
 end
