@@ -1,8 +1,8 @@
 version: 1.0
 shards:
   amber:
-    github: mixflame/amber
-    commit: 8787486142bf4652367d61b2660ad598af9456d5
+    github: amber-crystal/amber
+    commit: f40574ff13db3440a5c1a5b6c0c3e8722cf7d982
 
   daemonize:
     github: DougEverly/daemonize.cr
