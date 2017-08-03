@@ -1,6 +1,6 @@
 class StaticController < ApplicationController
   def index
-    "do nothing"
+    "404 not found"
   end
   def slug
     # board page
