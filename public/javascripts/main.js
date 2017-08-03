@@ -97,6 +97,7 @@ function alert_bottom(msg) {
 
 $("#create-board").submit(function createBoard(e) {
   e.preventDefault();
+  if(!checkBlankPassword()) return;
   $("#board_name").val(stripCombiningMarks($("#board_name").val()))
   $.post("/create_board", $('#create-board').serialize(), function(e){
     // console.log(e);
@@ -145,10 +146,18 @@ function clearCanvas() {
   $("#canvas_holder").append('<canvas id="canvas_preview"></canvas>')
 }
 
+function checkBlankPassword() {
+  if($("#password").val() == ""){
+    var useBlankPassword = confirm("Really use a blank password? Only admin is able to delete boards or posts with blank passwords.")
+    return useBlankPassword;
+  }
+}
+
 $("#scale").mousemove(updateCanvas);
 
 $("#create-post").submit(function(e) {
   e.preventDefault();
+  if(!checkBlankPassword()) return;
   if(image.width > 1200 || image.height > 900){
     alert("This image is too large. Max: 1200x900");
     return;
