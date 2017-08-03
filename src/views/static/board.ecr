@@ -31,7 +31,7 @@
           <% end %>
           <div class="comment">
             <p class="comment-text"><%= post["message"].to_s[0..2000] %> - <%= post["author"].to_s.blank? ? "anonymous" : post["author"].to_s %>
-            <a href='/delete_post?board_name=<%= URI.escape(post["name"].to_s) %>&message=<%= URI.escape(post["message"].to_s) %>'>delete</a>
+            <a href='/delete_post?board_name=<%= URI.escape(post["name"].to_s) %>&id=<%= URI.escape(post["_id"].to_s) %> %>'>delete</a>
             <% if post.has_key?("ip_hash") %>
               <a href='/ban_hash?hash=<%= post["ip_hash"].to_s %>'>ban this liveposter</a>
             <% end %>
