@@ -1,4 +1,4 @@
-var socket, channel, message_channel, home_channel, base64
+var socket, channel, message_channel, home_channel, base64, image
 
 socket = new Amber.Socket("/chat")
 socket.connect()
@@ -111,32 +111,53 @@ function reverseString(str) {
     return str.split("").reverse().join("");
 }
 
+function drawCanvas() {
+  var canvas = document.getElementById('canvas_preview');
+  var context = canvas.getContext("2d");
+  context.canvas.width = image.width
+  context.canvas.height = image.height
+  context.drawImage(image, 0, 0);
+}
+
+function updateCanvas() {
+  var canvas = document.getElementById('canvas_preview');
+  var context = canvas.getContext("2d");
+  base64 = canvas.toDataURL("image/jpeg", parseFloat($("#scale").val()));
+  context.clearRect(0, 0, image.width, image.height);
+  var compressed_image = new Image();
+  compressed_image.src = base64
+  compressed_image.onload = function() {
+    context.drawImage(compressed_image, 0, 0);
+  }
+}
+
+$("#scale").change(updateCanvas);
+
 $("#create-post").submit(function(e) {
   e.preventDefault();
-  console.log("called CreatePost")
-  $("#message").val(stripCombiningMarks($("#message").val()))
-  $("#author").val(stripCombiningMarks($("#author").val()))
-  var base64 = $("#preview").attr("src") || ""
-  var canvas = document.createElement('canvas');
-  var context = canvas.getContext("2d");
-  if($("#preview").width() > 1200 || $("#preview").height() > 900){
+  if(image.width > 1200 || image.height > 900){
     alert("This image is too large. Max: 1200x900");
     return;
   }
-  context.canvas.width = $("#preview").width()
-  context.canvas.height = $("#preview").height()
-  context.drawImage(document.getElementById("preview"), 0, 0);
+  $("#message").val(stripCombiningMarks($("#message").val()))
+  $("#author").val(stripCombiningMarks($("#author").val()))
+  var base64 = image.src || ""
+  var canvas = document.getElementById('canvas_preview');
+  var context = canvas.getContext("2d");
+  context.canvas.width = image.width
+  context.canvas.height = image.height
+  context.drawImage(image, 0, 0);
   base64 = canvas.toDataURL("image/jpeg", parseFloat($("#scale").val()));
-  image = LZString.compressToEncodedURIComponent(base64)
-  if(image.length / 1024 > 350){
-    alert("Image is too big: " + parseInt(image.length/1024) + " kb Max size: 350kb, any dimensions")
+  image_string = LZString.compressToEncodedURIComponent(base64)
+  if(image_string.length / 1024 > 350){
+    alert("Image is too big: " + parseInt(image_string.length/1024) + " kb Max size: 350kb, any dimensions")
     return;
   }
   if($("textarea#message").val().length > 2000){
     alert("Message is too large: " + $("textarea#message").val().length + " Max: 2000")
     return;
   }
-  $.post("/create_post", $('#create-post').serialize() + "&image=" + image, function(e){
+  $.post("/create_post", $('#create-post').serialize() + "&image=" + image_string, function(e){
     // console.log(e);
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error']) {
@@ -177,7 +198,6 @@ function load_embedded_data(){
     var matches = $(e).html().match(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/)
     $(matches).each(function(i, url) {
       // $.getJSON("https://noembed.com/embed?url=" + url, function(data) { $(e).html($(e).html().replace(url, data["html"])) })
-      console.log(url);
       var already_linked = $(".comment-text > a[href='" + url + "']").length > 0;
       if(!already_linked)
         $(e).html($(e).html().replace(url, "<a target='_blank' href='" + url + "'>" + url + "</a>"))
@@ -189,7 +209,6 @@ function load_embedded_one_post(comment_text) {
   var matches = comment_text.html().match(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/)
   $(matches).each(function(i, url) {
     // $.getJSON("https://noembed.com/embed?url=" + url, function(data) { comment_text.html(comment_text.html().replace(url, data["html"])) })
-    console.log(url);
     var already_linked = $(".comment-text > a[href='" + url + "']").length > 0;
     if(!already_linked)
       comment_text.html(comment_text.html().replace(url, "<a target='_blank' href='" + url + "'>" + url + "</a>"))
@@ -198,7 +217,11 @@ function load_embedded_one_post(comment_text) {
 
 function createImage(e) {
   var base64 = e.target.result;
-  $("#preview").attr("src", base64);
+  image = new Image();
+  image.src = base64;
+  image.onload = function(){
+    drawCanvas();
+  };
 }
 
 $('#image').change(function(){
