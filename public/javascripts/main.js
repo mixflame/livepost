@@ -124,7 +124,6 @@ function drawCanvas() {
 function updateCanvas() {
   var canvas = document.getElementById('canvas_preview');
   var context = canvas.getContext("2d");
-  // context.clearRect(0, 0, image.width, image.height);
   var base64_image = new Image();
   base64_image.src = base64;
   base64_image.onload = function(){
@@ -136,6 +135,14 @@ function updateCanvas() {
       context.drawImage(compressed_image, 0, 0);
     }
   };
+}
+
+function clearCanvas() {
+  var canvas = document.getElementById('canvas_preview');
+  var context = canvas.getContext("2d");
+  context.clearRect(0, 0, image.width, image.height);
+  $("#canvas_preview").remove()
+  $("#canvas_holder").append('<canvas id="canvas_preview"></canvas>')
 }
 
 $("#scale").mousemove(updateCanvas);
@@ -172,6 +179,7 @@ $("#create-post").submit(function(e) {
     }
     $("#captcha_image").attr("src", "/captcha_image?"+ new Date().getTime());
     $("#captcha_response").val("");
+    clearCanvas();
   }, "json");
 })
 

@@ -30,7 +30,7 @@ class ApplicationController < Amber::Controller::Base
     end
     p "hash response: #{OpenSSL::Digest.new("SHA256").update(params["captcha_response"])}"
     p "captcha_key: #{session["captcha_key"]}"
-    bot = OpenSSL::Digest.new("SHA256").update(params["captcha_response"]).to_s != session["captcha_key"].to_s
+    bot = OpenSSL::Digest.new("SHA256").update(params["captcha_response"].downcase).to_s != session["captcha_key"].to_s
     if bot
       raise "botting"
       # response.close
