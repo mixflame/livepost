@@ -79,6 +79,12 @@ function increment_posts(board) {
     console.log(board['board'])
     $('#last-posted').html("<a href='/b/" + board['board'] + "'>" + board['board'] + "</a>");
   }
+  // global ding
+  var should_ding = localStorage.getItem("ding");
+  if(should_ding == "true" && window.location.pathname == "/"){
+    ding = new Audio("/ding.wav")
+    ding.play()
+  }
 }
 
 function alert_bottom(msg) {
