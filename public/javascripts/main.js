@@ -45,7 +45,7 @@ function new_post(msg){
   $("#post-list > .post").first().append("<div class='comment'><p class='comment-text'>" + msg['message'] + " - " + msg['author'] + " <a href='/delete_post?board_name=" + msg["board"] + "&message=" + msg["message"] +"'>delete</a></p></div>")
   load_embedded_one_post($(".comment-text").first());
   // board screen new message post ding
-  if($('textarea').val() != msg['message']){
+  if($('textarea').val() != htmlDecode(msg['message'])){
     var should_ding = localStorage.getItem("ding");
     if(should_ding == "true"){
       ding = new Audio("/ding.wav")
@@ -58,6 +58,12 @@ function new_post(msg){
     $("#preview").attr("src", base64);
     $("#image").val('');
   }
+}
+
+function htmlDecode(input){
+  var e = document.createElement('div');
+  e.innerHTML = input;
+  return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
 }
 
 function increment_posts(board) {
