@@ -168,7 +168,7 @@ function load_embedded_data(){
       console.log(url);
       var already_linked = $(".comment-text > a[href='" + url + "']").length > 0;
       if(!already_linked)
-        $(e).html($(e).html().replace(url, "<a href='" + url + "'>" + url + "</a>"))
+        $(e).html($(e).html().replace(url, "<a target='_blank' href='" + url + "'>" + url + "</a>"))
     })
   });
 }
@@ -180,7 +180,7 @@ function load_embedded_one_post(comment_text) {
     console.log(url);
     var already_linked = $(".comment-text > a[href='" + url + "']").length > 0;
     if(!already_linked)
-      comment_text.html(comment_text.html().replace(url, "<a href='" + url + "'>" + url + "</a>"))
+      comment_text.html(comment_text.html().replace(url, "<a target='_blank' href='" + url + "'>" + url + "</a>"))
   })
 }
 
