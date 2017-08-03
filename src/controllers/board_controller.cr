@@ -6,6 +6,8 @@ class BoardController < ApplicationController
 
     collection = db["boards"]
 
+    raise "empty board" if params["board_name"].to_s.blank?
+
     if collection.count({"name" => {"$eq" => params["board_name"]}}) == 0 && params["board_name"].size < 50
       ip_hash = OpenSSL::Digest.new("SHA256").update(request.host.to_s).to_s
       collection.insert({ "name" => params["board_name"],
@@ -24,6 +26,8 @@ class BoardController < ApplicationController
     db = client["live_post"]
 
     collection = db["messages"]
+
+    raise "empty message" if params["message"].to_s.blank? && params["image"].to_s == "CYQwLiBcA0Q"
 
     if collection.count({"message" => {"$eq" => HTML.escape(params["message"])}, "name" => {"$eq" => params["board_name"]}, "image" => {"$eq" => params["image"]} }) == 0 && ((params["image"].size / 1024) < 350 && params["message"].to_s.size < 2000)
       ip_hash = OpenSSL::Digest.new("SHA256").update(request.host.to_s).to_s

@@ -27,7 +27,8 @@ $(window).on("beforeunload", function (e) {
 function connected_socket(socket){
   console.log(socket);
   $("#sockets-connected").html(socket["connected"] + " sockets connected");
-  $("#board-connected").html(socket["this_board"] + " connected")
+  if(socket["this_board"] != null)
+    $("#board-connected").html(socket["this_board"] + " connected")
 }
 
 function new_board(board){
@@ -88,7 +89,9 @@ $("#create-board").submit(function createBoard(e) {
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error'])
       alert(e['error'])
-    $("#captcha_img").attr("src", "/captcha_image?"+ new Date().getTime());
+    $("#captcha_image").attr("src", "/captcha_image?"+ new Date().getTime());
+    $("#board_name").val("");
+    $("#captcha_response").val("");
   }, "json");
 })
 
@@ -127,7 +130,8 @@ $("#create-post").submit(function(e) {
     if(e['error']) {
       alert(e['error'])
     }
-    $("#captcha_img").attr("src", "/captcha_image?"+ new Date().getTime());
+    $("#captcha_image").attr("src", "/captcha_image?"+ new Date().getTime());
+    $("#captcha_response").val("");
   }, "json");
 })
 
@@ -160,7 +164,11 @@ function load_embedded_data(){
   $(".comment-text").each(function(i, e){
     var matches = $(e).html().match(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/)
     $(matches).each(function(i, url) {
-      $.getJSON("https://noembed.com/embed?url=" + url, function(data) { $(e).html($(e).html().replace(url, data["html"])) })
+      // $.getJSON("https://noembed.com/embed?url=" + url, function(data) { $(e).html($(e).html().replace(url, data["html"])) })
+      console.log(url);
+      var already_linked = $(".comment-text > a[href='" + url + "']").length > 0;
+      if(!already_linked)
+        $(e).html($(e).html().replace(url, "<a href='" + url + "'>" + url + "</a>"))
     })
   });
 }
@@ -168,7 +176,11 @@ function load_embedded_data(){
 function load_embedded_one_post(comment_text) {
   var matches = comment_text.html().match(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/)
   $(matches).each(function(i, url) {
-    $.getJSON("https://noembed.com/embed?url=" + url, function(data) { comment_text.html(comment_text.html().replace(url, data["html"])) })
+    // $.getJSON("https://noembed.com/embed?url=" + url, function(data) { comment_text.html(comment_text.html().replace(url, data["html"])) })
+    console.log(url);
+    var already_linked = $(".comment-text > a[href='" + url + "']").length > 0;
+    if(!already_linked)
+      comment_text.html(comment_text.html().replace(url, "<a href='" + url + "'>" + url + "</a>"))
   })
 }
 
