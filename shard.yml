@@ -10,7 +10,8 @@ license: MIT
 
 dependencies:
   amber:
-    github: amber-crystal/amber
+    github: mixflame/amber
+    branch: master
 
   daemonize:
     github: DougEverly/daemonize.cr
