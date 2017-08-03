@@ -122,13 +122,18 @@ function drawCanvas() {
 function updateCanvas() {
   var canvas = document.getElementById('canvas_preview');
   var context = canvas.getContext("2d");
-  base64 = canvas.toDataURL("image/jpeg", parseFloat($("#scale").val()));
-  context.clearRect(0, 0, image.width, image.height);
-  var compressed_image = new Image();
-  compressed_image.src = base64
-  compressed_image.onload = function() {
-    context.drawImage(compressed_image, 0, 0);
-  }
+  // context.clearRect(0, 0, image.width, image.height);
+  var base64_image = new Image();
+  base64_image.src = base64;
+  base64_image.onload = function(){
+    context.drawImage(base64_image, 0, 0);
+    var compressed_base64 = canvas.toDataURL("image/jpeg", parseFloat($("#scale").val()));
+    var compressed_image = new Image();
+    compressed_image.src = compressed_base64
+    compressed_image.onload = function() {
+      context.drawImage(compressed_image, 0, 0);
+    }
+  };
 }
 
 $("#scale").change(updateCanvas);
@@ -216,7 +221,7 @@ function load_embedded_one_post(comment_text) {
 }
 
 function createImage(e) {
-  var base64 = e.target.result;
+  base64 = e.target.result;
   image = new Image();
   image.src = base64;
   image.onload = function(){
