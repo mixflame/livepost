@@ -1,5 +1,7 @@
 var socket, channel, message_channel, home_channel, base64, image
 
+image = new Image() // to imake image code easier
+
 socket = new Amber.Socket("/chat")
 socket.connect()
 .then(() => {
@@ -136,7 +138,7 @@ function updateCanvas() {
   };
 }
 
-$("#scale").change(updateCanvas);
+$("#scale").mousemove(updateCanvas);
 
 $("#create-post").submit(function(e) {
   e.preventDefault();
