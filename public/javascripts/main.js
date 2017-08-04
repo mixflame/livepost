@@ -1,6 +1,8 @@
-var socket, channel, message_channel, home_channel, base64, image
+var socket, channel, message_channel, home_channel, base64, image, orig_height, orig_width, leftMButtonDown
 
 image = new Image() // to imake image code easier
+
+leftMButtonDown = false // we're not holding left m button down by default
 
 socket = new Amber.Socket("/chat")
 socket.connect()
@@ -117,18 +119,27 @@ function reverseString(str) {
 function drawCanvas() {
   var canvas = document.getElementById('canvas_preview');
   var context = canvas.getContext("2d");
-  context.canvas.width = image.width
-  context.canvas.height = image.height
+  orig_width = image.width;
+  orig_height = image.height;
+  context.canvas.width = orig_width;
+  context.canvas.height = orig_height;
   context.drawImage(image, 0, 0);
 }
 
 function updateCanvas() {
+  if(leftMButtonDown == false) {
+    return;
+  }
   var canvas = document.getElementById('canvas_preview');
   var context = canvas.getContext("2d");
   var base64_image = new Image();
   base64_image.src = base64;
+  base64_image.height = orig_height * parseFloat($("#transform").val());
+  base64_image.width = orig_width * parseFloat($("#transform").val());
+  context.canvas.width = base64_image.width;
+  context.canvas.height = base64_image.height;
   base64_image.onload = function(){
-    context.drawImage(base64_image, 0, 0);
+    context.drawImage(base64_image, 0, 0, base64_image.width, base64_image.height);
     var compressed_base64 = canvas.toDataURL("image/jpeg", parseFloat($("#scale").val()));
     var compressed_image = new Image();
     compressed_image.src = compressed_base64
@@ -153,12 +164,22 @@ function checkBlankPassword() {
   }
 }
 
-$("#scale").mousemove(updateCanvas);
+$("#scale, #transform").mousedown(function(e) {
+    if(e.which === 1) leftMButtonDown = true;
+});
+
+$(document).mouseup(function(e) {
+    if(leftMButtonDown && e.which === 1) leftMButtonDown = false;
+});
+
+$("#scale, #transform").mousemove(updateCanvas);
+// $("#scale").change(updateCanvas);
+// $("#transform").change(updateCanvas);
 
 $("#create-post").submit(function(e) {
   e.preventDefault();
   if(!checkBlankPassword()) return;
-  if(image.width > 1200 || image.height > 900){
+  if($("#canvas_preview").width > 1200 || $("#canvas_preview").height > 900){
     alert("This image is too large. Max: 1200x900");
     return;
   }
@@ -167,9 +188,9 @@ $("#create-post").submit(function(e) {
   var base64 = image.src || ""
   var canvas = document.getElementById('canvas_preview');
   var context = canvas.getContext("2d");
-  context.canvas.width = image.width
-  context.canvas.height = image.height
-  context.drawImage(image, 0, 0);
+  context.canvas.width = orig_width * parseFloat($("#transform").val())
+  context.canvas.height = orig_height * parseFloat($("#transform").val())
+  context.drawImage(image, 0, 0, context.canvas.width, context.canvas.height);
   base64 = canvas.toDataURL("image/jpeg", parseFloat($("#scale").val()));
   image_string = LZString.compressToEncodedURIComponent(base64)
   if(image_string.length / 1024 > 350){
