@@ -3,7 +3,7 @@ Amber::Server.instance.config do |app|
     plug Amber::Pipe::Logger.new
     plug Amber::Pipe::Session.new
     plug Amber::Pipe::Flash.new
-    # plug Amber::Pipe::CSRF.new # bug in amber right now
+    plug Amber::Pipe::CSRF.new # bug in amber right now
   end
 
   # All static content will run these transformations
@@ -12,11 +12,19 @@ Amber::Server.instance.config do |app|
     plug HTTP::CompressHandler.new
   end
 
+  pipeline :api do
+    plug Amber::Pipe::Logger.new
+  end
+
   socket_endpoint "/chat", UserSocket
+
+  routes :api do
+    get "/captcha_image", StaticController, :captcha_image
+    get "/update_socket_count", BoardController, :update_socket_count
+  end
 
   routes :web do
     get "/b/:slug", StaticController, :slug
-    get "/captcha_image", StaticController, :captcha_image
   end
 
   routes :web do
@@ -27,7 +35,6 @@ Amber::Server.instance.config do |app|
     post "/remove_board", BoardController, :remove_board
     get "/delete_post", BoardController, :delete_post
     post "/remove_post", BoardController, :remove_post
-    get "/update_socket_count", BoardController, :update_socket_count
     get "/ban_hash", BoardController, :ban_hash
     post "/ban_hash", BoardController, :commit_ban_hash
     get "/unban_hash", BoardController, :unban_hash

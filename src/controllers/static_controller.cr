@@ -4,6 +4,7 @@ class StaticController < ApplicationController
   end
   def slug
     # board page
+    puts context.session.to_h
     client = Mongo::Client.new "mongodb://localhost:27017/livepost"
     db = client["live_post"]
 
@@ -30,7 +31,8 @@ class StaticController < ApplicationController
     images = Dir.glob("#{File.dirname(APP_PATH)}/../public/captcha_images/*")
     image = File.basename(images[rand(images.size)])
     name = image.split(".png").first
-    session["captcha_key"] = OpenSSL::Digest.new("SHA256").update(name.to_s)
+    cookies["captcha_key"] = OpenSSL::Digest.new("SHA256").update(name.to_s).to_s
+    puts cookies["captcha_key"].to_s
     File.read("#{File.dirname(APP_PATH)}/../public/captcha_images/#{image}")
   end
 end

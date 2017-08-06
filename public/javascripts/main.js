@@ -25,7 +25,7 @@ socket.connect()
 
 $(window).on("beforeunload", function (e) {
   this.socket.ws.close();
-  $.get("/update_socket_count", {board: window.board_name});
+  // $.get("/update_socket_count", {board: window.board_name});
 });
 
 function connected_socket(socket){
@@ -101,15 +101,18 @@ $("#create-board").submit(function createBoard(e) {
   e.preventDefault();
   if(!checkBlankPassword()) return;
   $("#board_name").val(stripCombiningMarks($("#board_name").val()))
-  $.post("/create_board", $('#create-board').serialize(), function(e){
+  $.ajax({url: "/create_board", method: "POST", data: $('#create-board').serialize(), success: function(e){
     // console.log(e);
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error'])
       alert(e['error'])
-    $("#captcha_image").attr("src", "/captcha_image?"+ new Date().getTime());
+    // $("#captcha_image").attr("src", "/captcha_image?"+ new Date().getTime());
     $("#board_name").val("");
-    $("#captcha_response").val("");
-  }, "json");
+    // $("#captcha_response").val("");
+  }, xhrFields: {
+     withCredentials: true
+  }
+  });
 })
 
 function reverseString(str) {
@@ -178,7 +181,7 @@ $("#scale, #transform").mousemove(updateCanvas);
 
 $("#create-post").submit(function(e) {
   e.preventDefault();
-  if(!checkBlankPassword()) return;
+  // if(!checkBlankPassword()) return;
   if($("#canvas_preview").width > 1200 || $("#canvas_preview").height > 900){
     alert("This image is too large. Max: 1200x900");
     return;
@@ -201,16 +204,16 @@ $("#create-post").submit(function(e) {
     alert("Message is too large: " + $("textarea#message").val().length + " Max: 2000")
     return;
   }
-  $.post("/create_post", $('#create-post').serialize() + "&image=" + image_string, function(e){
+  $.ajax({url: "/create_post", method: "POST", type: "form", data: $('#create-post').serialize() + "&image=" + image_string, success: function(e){
     // console.log(e);
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error']) {
       alert(e['error'])
     }
-    $("#captcha_image").attr("src", "/captcha_image?"+ new Date().getTime());
-    $("#captcha_response").val("");
+    // $("#captcha_image").attr("src", "/captcha_image?" + new Date().getTime());
+    // $("#captcha_response").val("");
     clearCanvas();
-  }, "json");
+  }});
 })
 
 $("#author").change(function(e){

@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
 
   def index
+    puts context.session.to_h
     client = Mongo::Client.new "mongodb://localhost:27017/livepost"
     db = client["live_post"]
 

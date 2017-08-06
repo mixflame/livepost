@@ -1,6 +1,13 @@
 AMBER_ENV = ARGV[0]? || ENV["AMBER_ENV"]? || "development"
 APP_PATH = __FILE__
 
+# Amber::Server.instance.session = {
+#   :key     => "livepost.session",
+#   :store   => :signed_cookie,
+#   :expires => 0,
+#   :secret  => "ANDvuadpv!!!uwap9*Yva98wuaw98euawve"
+# }
+
 Amber::Server.instance.config do |app|
   # Server options
   app_path = __FILE__ # Do not change unless you understand what you are doing.

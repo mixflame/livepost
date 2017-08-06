@@ -1,6 +1,6 @@
 class BoardController < ApplicationController
   def create_board
-    check_captcha
+    # check_captcha
     client = Mongo::Client.new "mongodb://localhost:27017/livepost"
     db = client["live_post"]
 
@@ -21,7 +21,8 @@ class BoardController < ApplicationController
   end
 
   def create_post
-    check_captcha
+    # check_captcha
+    puts context.session.to_h
     client = Mongo::Client.new "mongodb://localhost:27017/livepost"
     db = client["live_post"]
 
