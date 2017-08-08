@@ -158,6 +158,7 @@ function clearCanvas() {
   context.clearRect(0, 0, image.width, image.height);
   $("#canvas_preview").remove()
   $("#canvas_holder").append('<canvas id="canvas_preview"></canvas>')
+  image = new Image()
 }
 
 function checkBlankPassword() {
@@ -189,14 +190,18 @@ $("#create-post").submit(function(e) {
   $("#message").val(stripCombiningMarks($("#message").val()))
   $("#author").val(stripCombiningMarks($("#author").val()))
   var base64 = image.src || ""
-  var canvas = document.getElementById('canvas_preview');
-  var context = canvas.getContext("2d");
-  context.canvas.width = orig_width * parseFloat($("#transform").val())
-  context.canvas.height = orig_height * parseFloat($("#transform").val())
-  context.drawImage(image, 0, 0, context.canvas.width, context.canvas.height);
-  base64 = canvas.toDataURL("image/jpeg", parseFloat($("#scale").val()));
+  if(base64 != "") {
+    var canvas = document.getElementById('canvas_preview');
+    var context = canvas.getContext("2d");
+    context.canvas.width = orig_width * parseFloat($("#transform").val())
+    context.canvas.height = orig_height * parseFloat($("#transform").val())
+    context.drawImage(image, 0, 0, context.canvas.width, context.canvas.height);
+    if(file_type == "image/png" || file_type == "image/jpeg"){
+        base64 = canvas.toDataURL(file_type, parseFloat($("#scale").val()));
+    }
+  }
   image_string = LZString.compressToEncodedURIComponent(base64)
-  if(image_string.length / 1024 > 350){
+  if(image_string.length / 1024 > 5000){
     alert("Image is too big: " + parseInt(image_string.length/1024) + " kb Max size: 350kb, any dimensions")
     return;
   }
@@ -265,6 +270,12 @@ function load_embedded_one_post(comment_text) {
 
 function createImage(e) {
   base64 = e.target.result;
+  file_type = base64.split(",")[0].split(";")[0].split(":")[1];
+  console.log(file_type);
+  is_image = file_type.split("/")[0] == "image";
+  console.log(is_image);
+  type = file_type.split("/")[1];
+  console.log(type);
   image = new Image();
   image.src = base64;
   image.onload = function(){
