@@ -126,6 +126,7 @@ function drawCanvas() {
   orig_height = image.height;
   context.canvas.width = orig_width;
   context.canvas.height = orig_height;
+  $("#image-size").html(context.canvas.width + "x" + context.canvas.height + ": " + (base64.length / 1024).toPrecision(2) + "kb")
   context.drawImage(image, 0, 0);
 }
 
@@ -146,6 +147,7 @@ function updateCanvas() {
     var compressed_base64 = canvas.toDataURL("image/jpeg", parseFloat($("#scale").val()));
     var compressed_image = new Image();
     compressed_image.src = compressed_base64
+    $("#image-size").html(context.canvas.width + "x" + context.canvas.height + ": " + (compressed_base64.length / 1024).toPrecision(2) + "kb")
     compressed_image.onload = function() {
       context.drawImage(compressed_image, 0, 0);
     }
