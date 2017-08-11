@@ -48,7 +48,11 @@ function embed_media() {
     if(media_type == "image"){
       $(e).attr("src", decoded_base64)
     } else if(media_type == "audio") {
+      console.log("audio")
       $(e).replaceWith("<audio controls src='" + decoded_base64 + "'></audio>")
+    } else if(media_type == "video") {
+      console.log("video")
+      $(e).replaceWith("<video controls><source type='" + file_type + "' src='" + decoded_base64 + "'></video>")
     }
   });
 }
@@ -66,6 +70,8 @@ function new_post(msg){
       $("#post-list > .post").first().append("<p class='image'><img src='" + decoded_base64 + "' /></p>")
     } else if(media_type == "audio") {
       $("#post-list > .post").first().append("<p class='image'><audio controls src='" + decoded_base64 + "' /></p>")
+    } else if(media_type == "video") {
+      $("#post-list > .post").first().append("<p class='image'><video controls><source type='" + file_type + "' src='" + decoded_base64 + "'></video></p>")
     }
   }
   embed_media();
@@ -252,16 +258,7 @@ $("#author").change(function(e){
 
 $(document).ready(function(){
   $("#author").val(localStorage.getItem("author") || "anonymous")
-  $("div.post > p > img").each(function(i, e) {
-    decoded_base64 = LZString.decompressFromEncodedURIComponent($(e).data("src"))
-    file_type = decoded_base64.split(",")[0].split(";")[0].split(":")[1]
-    media_type = file_type.split("/")[0]
-    if(media_type == "image"){
-      $(e).attr("src", decoded_base64)
-    } else if(media_type == "audio") {
-      $(e).replaceWith("<audio controls src='" + decoded_base64 + "'></audio>")
-    }
-  });
+  embed_media();
   var ding = localStorage.getItem("ding");
   if(ding == null) {
     ding = true;
