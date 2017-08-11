@@ -40,12 +40,35 @@ function new_board(board){
   alert_bottom("<a href='/b/" + board['board'] + "'>" + board['board'] + "</a>" + " was created.")
 }
 
+function embed_media() {
+  $("div.post > p > img").each(function(i, e) {
+    decoded_base64 = LZString.decompressFromEncodedURIComponent($(e).data("src"))
+    file_type = decoded_base64.split(",")[0].split(";")[0].split(":")[1]
+    media_type = file_type.split("/")[0]
+    if(media_type == "image"){
+      $(e).attr("src", decoded_base64)
+    } else if(media_type == "audio") {
+      $(e).replaceWith("<audio controls src='" + decoded_base64 + "'></audio>")
+    }
+  });
+}
+
 function new_post(msg){
   console.log(msg);
   $("#post-list").prepend("<div class='post'></div>")
+  console.log(msg['image'])
   if(msg['image'] != "" && msg['image'] != "Q" && msg['image'] != "CYQwLiBcA0Q") {
-    $("#post-list > .post").first().append("<p class='image'><img src='" + LZString.decompressFromEncodedURIComponent(msg['image']) + "' /></p>")
+    decoded_base64 = LZString.decompressFromEncodedURIComponent(msg['image']);
+    file_type = decoded_base64.split(",")[0].split(";")[0].split(":")[1]
+    console.log(file_type + " imported")
+    media_type = file_type.split("/")[0]
+    if(media_type == "image"){
+      $("#post-list > .post").first().append("<p class='image'><img src='" + decoded_base64 + "' /></p>")
+    } else if(media_type == "audio") {
+      $("#post-list > .post").first().append("<p class='image'><audio controls src='" + decoded_base64 + "' /></p>")
+    }
   }
+  embed_media();
   $("#post-list > .post").first().append("<div class='comment'><p class='comment-text'>" + msg['message'] + " - " + msg['author'] + " <a href='/delete_post?board_name=" + msg["board"] + "&message=" + msg["message"] +"'>delete</a></p></div>")
   load_embedded_one_post($(".comment-text").first());
   // board screen new message post ding
@@ -192,7 +215,7 @@ $("#create-post").submit(function(e) {
   $("#message").val(stripCombiningMarks($("#message").val()))
   $("#author").val(stripCombiningMarks($("#author").val()))
   var base64 = image.src || ""
-  if(base64 != "") {
+  if(base64 != "" && file_type.split("/")[0] == "image") {
     var canvas = document.getElementById('canvas_preview');
     var context = canvas.getContext("2d");
     context.canvas.width = orig_width * parseFloat($("#transform").val())
@@ -229,7 +252,16 @@ $("#author").change(function(e){
 
 $(document).ready(function(){
   $("#author").val(localStorage.getItem("author") || "anonymous")
-  $("div.post > p > img").each(function(i, e) { $(e).attr("src", LZString.decompressFromEncodedURIComponent($(e).data("src")))});
+  $("div.post > p > img").each(function(i, e) {
+    decoded_base64 = LZString.decompressFromEncodedURIComponent($(e).data("src"))
+    file_type = decoded_base64.split(",")[0].split(";")[0].split(":")[1]
+    media_type = file_type.split("/")[0]
+    if(media_type == "image"){
+      $(e).attr("src", decoded_base64)
+    } else if(media_type == "audio") {
+      $(e).replaceWith("<audio controls src='" + decoded_base64 + "'></audio>")
+    }
+  });
   var ding = localStorage.getItem("ding");
   if(ding == null) {
     ding = true;
