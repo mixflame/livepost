@@ -43,16 +43,21 @@ function new_board(board){
 function embed_media() {
   $("div.post > p > img").each(function(i, e) {
     decoded_base64 = LZString.decompressFromEncodedURIComponent($(e).data("src"))
-    file_type = decoded_base64.split(",")[0].split(";")[0].split(":")[1]
-    media_type = file_type.split("/")[0]
-    if(media_type == "image"){
-      $(e).attr("src", decoded_base64)
-    } else if(media_type == "audio") {
-      console.log("audio")
-      $(e).replaceWith("<audio controls src='" + decoded_base64 + "'></audio>")
-    } else if(media_type == "video") {
-      console.log("video")
-      $(e).replaceWith("<video controls><source type='" + file_type + "' src='" + decoded_base64 + "'></video>")
+    if(decoded_base64 != undefined) {
+      file_type = decoded_base64.split(",")[0].split(";")[0].split(":")[1]
+      if(file_type != undefined) {
+        // console.log(file_type)
+        media_type = file_type.split("/")[0]
+        if(media_type == "image"){
+          $(e).attr("src", decoded_base64)
+        } else if(media_type == "audio") {
+          console.log("audio")
+          $(e).replaceWith("<audio controls src='" + decoded_base64 + "'></audio>")
+        } else if(media_type == "video") {
+          console.log("video")
+          $(e).replaceWith("<video controls><source type='" + file_type + "' src='" + decoded_base64 + "'></video>")
+        }
+      }
     }
   });
 }
