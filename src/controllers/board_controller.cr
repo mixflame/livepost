@@ -30,17 +30,19 @@ class BoardController < ApplicationController
 
     raise "empty message" if params["message"].to_s.blank? && params["image"].to_s == "CYQwLiBcA0Q"
 
-    if collection.count({"message" => {"$eq" => HTML.escape(params["message"])}, "name" => {"$eq" => params["board_name"]}, "image" => {"$eq" => params["image"]} }) == 0 && ((params["image"].size / 1024) < 5000 && params["message"].to_s.size < 2000)
+    message = Markdown.to_html(HTML.escape(params["message"]))
+
+    if collection.count({"message" => {"$eq" => message}, "name" => {"$eq" => params["board_name"]}, "image" => {"$eq" => params["image"]} }) == 0 && ((params["image"].size / 1024) < 5000 && params["message"].to_s.size < 2000)
       ip_hash = OpenSSL::Digest.new("SHA256").update(request.host.to_s).to_s
       collection.insert({ "name" => params["board_name"],
-                          "message" => HTML.escape(params["message"]),
+                          "message" => message,
                           "author" => HTML.escape(params["author"]),
                           "image" => params["image"], "timestamp" => Time.now.to_s,
                           "password" => params["password"],
                           "ip_hash" => ip_hash })
-      UserSocket.broadcast("message", "board_room:#{params["board_name"]}", "post:new", {:board => HTML.escape(params["board_name"]), :message => HTML.escape(params["message"]), :author => HTML.escape(params["author"]), :image => params["image"]})
+      UserSocket.broadcast("message", "board_room:#{params["board_name"]}", "post:new", {:board => HTML.escape(params["board_name"]), :message => message, :author => HTML.escape(params["author"]), :image => params["image"]})
       UserSocket.broadcast("message", "board_room:home", "post:increment", {:board => HTML.escape(params["board_name"]), :author => HTML.escape(params["author"])})
-      {board: params["board_name"], message: params["message"], author: params["author"], image: params["image"], csrf: csrf_tag}.to_json
+      {board: params["board_name"], message: message, author: params["author"], image: params["image"], csrf: csrf_tag}.to_json
     else
       {error: "Already posted this or image too big.", csrf: csrf_tag}.to_json
     end

@@ -29,7 +29,7 @@ $(window).on("beforeunload", function (e) {
 });
 
 function connected_socket(socket){
-  console.log(socket);
+  // console.log(socket);
   $("#sockets-connected").html(socket["connected"] + " sockets connected");
   if(socket["this_board"] != null)
     $("#board-connected").html(socket["this_board"] + " connected")
@@ -63,13 +63,13 @@ function embed_media() {
 }
 
 function new_post(msg){
-  console.log(msg);
+  // console.log(msg);
   $("#post-list").prepend("<div class='post'></div>")
-  console.log(msg['image'])
+  // console.log(msg['image'])
   if(msg['image'] != "" && msg['image'] != "Q" && msg['image'] != "CYQwLiBcA0Q") {
     decoded_base64 = LZString.decompressFromEncodedURIComponent(msg['image']);
     file_type = decoded_base64.split(",")[0].split(";")[0].split(":")[1]
-    console.log(file_type + " imported")
+    // console.log(file_type + " imported")
     media_type = file_type.split("/")[0]
     if(media_type == "image"){
       $("#post-list > .post").first().append("<p class='image'><img src='" + decoded_base64 + "' /></p>")
@@ -105,7 +105,7 @@ function htmlDecode(input){
 }
 
 function increment_posts(board) {
-  console.log(board)
+  // console.log(board)
   var posts_count = parseInt($('#total-posts').html());
   $('#total-posts').html(posts_count + 1);
   var board_posts_count = parseInt($('#posts-' + board['board']).html());
@@ -114,7 +114,7 @@ function increment_posts(board) {
   $('#posts-' + board['board']).html(board_posts_count + 1);
   alert_bottom(board['author'] + " posted in <a href='/b/" + board['board'].replace(/-/g, " ") + "'>" + board['board'].replace(/-/g, " ") + "</a>")
   if($('#last-posted').length > 0){
-    console.log(board['board'])
+    // console.log(board['board'])
     $('#last-posted').html("<a href='/b/" + board['board'] + "'>" + board['board'] + "</a>");
   }
   // global ding
@@ -283,8 +283,10 @@ $(document).ready(function(){
 })
 
 function load_embedded_data(){
-  $(".comment-text").each(function(i, e){
+  $("p").each(function(i, e){
+    // console.log($(e).html());
     var matches = $(e).html().match(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/)
+    // console.log(matches);
     $(matches).each(function(i, url) {
       // $.getJSON("https://noembed.com/embed?url=" + url, function(data) { $(e).html($(e).html().replace(url, data["html"])) })
       var already_linked = $(".comment-text > a[href='" + url + "']").length > 0;
@@ -307,11 +309,11 @@ function load_embedded_one_post(comment_text) {
 function createImage(e) {
   base64 = e.target.result;
   file_type = base64.split(",")[0].split(";")[0].split(":")[1];
-  console.log(file_type);
+  // console.log(file_type);
   is_image = file_type.split("/")[0] == "image";
-  console.log(is_image);
+  // console.log(is_image);
   type = file_type.split("/")[1];
-  console.log(type);
+  // console.log(type);
   image = new Image();
   image.src = base64;
   image.onload = function(){

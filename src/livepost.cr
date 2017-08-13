@@ -1,6 +1,7 @@
 require "mongo"
 require "amber"
 require "daemonize"
+require "markdown"
 require "./sockets/**"
 require "./channels/**"
 require "./controllers/**"
