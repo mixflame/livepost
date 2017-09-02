@@ -23,6 +23,9 @@ class StaticController < ApplicationController
 
     last_posted = last_posted.nil? ? "" : last_posted["name"]
 
+    redis = Redis.new
+    topic = redis.get(@board_name)
+
     session["test"] = "test"
     render("board.ecr")
   end

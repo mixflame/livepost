@@ -2,6 +2,14 @@
   <h1 class="board-name"><%= HTML.escape(@board_name.to_s) %></h1>
   <p id="board-connected"><%= Amber::WebSockets::ClientSockets.get_subscribers_for_topic("board_room:#{@board_name.to_s}").size %> connected</p>
   Ding: <input type="checkbox" id="ding" />
+  Topic: <%= topic %>
+  <form id="update-topic" action="/change_topic" method="post">
+    <input type="hidden" name="board_name" value="<%= @board_name %>" />
+    Set topic: <input id="topic" type="text" name="topic" /><br>
+    Password: <input id="password" type="text" name="password">
+    <%= csrf_tag %>
+    <input type="submit" value="Submit"/>
+  </form>
 </div>
 
 <div>
@@ -15,8 +23,6 @@
     Message (markdown supported): <textarea id="message" name="message"></textarea><br>
     Author: <input id="author" type="text" name="author" /><br>
     Password (to delete): <input id="password" type="text" name="password"><br>
-    What is it? (one word) <img id="captcha_image" src="/captcha_image">
-    <input type="text" id="captcha_response" name="captcha_response"><br>
     <%= csrf_tag %>
     <input type="submit" value="Submit"/>
   </form>

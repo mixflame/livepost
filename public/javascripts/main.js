@@ -201,6 +201,8 @@ function checkBlankPassword() {
   if($("#password").val() == ""){
     var useBlankPassword = confirm("Really use a blank password? Only admin is able to delete boards or posts with blank passwords.")
     return useBlankPassword;
+  } else {
+    return true;
   }
 }
 

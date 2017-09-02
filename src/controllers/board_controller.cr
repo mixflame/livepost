@@ -161,4 +161,24 @@ class BoardController < ApplicationController
     "unbanned"
 
   end
+
+  def change_topic
+    client = Mongo::Client.new "mongodb://localhost:27017/livepost"
+    db = client["live_post"]
+
+    collection = db["boards"]
+
+    messages = db["messages"]
+
+    password = collection.find_one({"$query" => {"name" => {"$eq" => params["board_name"]}}})
+    password = password.nil? || !password.has_key?("password") ? "" : password["password"]
+
+    if password == "" || params["password"] == password
+      redis = Redis.new
+      redis.set(params["board_name"].to_s, params["topic"].to_s)
+      "topic changed"
+    else
+      "not deleted. invalid password?"
+    end
+  end
 end
