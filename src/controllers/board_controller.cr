@@ -27,6 +27,18 @@ class BoardController < ApplicationController
     db = client["live_post"]
 
     collection = db["messages"]
+    handles = db["handles"]
+
+    handle = handles.find_one({"name" => params["author"]})
+
+    if !handle.nil?
+      password = handles.find_one({"$query" => {"name" => {"$eq" => params["author"]}}})
+      password = password.nil? ? "" : password["password"]
+      if password != params["password"]
+        puts "bad password"
+        return {error: "bad password", csrf: csrf_tag}.to_json
+      end
+    end
 
     raise "empty message" if params["message"].to_s.blank? && params["image"].to_s == "CYQwLiBcA0Q"
 

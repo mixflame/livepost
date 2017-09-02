@@ -18,4 +18,22 @@ class HomeController < ApplicationController
     @board_name = "home"
     render("index.ecr")
   end
+
+  def register_handle
+    render("register_handle.ecr")
+  end
+
+  def register_handle_post
+    client = Mongo::Client.new "mongodb://localhost:27017/livepost"
+    db = client["live_post"]
+
+    collection = db["handles"]
+
+    if collection.find_one({"name" => params["handle"]}).nil?
+        collection.insert({ "name" => params["handle"], "password" => params["password"]})
+        "registered"
+    else
+        "handle already exists"
+    end
+  end
 end

@@ -248,7 +248,7 @@ $("#create-post").submit(function(e) {
     return;
   }
   $.ajax({url: "/create_post", method: "POST", type: "form", data: $('#create-post').serialize() + "&image=" + image_string, success: function(e){
-    // console.log(e);
+    e = JSON.parse(e);
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error']) {
       alert(e['error'])

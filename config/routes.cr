@@ -40,6 +40,8 @@ Amber::Server.instance.config do |app|
     get "/unban_hash", BoardController, :unban_hash
     post "/unban_hash", BoardController, :commit_unban_hash
     post "/change_topic", BoardController, :change_topic
+    get "/register_handle", HomeController, :register_handle
+    post "/register_handle", HomeController, :register_handle_post
   end
 
   routes :static do
