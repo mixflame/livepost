@@ -78,13 +78,13 @@ class BoardController < ApplicationController
     if(params["password"] == ENV["LIVEPOST_PASSWORD"]) # admin
       collection.remove({"name" => params["board_name"]})
       messages.remove({"name" => params["board_name"]})
-      return "deleted"
+      {error: "deleted", csrf: csrf_tag}.to_json
     elsif(params["password"] == password && password != "")
       collection.remove({"name" => params["board_name"]})
       messages.remove({"name" => params["board_name"]})
-      return "deleted"
+      {error: "deleted", csrf: csrf_tag}.to_json
     else
-      return "not deleted (incorrect password)"
+      {error: "not deleted (incorrect password)", csrf: csrf_tag}.to_json
     end
   end
 
@@ -109,22 +109,22 @@ class BoardController < ApplicationController
     post_password = post_password.nil? || !post_password.has_key?("password") ? "" : post_password["password"]
     if(params["password"] == ENV["LIVEPOST_PASSWORD"]) # admin
       messages.remove({"_id" => BSON::ObjectId.new(params["id"])}) # change to use id
-      return "deleted"
+      {error: "deleted", csrf: csrf_tag}.to_json
     elsif(params["password"] == password && password != "")
       messages.remove({"_id" => BSON::ObjectId.new(params["id"])}) # change to use id
-      return "deleted"
+      {error: "deleted", csrf: csrf_tag}.to_json
     elsif(params["password"] == post_password && post_password != "")
       messages.remove({"_id" => BSON::ObjectId.new(params["id"])}) # change to use id
-      return "deleted"
+      {error: "deleted", csrf: csrf_tag}.to_json
     else
-      return "not deleted (incorrect password)"
+      {error: "not deleted (incorrect password)", csrf: csrf_tag}.to_json
     end
   end
 
   def update_socket_count
     board = params["board"]
     UserSocket.broadcast("message", "board_room:connected", "socket:connected", {"connected" => Amber::WebSockets::ClientSockets.client_sockets.size, "this_board" => Amber::WebSockets::ClientSockets.get_subscribers_for_topic("board_room:#{board.to_s}").size})
-    return {success: "true"}.to_json
+    {success: "true"}.to_json
   end
 
   def ban_hash
@@ -135,7 +135,7 @@ class BoardController < ApplicationController
   def commit_ban_hash
     # admins only
     if(params["password"] != ENV["LIVEPOST_PASSWORD"])
-      return "bad password"
+      return {error: "bad password", csrf: csrf_tag}.to_json
     end
 
     client = Mongo::Client.new "mongodb://localhost:27017/livepost"
@@ -145,7 +145,7 @@ class BoardController < ApplicationController
 
     collection.insert({"ip_hash" => params["ip_hash"]})
 
-    "banned"
+    {error: "banned", csrf: csrf_tag}.to_json
 
   end
 
@@ -160,7 +160,7 @@ class BoardController < ApplicationController
   def commit_unban_hash
     # admins only
     if(params["password"] != ENV["LIVEPOST_PASSWORD"])
-      return "bad password"
+      return {error: "bad password", csrf: csrf_tag}.to_json
     end
 
     client = Mongo::Client.new "mongodb://localhost:27017/livepost"
@@ -170,7 +170,7 @@ class BoardController < ApplicationController
 
     collection.remove({"ip_hash" => params["ip_hash"]})
 
-    "unbanned"
+    {error: "unbanned", csrf: csrf_tag}.to_json
 
   end
 
@@ -185,12 +185,12 @@ class BoardController < ApplicationController
     password = collection.find_one({"$query" => {"name" => {"$eq" => params["board_name"]}}})
     password = password.nil? || !password.has_key?("password") ? "" : password["password"]
 
-    if password == "" || params["password"] == password
+    if password == "" || params["password"] == password || password == ENV["LIVEPOST_PASSWORD"]
       redis = Redis.new
       redis.set(params["board_name"].to_s, params["topic"].to_s)
-      "topic changed"
+      {error: "topic changed", csrf: csrf_tag}.to_json
     else
-      "topic not changed. invalid password?"
+      {error: "topic not changed. invalid password?", csrf: csrf_tag}.to_json
     end
   end
 end

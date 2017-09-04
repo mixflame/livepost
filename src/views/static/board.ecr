@@ -1,16 +1,18 @@
 <div class="card">
   <div class="card-block">
-  <h1 class="board-name"><%= HTML.escape(@board_name.to_s) %></h1>
-  <p id="board-connected"><%= Amber::WebSockets::ClientSockets.get_subscribers_for_topic("board_room:#{@board_name.to_s}").size %> connected</p>
-  Ding: <input type="checkbox" id="ding" />
-  Topic: <%= topic %>
-  <form id="update-topic" action="/change_topic" method="post">
-    <input type="hidden" name="board_name" value="<%= @board_name %>" />
-    Set topic: <input id="topic" type="text" name="topic" /><br>
-    Password: <input id="password" type="text" name="password">
-    <%= csrf_tag %>
-    <input type="submit" value="Submit"/>
-  </form>
+    <h1 class="board-name"><%= HTML.escape(@board_name.to_s) %></h1>
+    <h2 id="topic_holder"><%= topic %></h2>
+    <p id="board-connected"><%= Amber::WebSockets::ClientSockets.get_subscribers_for_topic("board_room:#{@board_name.to_s}").size %> connected</p>
+    Ding: <input type="checkbox" id="ding" />
+    <div id="topic_form">
+      <form id="change_topic" action="/change_topic" method="post">
+        <input type="hidden" name="board_name" value="<%= @board_name %>" />
+        Set topic: <input id="topic" type="text" name="topic" /><br>
+        Password: <input id="password" type="text" name="password">
+        <%= csrf_tag %>
+        <input type="submit" value="Submit"/>
+      </form>
+    </div>
   </div>
 </div>
 

@@ -243,6 +243,84 @@ $("#scale, #transform").mousemove(updateCanvas);
 // $("#scale").change(updateCanvas);
 // $("#transform").change(updateCanvas);
 
+
+$("#remove_board").submit(function(e) {
+  e.preventDefault();
+  $.ajax({url: "/remove_board", method: "POST", type: "form", data: $('#remove_board').serialize(), success: function(e){
+    e = JSON.parse(e);
+    console.log(e)
+    $("input[name*=_csrf]").replaceWith(e['csrf']);
+    if(e['error'] != "deleted") {
+      alert(e['error'])
+    } else {
+      alert(e['error'])
+      window.location = "/";
+    }
+  }});
+});
+
+$("#remove_post").submit(function(e) {
+  e.preventDefault();
+  $.ajax({url: "/remove_post", method: "POST", type: "form", data: $('#remove_post').serialize(), success: function(e){
+    e = JSON.parse(e);
+    console.log(e)
+    $("input[name*=_csrf]").replaceWith(e['csrf']);
+    if(e['error'] != "deleted") {
+      alert(e['error'])
+    } else {
+      alert(e['error'])
+      window.history.back();
+    }
+  }});
+});
+
+$("#ban_hash").submit(function(e) {
+  e.preventDefault();
+  $.ajax({url: "/ban_hash", method: "POST", type: "form", data: $('#ban_hash').serialize(), success: function(e){
+    e = JSON.parse(e);
+    console.log(e)
+    $("input[name*=_csrf]").replaceWith(e['csrf']);
+    if(e['error'] != "banned") {
+      alert(e['error'])
+    } else {
+      alert(e['error'])
+      window.history.back();
+    }
+  }});
+});
+
+$("#unban_hash").submit(function(e) {
+  e.preventDefault();
+  $.ajax({url: "/unban_hash", method: "POST", type: "form", data: $('#unban_hash').serialize(), success: function(e){
+    console.log(e)
+    e = JSON.parse(e);
+    $("input[name*=_csrf]").replaceWith(e['csrf']);
+    if(e['error'] != "unbanned") {
+      alert(e['error'])
+    } else {
+      alert(e['error'])
+      window.history.back();
+    }
+  }});
+});
+
+$("#change_topic").submit(function(e) {
+  e.preventDefault();
+  $.ajax({url: "/change_topic", method: "POST", type: "form", data: $('#change_topic').serialize(), success: function(e){
+    console.log(e)
+    e = JSON.parse(e);
+    $("input[name*=_csrf]").replaceWith(e['csrf']);
+    if(e['error'] != 'topic changed') {
+      alert(e['error'])
+    } else {
+      $('#topic_holder').html($('#topic').val());
+      $('#topic').val('');
+      $('#password').val('');
+      alert(e['error'])
+    }
+  }});
+});
+
 $("#create-post").submit(function(e) {
   e.preventDefault();
   // if(!checkBlankPassword()) return;

@@ -1,7 +1,7 @@
 <h1>Ban <%= hash %></h1>
 
 <div>
-  <form action="/ban_hash" method="post">
+  <form id="ban_hash" action="/ban_hash" method="post">
     <input type="hidden" name="ip_hash" value="<%= hash %>" />
     Admin Password: <input type="text" name="password"><br>
     <%= csrf_tag %>

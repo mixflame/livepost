@@ -1,7 +1,7 @@
 <h1>Delete <%= @board_name %></h1>
 
 <div>
-  <form action="/remove_board" method="post">
+  <form id="remove_board" action="/remove_board" method="post">
     <input type="hidden" name="board_name" value="<%= @board_name %>" />
     Password (to delete): <input type="text" name="password"><br>
     <%= csrf_tag %>
