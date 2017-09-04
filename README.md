@@ -14,7 +14,9 @@ Gather with the LivePost developers: irc.rizon.net #livepost
 
 Get Crystal [Crystal](https://crystal-lang.org)
 
-* Install dependencies: ```apt-get install libmongoc-dev mongodb libbson-dev crystal build-essentials```
+* Install dependencies: ```apt-get install libmongoc-dev mongodb libbson-dev crystal build-essentials redis-server```
+
+* Run redis: ```redis-server```
 
 * Run MongoDB: ```mongod```
 
