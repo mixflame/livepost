@@ -37,7 +37,9 @@ function new_message(msg) {
 }
 
 function send_message(handle, msg) {
+  if(window.handle == "" || window.handle == null) return;
   this.pm_channel.push("pm:message", {author: window.handle, handle: handle, message: msg})
+  $(".messages").append("<li class='message'><span class='author'>" + window.handle + "</span>: " + msg + "</li>")
 }
 
 $(".send_message").click(function(){
