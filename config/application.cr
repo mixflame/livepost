@@ -8,7 +8,7 @@ APP_PATH = __FILE__
 #   :secret  => "ANDvuadpv!!!uwap9*Yva98wuaw98euawve"
 # }
 
-Amber::Server.instance.config do |app|
+Amber::Server.configure do |app|
   # Server options
   app_path = __FILE__ # Do not change unless you understand what you are doing.
   app.name = "LivePost web application."

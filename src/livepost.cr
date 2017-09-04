@@ -2,7 +2,6 @@ require "mongo"
 require "amber"
 require "daemonize"
 require "markdown"
-require "amber"
 require "./sockets/**"
 require "./channels/**"
 require "./controllers/**"
@@ -13,11 +12,11 @@ require "./views/**"
 require "../config/*"
 
 
-amber = Amber::Server.instance
+amber = Amber::Server
 
-if amber.env == "production"
+if amber.settings.env == "production"
   puts "production mode. daemonizing."
   Daemonize.daemonize(stdout: "/home/mixflame/livepost/production.log", stderr: "/home/mixflame/livepost/error.log", stdin: "/dev/null")
 end
 
-amber.run
+amber.instance.run

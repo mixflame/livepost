@@ -1,4 +1,4 @@
-Amber::Server.instance.config do |app|
+Amber::Server.configure do |app|
   pipeline :web do
     plug Amber::Pipe::Logger.new
     plug Amber::Pipe::Session.new
@@ -16,18 +16,14 @@ Amber::Server.instance.config do |app|
     plug Amber::Pipe::Logger.new
   end
 
-  socket_endpoint "/chat", UserSocket
-
   routes :api do
     get "/captcha_image", StaticController, :captcha_image
     get "/update_socket_count", BoardController, :update_socket_count
   end
 
   routes :web do
+    websocket "/chat", UserSocket
     get "/b/:slug", StaticController, :slug
-  end
-
-  routes :web do
     get "/", HomeController, :index
     post "/create_board", BoardController, :create_board
     post "/create_post", BoardController, :create_post

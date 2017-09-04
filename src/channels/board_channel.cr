@@ -9,7 +9,7 @@ class BoardChannel < Amber::WebSockets::Channel
   #   UserSocket.broadcast("message", "board_room:connected", "socket:connected", {"connected" => Amber::WebSockets::ClientSockets.client_sockets.size})
   # end
 
-  def handle_message(msg)
+  def handle_message(client_socket, msg)
     p msg
     event = msg["event"]
     topic = msg["topic"]

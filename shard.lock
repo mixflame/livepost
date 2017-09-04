@@ -2,19 +2,51 @@ version: 1.0
 shards:
   amber:
     github: amber-crystal/amber
-    commit: b2e0bda1569e2330684f7da7e9e252c6236f4b51
+    commit: 0bb144064e1e0fe5cdb1a40cdbaed2500739d4c2
+
+  callback:
+    github: mosop/callback
+    version: 0.5.1
+
+  cli:
+    github: mosop/cli
+    version: 0.5.2
 
   daemonize:
     github: DougEverly/daemonize.cr
     commit: 03d7da27fe76ee6b77d47a66984969a308a42027
 
+  db:
+    github: crystal-lang/crystal-db
+    version: 0.4.2
+
+  icr:
+    github: TechMagister/crystal-icr
+    commit: b28bb938cc9e9e439424217c074a9168d253ba4b
+
   kilt:
     github: jeromegn/kilt
     version: 0.3.3
 
+  micrate:
+    github: juanedi/micrate
+    version: 0.3.0
+
   mongo:
     github: datanoise/mongo.cr
     commit: 30117a7c9d3eab81557ad0ae833f7109c4e6cabc
+
+  mysql:
+    github: crystal-lang/crystal-mysql
+    version: 0.3.2
+
+  optarg:
+    github: mosop/optarg
+    version: 0.4.4
+
+  pg:
+    github: will/crystal-pg
+    version: 0.13.3
 
   radix:
     github: luislavena/radix
@@ -24,7 +56,31 @@ shards:
     github: stefanwille/crystal-redis
     version: 1.8.0
 
+  sentry:
+    github: TechMagister/sentry
+    commit: a78129ec1e66aa24c91b93199ea187e4793c8d58
+
+  shell-table:
+    github: jwaldrip/shell-table.cr
+    version: 0.9.1
+
   slang:
     github: jeromegn/slang
     commit: b817c89c7e5ae39562710c0d6c7f42cee685e14f
+
+  spinner:
+    github: elorest/spinner
+    version: 0.1.1
+
+  sqlite3:
+    github: crystal-lang/crystal-sqlite3
+    version: 0.8.2
+
+  string_inflection:
+    github: mosop/string_inflection
+    version: 0.2.1
+
+  teeplate:
+    github: mosop/teeplate
+    version: 0.4.5
 

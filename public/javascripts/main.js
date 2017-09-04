@@ -253,8 +253,6 @@ $("#create-post").submit(function(e) {
     if(e['error']) {
       alert(e['error'])
     }
-    // $("#captcha_image").attr("src", "/captcha_image?" + new Date().getTime());
-    // $("#captcha_response").val("");
     clearCanvas();
   }});
 })
