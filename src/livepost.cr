@@ -16,7 +16,7 @@ amber = Amber::Server
 
 if amber.settings.env == "production"
   puts "production mode. daemonizing."
-  Daemonize.daemonize(stdout: "/home/mixflame/livepost/production.log", stderr: "/home/mixflame/livepost/error.log", stdin: "/dev/null")
+  # Daemonize.daemonize(stdout: "/home/mixflame/livepost/production.log", stderr: "/home/mixflame/livepost/error.log", stdin: "/dev/null")
 end
 
 amber.instance.run
