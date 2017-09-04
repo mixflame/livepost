@@ -190,7 +190,7 @@ class BoardController < ApplicationController
       redis.set(params["board_name"].to_s, params["topic"].to_s)
       "topic changed"
     else
-      "not deleted. invalid password?"
+      "topic not changed. invalid password?"
     end
   end
 end
