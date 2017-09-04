@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
     <link rel="stylesheet" href="/stylesheets/bootstrap-theme.min.css">
     <link rel="stylesheet" href="/stylesheets/main.css" />
+    <link rel="stylesheet" href="/stylesheets/im.css" />
     <script src="/javascripts/jquery.js"></script>
     <script src="/javascripts/bootstrap.min.js"></script>
     <script src="/javascripts/lz-string.js"></script>
@@ -24,6 +25,13 @@
         <nav class="nav">
           <%= render_template "layouts/_nav.ecr" %>
         </nav>
+      </div>
+    </div>
+
+    <div class="container">
+        <div class="im">
+          <%= render_template "layouts/_chat_window.ecr" %>
+        </div>
       </div>
     </div>
 
@@ -52,6 +60,7 @@
 
 
     <script>window.board_name = "<%= @board_name.to_s %>";</script>
+    <script>window.handle = "<%= session[:handle] %>";</script>
     <script src="/javascripts/main.js"></script>
   </body>
 </html>

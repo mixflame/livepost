@@ -1,6 +1,10 @@
 <%- active = context.request.path == "/" ? "active" : "" %>
 <a class="nav-item <%= active %>" href="/">Main</a>
-<a class="nav-item <%= context.request.path == "/register_handle" %>" href="/register_handle">Register your handle</a>
+<% unless session[:handle] %>
+<a class="nav-item <%= context.request.path == "/register_handle" %>" href="/register_handle">Login or Register your handle</a>
+<% else %>
+You're <%= session[:handle] %>
+<% end %>
 <% if active == "" %>
 <a class="nav-item active board-name" href="<%= context.request.path %>"><%= @board_name %></a>
 <% end %>

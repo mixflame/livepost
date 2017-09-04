@@ -11,12 +11,15 @@ socket.connect()
       this.message_channel = socket.channel(`board_room:${window.board_name}`)
       this.home_channel = socket.channel(`board_room:home`)
       this.connected_channel = socket.channel(`board_room:connected`)
+      this.pm_channel = socket.channel(`pm_room:${window.handle}`)
       this.channel.join()
       this.message_channel.join();
       this.home_channel.join();
       this.connected_channel.join();
+      this.pm_channel.join();
       this.channel.on('board:new', (board) => new_board(board))
       this.message_channel.on('post:new', (msg) => new_post(msg))
+      this.pm_channel.on('pm:message', (msg) => new_message(msg))
       this.home_channel.on('post:increment', (board) => increment_posts(board))
       this.connected_channel.on('socket:connected', (socket) => connected_socket(socket))
       this.connected_channel.push('socket:connected', {board: window.board_name}) // i connected
@@ -27,6 +30,21 @@ $(window).on("beforeunload", function (e) {
   this.socket.ws.close();
   // $.get("/update_socket_count", {board: window.board_name});
 });
+
+function new_message(msg) {
+  console.log(msg);
+  $(".messages").append("<li class='message'><span class='author'>" + msg["author"] + "</span>: " + msg["message"] + "</li>")
+}
+
+function send_message(handle, msg) {
+  this.pm_channel.push("pm:message", {author: window.handle, handle: handle, message: msg})
+}
+
+$(".send_message").click(function(){
+  var message = $(".message_input").val();
+  var handle = $(".handle_input").val();
+  send_message(handle, message)
+})
 
 function connected_socket(socket){
   // console.log(socket);

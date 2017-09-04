@@ -29,9 +29,16 @@ class HomeController < ApplicationController
 
     collection = db["handles"]
 
-    if collection.find_one({"name" => params["handle"]}).nil?
+    password = collection.find_one({"$query" => {"name" => {"$eq" => params["handle"]}}})
+    password = password.nil? ? "" : password["password"]
+
+    if collection.find_one({"name" => params["handle"]}).nil? && password == ""
         collection.insert({ "name" => params["handle"], "password" => params["password"]})
+        session[:handle] = params["handle"]
         "registered"
+    elsif !password.nil? && password == params["password"]
+        session[:handle] = params["handle"]
+        "logged in"
     else
         "handle already exists"
     end
