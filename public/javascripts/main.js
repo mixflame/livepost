@@ -32,7 +32,7 @@ $(window).on("beforeunload", function (e) {
 });
 
 function new_message(msg) {
-  console.log(msg);
+  if(msg['author'] == window.handle) return;
   $(".messages").append("<li class='message'><span class='author'>" + msg["author"] + "</span>: " + msg["message"] + "</li>")
 }
 
@@ -40,12 +40,17 @@ function send_message(handle, msg) {
   if(window.handle == "" || window.handle == null) return;
   this.pm_channel.push("pm:message", {author: window.handle, handle: handle, message: msg})
   $(".messages").append("<li class='message'><span class='author'>" + window.handle + "</span>: " + msg + "</li>")
+  $(".message_input").val("");
 }
 
 $(".send_message").click(function(){
   var message = $(".message_input").val();
   var handle = $(".handle_input").val();
   send_message(handle, message)
+})
+
+$('.message_input').keyup(function(e){
+  if(e.which == 13) $(".send_message").click();
 })
 
 function connected_socket(socket){
