@@ -35,12 +35,12 @@ class HomeController < ApplicationController
     if collection.find_one({"name" => params["handle"]}).nil? && password == ""
         collection.insert({ "name" => params["handle"], "password" => params["password"]})
         session[:handle] = params["handle"]
-        "registered"
+        {error: "registered", csrf: csrf_tag}.to_json
     elsif !password.nil? && password == params["password"]
         session[:handle] = params["handle"]
-        "logged in"
+        {error: "logged in", csrf: csrf_tag}.to_json
     else
-        "handle already exists"
+        {error: "handle already exists", csrf: csrf_tag}.to_json
     end
   end
 end

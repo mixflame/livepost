@@ -321,6 +321,21 @@ $("#change_topic").submit(function(e) {
   }});
 });
 
+$("#register_handle").submit(function(e) {
+  e.preventDefault();
+  $.ajax({url: "/register_handle", method: "POST", type: "form", data: $('#register_handle').serialize(), success: function(e){
+    console.log(e)
+    e = JSON.parse(e);
+    $("input[name*=_csrf]").replaceWith(e['csrf']);
+    if(e['error'] != "logged in") {
+      alert(e['error'])
+    } else {
+      alert(e['error'])
+      window.location = "/";
+    }
+  }});
+});
+
 $("#create-post").submit(function(e) {
   e.preventDefault();
   // if(!checkBlankPassword()) return;
