@@ -14,7 +14,7 @@ use_shards = File.file? 'shard.yml'
 puts "installing shards"
 if use_shards
   # update gem bundle
-  run "shards install"
+  run "shards update"
 end
 
 puts "building app"
