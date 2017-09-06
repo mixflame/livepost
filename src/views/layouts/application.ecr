@@ -28,11 +28,13 @@
       </div>
     </div>
 
-    <div class="container">
-      <div class="im">
-        <%= render_template "layouts/_chat_window.ecr" %>
+    <% if session[:handle] != "" && !session[:handle].nil? %>
+      <div class="container">
+        <div class="im">
+          <%= render_template "layouts/_chat_window.ecr" %>
+        </div>
       </div>
-    </div>
+    <% end %>
 
     <div class="container" style="padding-bottom: 70px">
       <div class="row">
