@@ -21,7 +21,12 @@ class PmChannel < Amber::WebSockets::Channel
       collection = db["handles"]
       handle_exists = collection.count({"name" => {"$eq" => msg["payload"]["handle"].to_s}}) > 0
       if handle_exists
-        UserSocket.broadcast("pm:message", "pm_room:#{handle}", "pm:message", {"message" => msg["payload"]["message"], "author" => msg["payload"]["author"]})
+        connected = Amber::WebSockets::ClientSockets.get_subscribers_for_topic("pm_room:#{handle}").size > 0
+        if connected
+          UserSocket.broadcast("pm:message", "pm_room:#{handle}", "pm:message", {"message" => msg["payload"]["message"], "author" => msg["payload"]["author"]})
+        else
+          UserSocket.broadcast("pm:message", "pm_room:#{msg["payload"]["author"]}", "pm:message", {"message" => "#{handle} is not online.", "author" => "system"})
+        end
       else
         UserSocket.broadcast("pm:message", "pm_room:#{msg["payload"]["author"]}", "pm:message", {"message" => "Specified handle does not exist.", "author" => "system"})
       end
