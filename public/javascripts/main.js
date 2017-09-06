@@ -48,7 +48,8 @@ function send_message(handle, msg) {
 $(".send_message").click(function(){
   var message = $(".message_input").val();
   var handle = $(".handle_input").val();
-  send_message(handle, message)
+  if(handle != "" && message != "")
+    send_message(handle, message);
 })
 
 $('.message_input').keyup(function(e){

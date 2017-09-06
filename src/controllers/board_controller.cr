@@ -185,7 +185,7 @@ class BoardController < ApplicationController
     password = collection.find_one({"$query" => {"name" => {"$eq" => params["board_name"]}}})
     password = password.nil? || !password.has_key?("password") ? "" : password["password"]
 
-    if password == "" || params["password"] == password || password == ENV["LIVEPOST_PASSWORD"]
+    if password == "" || params["password"] == password || password == ENV["LIVEPOST"]
       redis = Redis.new
       redis.set(params["board_name"].to_s, params["topic"].to_s)
       {error: "topic changed", csrf: csrf_tag}.to_json
