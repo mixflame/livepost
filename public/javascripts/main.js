@@ -34,6 +34,7 @@ $(window).on("beforeunload", function (e) {
 function new_message(msg) {
   if(msg['author'] == window.handle) return;
   $(".messages").append("<li class='message'><span class='author'>" + msg["author"] + "</span>: " + msg["message"] + "</li>")
+  $('.messages').scrollTop($('.messages')[0].scrollHeight);
 }
 
 function send_message(handle, msg) {
@@ -41,6 +42,7 @@ function send_message(handle, msg) {
   this.pm_channel.push("pm:message", {author: window.handle, handle: handle, message: msg})
   $(".messages").append("<li class='message'><span class='author'>" + window.handle + "</span>: " + msg + "</li>")
   $(".message_input").val("");
+  $('.messages').scrollTop($('.messages')[0].scrollHeight);
 }
 
 $(".send_message").click(function(){
