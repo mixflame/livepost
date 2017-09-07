@@ -17,8 +17,8 @@ Amber::Server.configure do |app|
   end
 
   routes :api do
-    get "/captcha_image", StaticController, :captcha_image
     get "/update_socket_count", BoardController, :update_socket_count
+    get "/handles", BoardController, :handles
   end
 
   routes :web do

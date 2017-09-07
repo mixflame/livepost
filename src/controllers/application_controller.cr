@@ -20,21 +20,4 @@ class ApplicationController < Amber::Controller::Base
       puts "BANNED ip hash just tried connecting. connection closed."
     end
   end
-
-  def check_captcha
-    if !params.has_key?("captcha_response")
-      raise "botting"
-      # response.close
-      puts "no recaptcha response... connection closed."
-      return
-    end
-    p "hash response: #{OpenSSL::Digest.new("SHA256").update(params["captcha_response"])}"
-    p "captcha_key: #{cookies["captcha_key"].to_s}"
-    bot = OpenSSL::Digest.new("SHA256").update(params["captcha_response"].downcase).to_s != cookies["captcha_key"].to_s
-    if bot
-      raise "botting"
-      # response.close
-      puts "attempted botting... connection closed."
-    end
-  end
 end

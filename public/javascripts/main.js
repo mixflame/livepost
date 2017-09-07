@@ -401,6 +401,12 @@ $(document).ready(function(){
     $(e).html(stripCombiningMarks($(e).html()))
   });
   load_embedded_data();
+  // load handles
+  $.getJSON("/handles", function(handles){
+    $(".handle_input").autocomplete({
+      source: handles
+    });
+  })
 })
 
 function load_embedded_data(){

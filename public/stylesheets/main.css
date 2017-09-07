@@ -95,3 +95,13 @@ p.comment-text {
 div#topic_form {
   background-color: #dddddd;
 }
+
+.ui-front {
+  z-index: 1001;
+  background-color: #eee;
+  width: 300px;
+}
+
+li.ui-menu-item {
+  list-style-type: none;
+}
