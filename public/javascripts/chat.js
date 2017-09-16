@@ -18,6 +18,7 @@ function new_msg(msg) {
   if(msg["author"] == "")
     msg["author"] = "anonymous"
   $("#messages").append("<li class='message'>" + msg["author"] + " > " + msg["message"] + "</li>")
+  $('#messages').scrollTop($('#messages')[0].scrollHeight);
 }
 
 function handle_join(handle) {
