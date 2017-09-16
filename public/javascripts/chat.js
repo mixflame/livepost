@@ -21,9 +21,15 @@ function new_msg(msg) {
 }
 
 function handle_join(handle) {
+  var already_exists;
   if(handle["handle"] == "")
     handle["handle"] = "anonymous"
-  $("#users").append("<li class='user'>" + handle["handle"] + "</li>")
+  $("#users").each(function(i, e){
+    if($(e).html() == handle["handle"] && $(e).html != "anonymous")
+      already_exists = true;
+  })
+  if(already_exists != true)
+    $("#users").append("<li class='user'>" + handle["handle"] + "</li>")
 }
 
 function handle_leave(handle) {

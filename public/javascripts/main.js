@@ -476,7 +476,6 @@ function notifyMe(msg) {
 
 
 $("#show-pm-window").change(function(){
-  console.log("changed")
   var show_pm_window = $("#show-pm-window").is(":checked");
   localStorage.setItem("show-pm-window", show_pm_window);
   if(show_pm_window == true) {
