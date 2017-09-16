@@ -9,6 +9,7 @@ chat_socket.connect()
       this.chat_channel.join()
       this.chat_channel.on('message:new', (msg) => new_msg(msg))
       this.chat_channel.on('handle:join', (handle) => handle_join(handle))
+      this.chat_channel.on('handle:leave', (handle) => handle_leave(handle))
       this.chat_channel.push('handle:join', {handle: window.handle})
       // notifyMe("") // enable notifications (no msg)
 })
@@ -25,6 +26,12 @@ function handle_join(handle) {
   $("#users").append("<li class='user'>" + handle["handle"] + "</li>")
 }
 
+function handle_leave(handle) {
+  if(handle["handle"] == "")
+    handle["handle"] = "anonymous"
+  $("#users li").each(function(i, el) { if($(el).html() == handle["handle"]) { $(el).remove(); return false; } })
+}
+
 $("#send-message").submit(function(e) {
   e.preventDefault();
   var msg = $("#message").val();
@@ -36,3 +43,10 @@ $("#send-message").submit(function(e) {
   }
   });
 });
+
+function unload(e) {
+  this.chat_channel.push('handle:leave', {handle: window.handle})
+}
+
+window.onbeforeunload = unload;
+window.addEventListener("beforeunload", handler);
