@@ -1,5 +1,4 @@
 class HomeController < ApplicationController
-
   def index
     puts context.session.to_h
     client = Mongo::Client.new "mongodb://localhost:27017/livepost"
@@ -32,15 +31,16 @@ class HomeController < ApplicationController
     password = collection.find_one({"$query" => {"name" => {"$eq" => params["handle"]}}})
     password = password.nil? ? "" : password["password"]
 
+    response.content_type = "text/json"
     if collection.find_one({"name" => params["handle"]}).nil? && password == ""
-        collection.insert({ "name" => params["handle"], "password" => params["password"]})
-        session[:handle] = params["handle"]
-        {error: "registered", csrf: csrf_tag}.to_json
+      collection.insert({"name" => params["handle"], "password" => params["password"]})
+      session[:handle] = params["handle"]
+      {error: "registered", csrf: csrf_tag}.to_json
     elsif !password.nil? && password == params["password"]
-        session[:handle] = params["handle"]
-        {error: "logged in", csrf: csrf_tag}.to_json
+      session[:handle] = params["handle"]
+      {error: "logged in", csrf: csrf_tag}.to_json
     else
-        {error: "handle already exists", csrf: csrf_tag}.to_json
+      {error: "handle already exists", csrf: csrf_tag}.to_json
     end
   end
 end

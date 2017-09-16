@@ -28,7 +28,7 @@ socket.connect()
 
 $(window).on("beforeunload", function (e) {
   this.socket.ws.close();
-  // $.get("/update_socket_count", {board: window.board_name});
+  $.get("/update_socket_count", {board: window.board_name});
 });
 
 function new_message(msg) {
@@ -250,7 +250,6 @@ $("#scale, #transform").mousemove(updateCanvas);
 $("#remove_board").submit(function(e) {
   e.preventDefault();
   $.ajax({url: "/remove_board", method: "POST", type: "form", data: $('#remove_board').serialize(), success: function(e){
-    e = JSON.parse(e);
     console.log(e)
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error'] != "deleted") {
@@ -265,7 +264,6 @@ $("#remove_board").submit(function(e) {
 $("#remove_post").submit(function(e) {
   e.preventDefault();
   $.ajax({url: "/remove_post", method: "POST", type: "form", data: $('#remove_post').serialize(), success: function(e){
-    e = JSON.parse(e);
     console.log(e)
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error'] != "deleted") {
@@ -280,8 +278,6 @@ $("#remove_post").submit(function(e) {
 $("#ban_hash").submit(function(e) {
   e.preventDefault();
   $.ajax({url: "/ban_hash", method: "POST", type: "form", data: $('#ban_hash').serialize(), success: function(e){
-    e = JSON.parse(e);
-    console.log(e)
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error'] != "banned") {
       alert(e['error'])
@@ -295,8 +291,6 @@ $("#ban_hash").submit(function(e) {
 $("#unban_hash").submit(function(e) {
   e.preventDefault();
   $.ajax({url: "/unban_hash", method: "POST", type: "form", data: $('#unban_hash').serialize(), success: function(e){
-    console.log(e)
-    e = JSON.parse(e);
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error'] != "unbanned") {
       alert(e['error'])
@@ -310,8 +304,6 @@ $("#unban_hash").submit(function(e) {
 $("#change_topic").submit(function(e) {
   e.preventDefault();
   $.ajax({url: "/change_topic", method: "POST", type: "form", data: $('#change_topic').serialize(), success: function(e){
-    console.log(e)
-    e = JSON.parse(e);
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error'] != 'topic changed') {
       alert(e['error'])
@@ -327,8 +319,6 @@ $("#change_topic").submit(function(e) {
 $("#register_handle").submit(function(e) {
   e.preventDefault();
   $.ajax({url: "/register_handle", method: "POST", type: "form", data: $('#register_handle').serialize(), success: function(e){
-    console.log(e)
-    e = JSON.parse(e);
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error'] != "logged in") {
       alert(e['error'])
@@ -369,7 +359,6 @@ $("#create-post").submit(function(e) {
     return;
   }
   $.ajax({url: "/create_post", method: "POST", type: "form", data: $('#create-post').serialize() + "&image=" + image_string, success: function(e){
-    e = JSON.parse(e);
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error']) {
       alert(e['error'])

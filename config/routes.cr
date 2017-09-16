@@ -38,6 +38,8 @@ Amber::Server.configure do |app|
     post "/change_topic", BoardController, :change_topic
     get "/register_handle", HomeController, :register_handle
     post "/register_handle", HomeController, :register_handle_post
+    get "/chatroom", ChatController, :chatroom
+    post "/send_message", ChatController, :send_message
   end
 
   routes :static do
