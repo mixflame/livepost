@@ -49,4 +49,4 @@ function unload(e) {
 }
 
 window.onbeforeunload = unload;
-window.addEventListener("beforeunload", handler);
+window.addEventListener("beforeunload", unload);

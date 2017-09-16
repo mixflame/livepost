@@ -1,6 +1,9 @@
 class ChatController < ApplicationController
   def chatroom
     @board_name = ""
+    client = Mongo::Client.new "mongodb://localhost:27017/livepost"
+    db = client["live_post"]
+    collection = db["online_nicks"]
     render("chatroom.ecr")
   end
 
