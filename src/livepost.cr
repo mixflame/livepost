@@ -11,6 +11,12 @@ require "./models/**"
 require "./views/**"
 require "../config/*"
 
+# reset online handles (or they will stick)
+client = Mongo::Client.new "mongodb://localhost:27017/livepost"
+db = client["live_post"]
+collection = db["online_nicks"]
+collection.remove({"name" => {"$ne" => ""}})
+
 amber = Amber::Server
 
 if amber.settings.env == "production"
