@@ -1,0 +1,13 @@
+<ul id="messages" style="width: 100%; height: 100%; overflow: auto;">
+</ul>
+
+
+<div class="navbar-fixed-bottom">
+  <form id="send-message" action="/send_message" method="post">
+    <input style="width: 100%;" type="text" id="message" name="message" />
+    <%= csrf_tag %>
+  </form>
+</div>
+
+
+<script src="/javascripts/chat.js"></script>
