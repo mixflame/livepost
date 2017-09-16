@@ -5870,14 +5870,14 @@ $.widget( "ui.autocomplete", {
       }
     } );
 
-    this.liveRegion = $( "<div>", {
-      role: "status",
-      "aria-live": "assertive",
-      "aria-relevant": "additions"
-    } )
-      .appendTo( this.document[ 0 ].body );
+    // this.liveRegion = $( "<div>", {
+    //   role: "status",
+    //   "aria-live": "assertive",
+    //   "aria-relevant": "additions"
+    // } )
+    //   .appendTo( this.document[ 0 ].body );
 
-    this._addClass( this.liveRegion, null, "ui-helper-hidden-accessible" );
+    // this._addClass( this.liveRegion, null, "ui-helper-hidden-accessible" );
 
     // Turning off autocomplete prevents the browser from remembering the
     // value when navigating through history, so we re-enable autocomplete

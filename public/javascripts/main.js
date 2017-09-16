@@ -486,7 +486,7 @@ $("#show-pm-window").change(function(){
   }
 })
 
-$(document).on("ready", function(){
+$(document).ready(function(){
   var show_pm_window = JSON.parse(localStorage.getItem("show-pm-window"));
   if(show_pm_window == null) {
     show_pm_window = true;
