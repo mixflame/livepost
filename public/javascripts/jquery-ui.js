@@ -6227,9 +6227,11 @@ $.widget( "ui.autocomplete", $.ui.autocomplete, {
       return;
     }
     if ( content && content.length ) {
-      message = this.options.messages.results( content.length );
+      // message = this.options.messages.results( content.length );
+      return false;
     } else {
-      message = this.options.messages.noResults;
+      // message = this.options.messages.noResults;
+      return false;
     }
     this.liveRegion.children().hide();
     $( "<div>" ).text( message ).appendTo( this.liveRegion );

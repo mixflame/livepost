@@ -473,3 +473,29 @@ function notifyMe(msg) {
   // At last, if the user has denied notifications, and you
   // want to be respectful there is no need to bother them any more.
 }
+
+
+$("#show-pm-window").change(function(){
+  console.log("changed")
+  var show_pm_window = $("#show-pm-window").is(":checked");
+  localStorage.setItem("show-pm-window", show_pm_window);
+  if(show_pm_window == true) {
+    $(".chat_window").show()
+  } else if(show_pm_window == false) {
+    $(".chat_window").hide()
+  }
+})
+
+$(document).on("ready", function(){
+  var show_pm_window = JSON.parse(localStorage.getItem("show-pm-window"));
+  if(show_pm_window == null) {
+    show_pm_window = true;
+    localStorage.setItem("show-pm-window", show_pm_window);
+    $(".chat_window").show()
+  } else if(show_pm_window == true) {
+    $(".chat_window").show()
+  } else if(show_pm_window == false) {
+    $(".chat_window").hide()
+  }
+  $("#show-pm-window").prop("checked", show_pm_window);
+})
