@@ -12,7 +12,9 @@ chat_socket.connect()
 })
 
 function new_msg(msg) {
-  $("#messages").append("<li class='message'>" + msg["author"] + "> " + msg["message"] + "</li>")
+  if(msg["author"] == "")
+    msg["author"] = "anonymous"
+  $("#messages").append("<li class='message'>" + msg["author"] + " > " + msg["message"] + "</li>")
 }
 
 $("#send-message").submit(function(e) {

@@ -5,7 +5,6 @@ class ChatController < ApplicationController
   end
 
   def send_message
-    author = session[:handle].nil? ? "anonymous" : session[:handle]
     UserSocket.broadcast("message", "chat_room:chat", "message:new", {:author => HTML.escape(session[:handle].to_s), :message => HTML.escape(params["message"])})
     response.content_type = "text/json"
     {error: "Success", csrf: csrf_tag}.to_json
