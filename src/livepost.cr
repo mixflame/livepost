@@ -1,3 +1,6 @@
+# LivePost by Jonathan Silverman aka Anya Summer Meadow
+# For Seminole, For Osage, For Arapahoe, For Dylan, For Jessie, For Rachel. For Life. To the bitter end. Amen.
+
 require "mongo"
 require "amber"
 require "daemonize"
