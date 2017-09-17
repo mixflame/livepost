@@ -58,6 +58,7 @@ $(document).ready(function(){
     replace_links($(e));
     replace_emojis($(e));
   })
+  $('#messages').scrollTop($('#messages')[0].scrollHeight);
 })
 
 function replace_links(message_text) {
