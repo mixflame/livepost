@@ -18,6 +18,7 @@ function new_msg(msg) {
   if(msg["author"] == "")
     msg["author"] = "anonymous"
   $("#messages").append("<li class='message'>" + msg["author"] + " > " + msg["message"] + "</li>")
+  replace_links($(".message").last());
   $('#messages').scrollTop($('#messages')[0].scrollHeight);
 }
 
@@ -50,6 +51,15 @@ $("#send-message").submit(function(e) {
   }
   });
 });
+
+function replace_links(message_text) {
+  var matches = message_text.html().match(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/)
+  $(matches).each(function(i, url) {
+    var already_linked = $(".message > a[href='" + url + "']").length > 0;
+    if(!already_linked)
+      message_text.html(message_text.html().replace(url, "<a target='_blank' href='" + url + "'>" + url + "</a>"))
+  })
+}
 
 function unload(e) {
   this.chat_channel.push('handle:leave', {handle: window.handle})
