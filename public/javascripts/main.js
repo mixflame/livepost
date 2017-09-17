@@ -431,7 +431,8 @@ function load_embedded_one_post(message_text) {
 
 function replace_emojis(message_text) {
   // <i class="em em-some-emoji"></i>
-  var matches = message_text.html().match(/(?:^|\s)(:.+:)(?=\s|$)/g)
+  var matches = message_text.html().match(/(?:^|\s)(:[a-zA-Z]+:)(?=\s|$)/g)
+  console.log(matches)
   if(matches == null)
       return false;
   for (i=0; i<matches.length; i++) {
@@ -442,7 +443,7 @@ function replace_emojis(message_text) {
 
 function load_emojis() {
   $("p").each(function(i, e){
-    var matches = $(e).html().match(/(?:^|\s)(:.+:)(?=\s|$)/g)
+    var matches = $(e).html().match(/(?:^|\s)(:[a-zA-Z]+:)(?=\s|$)/g)
     $(matches).each(function(i, emoji) {
       emoji = emoji.replace(/ /g, "")
       $(e).html($(e).html().replace(emoji, "<i class='em em-" + emoji.replace(/:/g, "").replace(/ /g, "_") + "'></i>"))
