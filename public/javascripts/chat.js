@@ -53,6 +53,13 @@ $("#send-message").submit(function(e) {
   });
 });
 
+$(document).ready(function(){
+  $(".message").each(function(i, e){
+    replace_links($(e));
+    replace_emojis($(e));
+  })
+})
+
 function replace_links(message_text) {
   var matches = message_text.html().match(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/)
   $(matches).each(function(i, url) {
