@@ -9,4 +9,6 @@ You're <%= session[:handle] %>
 <a class="nav-item active board-name" href="<%= context.request.path %>"><%= @board_name.to_s %></a>
 <% end %>
 <a class="nav-item <%= context.request.path == "/chatroom" ? "active" : "" %>" href="/chatroom">Chatroom</a>
-Show PM Window: <input type="checkbox" id="show-pm-window">
+<% if session[:handle] != "" && !session[:handle].nil? %>
+  Show PM Window: <input type="checkbox" id="show-pm-window">
+<% end %>

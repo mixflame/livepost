@@ -33,29 +33,31 @@ $(window).on("beforeunload", function (e) {
 
 function new_message(msg) {
   if(msg['author'] == window.handle) return;
-  $(".messages").append("<li class='message'><span class='author'>" + msg["author"] + "</span>: " + msg["message"] + "</li>")
+  $(".messages").append("<p class='message'><span class='author'>" + msg["author"] + "</span>: " + msg["message"] + "</p>")
   replace_emojis($(".messages > .message").last());
+  load_embedded_one_post($(".messages > .message").last())
   $('.messages').scrollTop($('.messages')[0].scrollHeight);
 }
 
 function send_message(handle, msg) {
   if(window.handle == "" || window.handle == null) return;
   this.pm_channel.push("pm:message", {author: window.handle, handle: handle, message: msg})
-  $(".messages").append("<li class='message'><span class='author'>" + window.handle + "</span>: " + msg + "</li>")
-  replace_emojis($(".messages > .message").last());$
-  (".message_input").val("");
-  $('.messages').scrollTop($('.messages')[0].scrollHeight);
+  $(".messages").append("<p class='message'><span class='author'>" + window.handle + "</span>: " + msg + "</p>")
+  replace_emojis($(".messages > .message").last())
+  load_embedded_one_post($(".messages > .message").last())
+  $(".message_input").val("")
+  $('.messages').scrollTop($('.messages')[0].scrollHeight)
 }
 
 $(".send_message").click(function(){
-  var message = $(".message_input").val();
-  var handle = $(".handle_input").val();
+  var message = $(".message_input").val()
+  var handle = $(".handle_input").val()
   if(handle != "" && message != "")
-    send_message(handle, message);
+    send_message(handle, message)
 })
 
 $('.message_input').keyup(function(e){
-  if(e.which == 13) $(".send_message").click();
+  if(e.which == 13) $(".send_message").click()
 })
 
 function connected_socket(socket){
@@ -406,9 +408,9 @@ $(document).ready(function(){
 function load_embedded_data(){
   $("p").each(function(i, e){
     var matches = $(e).html().match(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/)
-    // console.log(matches);
+    if(matches == null)
+      return false;
     $(matches).each(function(i, url) {
-      // $.getJSON("https://noembed.com/embed?url=" + url, function(data) { $(e).html($(e).html().replace(url, data["html"])) })
       var already_linked = $(e).find("a[href='" + url + "']").length > 0;
       if(!already_linked)
         $(e).html($(e).html().replace(url, "<a target='_blank' href='" + url + "'>" + url + "</a>"))
@@ -416,10 +418,22 @@ function load_embedded_data(){
   });
 }
 
+function load_embedded_one_post(message_text) {
+    var matches = $(message_text).html().match(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/)
+    if(matches == null)
+      return false;
+    $(matches).each(function(i, url) {
+      var already_linked = $(message_text).find("a[href='" + url + "']").length > 0;
+      if(!already_linked)
+        $(message_text).html($(message_text).html().replace(url, "<a target='_blank' href='" + url + "'>" + url + "</a>"))
+    })
+}
+
 function replace_emojis(message_text) {
   // <i class="em em-some-emoji"></i>
   var matches = message_text.html().match(/(?:^|\s)(:.+:)(?=\s|$)/g)
-  console.log(matches)
+  if(matches == null)
+      return false;
   for (i=0; i<matches.length; i++) {
     var emoji = matches[i].replace(/ /g, "")
     message_text.html(message_text.html().replace(emoji, "<i class='em em-" + emoji.replace(/:/g, "").replace(/ /g, "_") + "'></i>"))

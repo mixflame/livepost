@@ -105,3 +105,7 @@ div#topic_form {
 li.ui-menu-item {
   list-style-type: none;
 }
+
+div.messages > p.message {
+  padding-left: 20px;
+}
