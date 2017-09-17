@@ -19,6 +19,7 @@ function new_msg(msg) {
     msg["author"] = "anonymous"
   $("#messages").append("<li class='message'>" + msg["author"] + " > " + msg["message"] + "</li>")
   replace_links($(".message").last());
+  replace_emojis($(".message").last());
   $('#messages').scrollTop($('#messages')[0].scrollHeight);
 }
 

@@ -34,6 +34,7 @@ $(window).on("beforeunload", function (e) {
 function new_message(msg) {
   if(msg['author'] == window.handle) return;
   $(".messages").append("<li class='message'><span class='author'>" + msg["author"] + "</span>: " + msg["message"] + "</li>")
+  replace_emojis($(".messages > .message").last());
   $('.messages').scrollTop($('.messages')[0].scrollHeight);
 }
 
@@ -41,7 +42,8 @@ function send_message(handle, msg) {
   if(window.handle == "" || window.handle == null) return;
   this.pm_channel.push("pm:message", {author: window.handle, handle: handle, message: msg})
   $(".messages").append("<li class='message'><span class='author'>" + window.handle + "</span>: " + msg + "</li>")
-  $(".message_input").val("");
+  replace_emojis($(".messages > .message").last());$
+  (".message_input").val("");
   $('.messages').scrollTop($('.messages')[0].scrollHeight);
 }
 
@@ -108,8 +110,10 @@ function new_post(msg){
     }
   }
   embed_media();
+  load_emojis();
   $("#post-list > .post").first().append("<div class='comment'><p class='comment-text'>" + msg['message'] + " - " + msg['author'] + " <a href='/delete_post?board_name=" + msg["board"] + "&message=" + msg["message"] +"'>delete</a></p></div>")
-  load_embedded_one_post($(".comment-text").first());
+  replace_emojis($($(".comment > p")[1]));
+  load_embedded_data();
   // board screen new message post ding
   if($('textarea').val() != htmlDecode(msg['message'])){
     var should_ding = localStorage.getItem("ding");
@@ -374,6 +378,7 @@ $("#author").change(function(e){
 $(document).ready(function(){
   $("#author").val(localStorage.getItem("author") || "anonymous")
   embed_media();
+  load_emojis();
   var ding = localStorage.getItem("ding");
   if(ding == null) {
     ding = true;
@@ -400,26 +405,35 @@ $(document).ready(function(){
 
 function load_embedded_data(){
   $("p").each(function(i, e){
-    // console.log($(e).html());
     var matches = $(e).html().match(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/)
     // console.log(matches);
     $(matches).each(function(i, url) {
       // $.getJSON("https://noembed.com/embed?url=" + url, function(data) { $(e).html($(e).html().replace(url, data["html"])) })
-      var already_linked = $(".comment-text > a[href='" + url + "']").length > 0;
+      var already_linked = $(e).find("a[href='" + url + "']").length > 0;
       if(!already_linked)
         $(e).html($(e).html().replace(url, "<a target='_blank' href='" + url + "'>" + url + "</a>"))
     })
   });
 }
 
-function load_embedded_one_post(comment_text) {
-  var matches = comment_text.html().match(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/)
-  $(matches).each(function(i, url) {
-    // $.getJSON("https://noembed.com/embed?url=" + url, function(data) { comment_text.html(comment_text.html().replace(url, data["html"])) })
-    var already_linked = $(".comment-text > a[href='" + url + "']").length > 0;
-    if(!already_linked)
-      comment_text.html(comment_text.html().replace(url, "<a target='_blank' href='" + url + "'>" + url + "</a>"))
-  })
+function replace_emojis(message_text) {
+  // <i class="em em-some-emoji"></i>
+  var matches = message_text.html().match(/(?:^|\s)(:.+:)(?=\s|$)/g)
+  console.log(matches)
+  for (i=0; i<matches.length; i++) {
+    var emoji = matches[i].replace(/ /g, "")
+    message_text.html(message_text.html().replace(emoji, "<i class='em em-" + emoji.replace(/:/g, "").replace(/ /g, "_") + "'></i>"))
+  }
+}
+
+function load_emojis() {
+  $("p").each(function(i, e){
+    var matches = $(e).html().match(/(?:^|\s)(:.+:)(?=\s|$)/g)
+    $(matches).each(function(i, emoji) {
+      emoji = emoji.replace(/ /g, "")
+      $(e).html($(e).html().replace(emoji, "<i class='em em-" + emoji.replace(/:/g, "").replace(/ /g, "_") + "'></i>"))
+    })
+  });
 }
 
 function createImage(e) {
