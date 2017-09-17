@@ -9,25 +9,17 @@ class ChatChannel < Amber::WebSockets::Channel
     event = message["event"]
     topic = message["topic"]
     subject = message["subject"]
+    client = Mongo::Client.new "mongodb://localhost:27017/livepost"
+    db = client["live_post"]
+    collection = db["online_nicks"]
     puts message.inspect
     if subject == "handle:join"
-      client = Mongo::Client.new "mongodb://localhost:27017/livepost"
-      db = client["live_post"]
-
-      collection = db["online_nicks"]
-
       nickname = collection.find_one({"$query" => {"name" => {"$eq" => message["payload"]["handle"].to_s}}})
-
       if nickname.nil? && message["payload"]["handle"].to_s != ""
         collection.insert({"name" => message["payload"]["handle"].to_s})
       end
     elsif subject == "handle:leave"
-      client = Mongo::Client.new "mongodb://localhost:27017/livepost"
-      db = client["live_post"]
-
-      collection = db["online_nicks"]
       nickname = collection.find_one({"$query" => {"name" => {"$eq" => message["payload"]["handle"].to_s}}})
-
       if !nickname.nil? && message["payload"]["handle"].to_s != ""
         collection.remove({"name" => message["payload"]["handle"].to_s})
       end
