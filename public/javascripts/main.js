@@ -409,25 +409,25 @@ function load_embedded_data(){
   $(".comment-text > p").each(function(i, e){
     var matches = $(e).html().match(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/)
     console.log($(e).html())
-    if(matches == null)
-      return false;
+    if(matches != null) {
     $(matches).each(function(i, url) {
       var already_linked = $(e).find("a[href='" + url + "']").length > 0;
       if(!already_linked)
         $(e).html($(e).html().replace(url, "<a target='_blank' href='" + url + "'>" + url + "</a>"))
     })
+  }
   });
 }
 
 function load_embedded_one_post(message_text) {
     var matches = $(message_text).html().match(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/)
-    if(matches == null)
-      return false;
-    $(matches).each(function(i, url) {
-      var already_linked = $(message_text).find("a[href='" + url + "']").length > 0;
-      if(!already_linked)
-        $(message_text).html($(message_text).html().replace(url, "<a target='_blank' href='" + url + "'>" + url + "</a>"))
-    })
+    if(matches != null){
+        $(matches).each(function(i, url) {
+          var already_linked = $(message_text).find("a[href='" + url + "']").length > 0;
+          if(!already_linked)
+            $(message_text).html($(message_text).html().replace(url, "<a target='_blank' href='" + url + "'>" + url + "</a>"))
+        })
+      }
 }
 
 function replace_emojis(message_text) {
