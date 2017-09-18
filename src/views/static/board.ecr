@@ -1,7 +1,7 @@
-<div class="card">
-  <div class="card-block">
+<div class="panel panel-default">
+  <div class="panel-body">
     <h1 class="board-name"><%= HTML.escape(@board_name.to_s) %></h1>
-    <h2 id="topic_holder"><%= topic %></h2>
+    <h3 id="topic_holder"><%= topic %></h3>
     <p id="board-connected"><%= Amber::WebSockets::ClientSockets.get_subscribers_for_topic("board_room:#{@board_name.to_s}").size %> connected</p>
     Ding: <input type="checkbox" id="ding" />
     <div id="topic_form">
@@ -16,8 +16,8 @@
   </div>
 </div>
 
-<div class="card">
-  <div class="card-block">
+<div class="panel panel-default">
+  <div class="panel-body">
     <form id="create-post" action="/create_post" method="post">
       <input type="hidden" name="board_name" value="<%= @board_name %>" />
       Image: <input type="file" name="image" id="image" />
@@ -34,24 +34,26 @@
   </div>
 </div>
 
-<div>
-  <h3>Posts</h3>
-  <div id="post-list">
-    <%- collection.find({"$query" => {"name" => {"$eq" => @board_name}}, "$orderby" => {"_id" => -1}}) do |post| %>
-        <div class="post">
-          <% image = post["image"].to_s rescue "" %>
-          <% if image != "Q" && image != "" && image != "CYQwLiBcA0Q" %>
-            <p class="image"><img data-src="<%= image %>" /></p>
-          <% end %>
-          <div class="comment">
-            <p class="comment-text"><%= post["message"].to_s[0..2000] %> - <%= post["author"].to_s.blank? ? "anonymous" : post["author"].to_s %>
-            <a href='/delete_post?board_name=<%= URI.escape(post["name"].to_s) %>&id=<%= URI.escape(post["_id"].to_s) %>'>delete</a>
-            <% if post.has_key?("ip_hash") %>
-              <a href='/ban_hash?hash=<%= post["ip_hash"].to_s %>'>ban this liveposter</a>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h3>Posts</h3>
+    <div id="post-list">
+      <%- collection.find({"$query" => {"name" => {"$eq" => @board_name}}, "$orderby" => {"_id" => -1}}) do |post| %>
+          <div class="post">
+            <% image = post["image"].to_s rescue "" %>
+            <% if image != "Q" && image != "" && image != "CYQwLiBcA0Q" %>
+              <p class="image"><img data-src="<%= image %>" /></p>
             <% end %>
-            </p>
+            <div class="comment">
+              <p class="comment-text"><%= post["message"].to_s[0..2000] %> - <%= post["author"].to_s.blank? ? "anonymous" : post["author"].to_s %>
+              <a href='/delete_post?board_name=<%= URI.escape(post["name"].to_s) %>&id=<%= URI.escape(post["_id"].to_s) %>'>delete</a>
+              <% if post.has_key?("ip_hash") %>
+                <a href='/ban_hash?hash=<%= post["ip_hash"].to_s %>'>ban this liveposter</a>
+              <% end %>
+              </p>
+            </div>
           </div>
-        </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>

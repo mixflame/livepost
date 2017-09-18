@@ -92,10 +92,6 @@ p.comment-text {
   overflow: hidden;
 }
 
-div#topic_form {
-  background-color: #dddddd;
-}
-
 .ui-front {
   z-index: 1001;
   background-color: #eee;
@@ -108,4 +104,8 @@ li.ui-menu-item {
 
 div.messages > p.message {
   padding-left: 20px;
+}
+
+#topic_holder {
+  display: inline;
 }

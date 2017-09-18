@@ -1,9 +1,11 @@
-<div>
-  <p>Register your handle or login</p>
-  <form id="register_handle" action="/register_handle" method="post">
-    Handle: <input type="text" id="handle" name="handle"><br>
-    Password: <input id="password" type="text" name="password"><br>
-    <%= csrf_tag %>
-    <input type="submit" value="Submit"/>
-  </form>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <p>Register your handle or login</p>
+    <form id="register_handle" action="/register_handle" method="post">
+      Handle: <input type="text" id="handle" name="handle"><br>
+      Password: <input id="password" type="text" name="password"><br>
+      <%= csrf_tag %>
+      <input type="submit" value="Submit"/>
+    </form>
+  </div>
 </div>
