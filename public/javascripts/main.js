@@ -431,9 +431,7 @@ function load_embedded_one_post(message_text) {
 }
 
 function replace_emojis(message_text) {
-  // <i class="em em-some-emoji"></i>
   var matches = message_text.html().match(/(?:^|\s)(:[a-zA-Z]+:)(?=\s|$)/g)
-  console.log(matches)
   if(matches == null)
       return false;
   for (i=0; i<matches.length; i++) {
