@@ -406,8 +406,9 @@ $(document).ready(function(){
 })
 
 function load_embedded_data(){
-  $("p").each(function(i, e){
+  $(".comment-text > p").each(function(i, e){
     var matches = $(e).html().match(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/)
+    console.log($(e).html())
     if(matches == null)
       return false;
     $(matches).each(function(i, url) {

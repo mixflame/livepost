@@ -15,6 +15,7 @@ class ApplicationController < Amber::Controller::Base
   end
 
   def check_ban
+    puts "Checking ban for #{OpenSSL::Digest.new("SHA256").update(request.host.to_s).to_s}"
     if banned?
       response.close
       puts "BANNED ip hash just tried connecting. connection closed."
