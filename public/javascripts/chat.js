@@ -21,6 +21,15 @@ function new_msg(msg) {
   replace_links($(".message").last());
   replace_emojis($(".message").last());
   $('#messages').scrollTop($('#messages')[0].scrollHeight);
+  var window_handle = window.handle == "" ? "anonymous" : window.handle
+  if(msg["message"].match(window_handle) != null){
+    var should_ding = localStorage.getItem("ding");
+    if(should_ding == "true"){
+      ding = new Audio("/ding.wav")
+      ding.play()
+    }
+    notifyMe(msg['message'] + " - " + msg['author'])
+  }
 }
 
 function handle_join(handle) {
