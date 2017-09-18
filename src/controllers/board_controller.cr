@@ -186,7 +186,7 @@ class BoardController < ApplicationController
     password = password.nil? || !password.has_key?("password") ? "" : password["password"]
 
     response.content_type = "text/json"
-    if password == "" || params["password"] == password || password == ENV["LIVEPOST"]
+    if password == "" || params["password"] == password || password == ENV["LIVEPOST_PASSWORD"]
       redis = Redis.new
       redis.set(params["board_name"].to_s, params["topic"].to_s)
       {error: "topic changed", csrf: csrf_tag}.to_json

@@ -4,12 +4,12 @@ var chat_socket, chat_channel
 
 chat_socket = new Amber.Socket("/chat")
 chat_socket.connect()
-.then(() => {
+.then(function() {
       this.chat_channel = chat_socket.channel("chat_room:chat")
       this.chat_channel.join()
-      this.chat_channel.on('message:new', (msg) => new_msg(msg))
-      this.chat_channel.on('handle:join', (handle) => handle_join(handle))
-      this.chat_channel.on('handle:leave', (handle) => handle_leave(handle))
+      this.chat_channel.on('message:new', function(msg) { new_msg(msg) })
+      this.chat_channel.on('handle:join', function(handle) { handle_join(handle) })
+      this.chat_channel.on('handle:leave', function(handle) { handle_leave(handle) })
       this.chat_channel.push('handle:join', {handle: window.handle})
       // notifyMe("") // enable notifications (no msg)
 })

@@ -6,7 +6,7 @@ leftMButtonDown = false // we're not holding left m button down by default
 
 socket = new Amber.Socket("/chat")
 socket.connect()
-.then(() => {
+.then(function() {
       this.channel = socket.channel(`board_room:boards`)
       this.message_channel = socket.channel(`board_room:${window.board_name}`)
       this.home_channel = socket.channel(`board_room:home`)
@@ -17,11 +17,11 @@ socket.connect()
       this.home_channel.join();
       this.connected_channel.join();
       this.pm_channel.join();
-      this.channel.on('board:new', (board) => new_board(board))
-      this.message_channel.on('post:new', (msg) => new_post(msg))
-      this.pm_channel.on('pm:message', (msg) => new_message(msg))
-      this.home_channel.on('post:increment', (board) => increment_posts(board))
-      this.connected_channel.on('socket:connected', (socket) => connected_socket(socket))
+      this.channel.on('board:new', function(board) { new_board(board)})
+      this.message_channel.on('post:new', function(msg) { new_post(msg)})
+      this.pm_channel.on('pm:message', function(msg) { new_message(msg)})
+      this.home_channel.on('post:increment', function(board) { increment_posts(board)})
+      this.connected_channel.on('socket:connected', function(socket) { connected_socket(socket)})
       this.connected_channel.push('socket:connected', {board: window.board_name}) // i connected
       notifyMe("") // enable notifications (no msg)
     })
