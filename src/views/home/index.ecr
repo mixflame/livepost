@@ -1,6 +1,6 @@
 <div class="panel panel-default">
-  <h2>LivePost</h2>
   <div class="panel-body">
+    <h2>LivePost</h2>
     <p>Users have liveposted <span id="total-posts"><%= messages.count %></span> times!</p>
     <p>The board last liveposted in was <strong id="last-posted"><a href="/b/<%= URI.escape(HTML.escape(last_posted.to_s), true) %>"><%= HTML.escape(last_posted.to_s) %></a></strong></p>
     <p id="sockets-connected"><%= Amber::WebSockets::ClientSockets.client_sockets.size %> sockets connected</p>
