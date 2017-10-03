@@ -7,26 +7,33 @@
     <p id="ip-hash">Your IP hash is <strong id="hash"><%= OpenSSL::Digest.new("SHA256").update(request.host.to_s) %></strong></p>
     <p>For moderators: <a href="/unban_hash">Unban Hash</a></p>
     <p>Save this code and provide to moderators if you are banned.</p>
-    Ding: <input type="checkbox" id="ding" />
+    <p>Ding: <input type="checkbox" id="ding" /></p>
+    <p>Theme: 
+      <select id="theme_select">
+        <% Dir.entries("./public/stylesheets/themes").each do |filename| %>
+          <% if filename.includes?(".css") %>
+            <option value="<%= filename %>" <% if filename == session["theme"] %>selected<% end %>><%= filename %></option>
+          <% end %>
+        <% end %>
+      </select>
+    </p>
   </div>
 </div>
 
-<!-- <div>
-  <ul>
-    <li>LivePost is an anonymous live messaging forum.</li>
-    <li>It is a forum, but replies appear in real-time.</li>
-    <li>Users can create any message board they want.</li>
-    <li>And they can add as many messages to those boards as they want.</li>
-    <li>Messages are never deleted unless the user deletes them.</li>
-    <li>Once a board is created, it stays at the same URL forever.</li>
-    <li>Only the creator of the board can delete it.</li>
-    <li>Using a blank password will lock the post or board from deletion except by admin</li>
-  </ul>
-</div> -->
-
 <div class="panel panel-default">
   <div class="panel-body">
-    <h3>LivePost is a Safe Space</h3>
+    <h3>What is LivePost?</h3>
+    <div>
+      <p>LivePost is an anonymous live messaging forum.</p>
+      <p>It is a forum, but replies appear in real-time.</p>
+      <p>Users can create any message board they want.</p>
+      <p>And they can add as many messages to those boards as they want.</p>
+      <p>Messages are never deleted unless the user deletes them.</p>
+      <p>Once a board is created, it stays at the same URL forever.</p>
+      <p>Only the creator of the board can delete it.</p>
+      <p>Using a blank password will lock the post or board from deletion except by admin</p>
+    </div>
+    <h3>Rules</h3>
     <ul>
       <li>No racism or any kind of bigotry.</li>
       <li>All races, genders, religions and sexual orientations are welcome.</li>

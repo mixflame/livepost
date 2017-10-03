@@ -43,4 +43,9 @@ class HomeController < ApplicationController
       {error: "handle already exists", csrf: csrf_tag}.to_json
     end
   end
+
+  def change_theme
+    session["theme"] = params["theme"].to_s
+    {error: "success", csrf: csrf_tag}.to_json
+  end
 end

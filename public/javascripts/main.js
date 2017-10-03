@@ -31,6 +31,17 @@ $(window).on("beforeunload", function (e) {
   $.get("/update_socket_count", {board: window.board_name});
 });
 
+$("#theme_select").change(function(e){
+  var selected_theme = $("#theme_select").val();
+  // set current theme
+  $("#theme_link").prop("href", "/stylesheets/themes/" + selected_theme);
+  var csrf = $("input[name='_csrf']").val();
+  $.post("/change_theme", {theme: selected_theme, _csrf: csrf}, function(e) {
+    e = JSON.parse(e);
+    $("input[name*=_csrf]").replaceWith(e['csrf']);
+  })
+})
+
 function new_message(msg) {
   if(msg['author'] == window.handle) return;
   $(".messages").append("<p class='message'><span class='author'>" + msg["author"] + "</span>: " + msg["message"] + "</p>")
