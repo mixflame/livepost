@@ -408,7 +408,6 @@ $(document).ready(function(){
 function load_embedded_data(){
   $(".comment-text > p").each(function(i, e){
     var matches = $(e).html().match(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/)
-    console.log($(e).html())
     if(matches != null) {
     $(matches).each(function(i, url) {
       var already_linked = $(e).find("a[href='" + url + "']").length > 0;
