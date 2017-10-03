@@ -7,7 +7,16 @@
     <p id="ip-hash">Your IP hash is <strong id="hash"><%= OpenSSL::Digest.new("SHA256").update(request.host.to_s) %></strong></p>
     <p>For moderators: <a href="/unban_hash">Unban Hash</a></p>
     <p>Save this code and provide to moderators if you are banned.</p>
-    Ding: <input type="checkbox" id="ding" />
+    <p>Ding: <input type="checkbox" id="ding" /></p>
+    <p>Theme: 
+      <select id="theme_select">
+        <% Dir.entries("./public/stylesheets/themes").each do |filename| %>
+          <% if filename.includes?(".css") %>
+            <option value="<%= filename %>" <% if filename == session["theme"] %>selected<% end %>><%= filename %></option>
+          <% end %>
+        <% end %>
+      </select>
+    </p>
   </div>
 </div>
 

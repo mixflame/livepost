@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
     <link rel="stylesheet" href="/stylesheets/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="/stylesheets/main.css" />
+    <% theme_path = session["theme"].nil? ? "main.css" : session["theme"] %>
+    <link id="theme_link" rel="stylesheet" href="/stylesheets/themes/<%= theme_path %>" />
     <link rel="stylesheet" href="/stylesheets/im.css" />
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
     <script src="/javascripts/jquery.js"></script>
