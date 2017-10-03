@@ -2,7 +2,7 @@ version: 1.0
 shards:
   amber:
     github: amber-crystal/amber
-    commit: 7ec4bdeb667dddc4af14c4740c4e72bb885f826a
+    commit: 13c2c5d6dd70fc5c688f47ce77d9756b2692b15a
 
   callback:
     github: mosop/callback
@@ -50,7 +50,7 @@ shards:
 
   radix:
     github: luislavena/radix
-    commit: 211418416adba540b594af2260e1b5d0c8877c9e
+    commit: 905bd9e14b9996c793ac95e1e77d2809f7f79568
 
   redis:
     github: stefanwille/crystal-redis
@@ -62,7 +62,7 @@ shards:
 
   shell-table:
     github: jwaldrip/shell-table.cr
-    version: 0.9.1
+    version: 0.9.2
 
   slang:
     github: jeromegn/slang

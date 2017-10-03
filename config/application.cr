@@ -10,9 +10,9 @@ Amber::Server.configure do |app|
   app.env = (ENV["AMBER_ENV"] ||= "development").to_s
   app.log = ::Logger.new(STDOUT)
   app.log.level = ::Logger::INFO
-  if (app.env == "production")
-    # acquire these with cerbot certonly standalone
-    app.ssl_key_file = "/home/mixflame/livepost/config/privkey.pem"
-    app.ssl_cert_file = "/home/mixflame/livepost/config/fullchain.pem"
-  end
+  #if (app.env == "production")
+  #  # acquire these with cerbot certonly standalone
+  #  app.ssl_key_file = "/home/mixflame/livepost/config/privkey.pem"
+  #  app.ssl_cert_file = "/home/mixflame/livepost/config/fullchain.pem"
+  #end
 end
