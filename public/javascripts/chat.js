@@ -15,6 +15,8 @@ chat_socket.connect()
 })
 
 function new_msg(msg) {
+  if(msg["message"] == "")
+    return false;
   if(msg["author"] == "")
     msg["author"] = "anonymous"
   $("#messages").append("<li class='message'>" + msg["author"] + " > " + msg["message"] + "</li>")
