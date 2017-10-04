@@ -70,6 +70,7 @@ $(document).ready(function(){
     replace_emojis($(e));
   })
   $('#messages').scrollTop($('#messages')[0].scrollHeight);
+  $("input[name='message']").focus();
 })
 
 function replace_links(message_text) {
