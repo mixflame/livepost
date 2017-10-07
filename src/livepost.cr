@@ -1,5 +1,5 @@
 # LivePost by Jonathan Silverman aka Anya Summer Meadow
-# For Seminole, For Osage, For Arapahoe, For Dylan, For Jessie, For Rachel, For Thomas. For Life. To the bullet. Amen.
+# For Seminole, Osage, Arapahoe, Dylan, Jessie, Rachel, Thomas. For Life. To the bullet. Amen.
 
 require "mongo"
 require "amber"
