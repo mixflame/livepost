@@ -6,7 +6,7 @@
   </ul>
   <ul id="messages">
     <% chat_messages.find({"$query" => {"message" => {"$ne" => ""}}, "$orderby" => {"_id" => 1}}) do |chat_message| %>
-      <li class="message"><%= chat_message["author"] == "" ? "anonymous" : chat_message["author"] %> > <%= chat_message["message"] %></li>
+      <li class="message"><%= chat_message["author"] == "" ? "anonymous" : chat_message["author"] %> > <%= chat_message["message"][0..512] %></li>
     <% end %>
   </ul>
   <div class="clearfix"></div>

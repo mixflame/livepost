@@ -13,7 +13,13 @@
   #messages {
     width: 85%;
     height: 500px;
-    overflow: auto;
+    overflow: hidden;
+    overflow-y: auto;
     border: 2px #922D2D solid;
     padding: 15px;
+  }
+
+  .message {
+    width: 100%;
+    overflow: hidden;
   }
