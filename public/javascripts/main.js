@@ -194,6 +194,24 @@ $("#create-board").submit(function createBoard(e) {
   });
 })
 
+$("#tweet_form").submit(function createBoard(e) {
+  e.preventDefault();
+  $("#author").val(stripCombiningMarks($("#author").val()))
+  $("#tweet").val(stripCombiningMarks($("#tweet").val()))
+  $.ajax({url: "/create_a_tweet", method: "get", data: $('#tweet_form').serialize(), success: function(e){
+    e = JSON.parse(e);
+    $("input[name*=_csrf]").replaceWith(e['csrf']);
+    if(e['error'])
+      alert(e['error'])
+    // $("#captcha_image").attr("src", "/captcha_image?"+ new Date().getTime());
+    $("#tweet").val("");
+    // $("#captcha_response").val("");
+  }, xhrFields: {
+     withCredentials: true
+  }
+  });
+})
+
 function reverseString(str) {
     return str.split("").reverse().join("");
 }

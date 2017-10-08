@@ -22,8 +22,12 @@
 
 <div class="panel panel-default">
   <div class="panel-body">
-    <p>Tweet: <input name="tweet" id="tweet" /></p>
-    <p>Author: <input name="author" id="author" /></p>
+    <form id="tweet_form" method="get" action="/create_a_tweet">
+      <p>Tweet: <input name="tweet" id="tweet" /></p>
+      <p>Author: <input name="author" id="author" /></p>
+      <p>Password: <input name="password" id="tweet_password" /></p>
+      <p><input type="submit" id="tweet_submit" value="Tweet" />
+    </form>
   </div>
 </div>
 
