@@ -41,7 +41,8 @@ Amber::Server.configure do |app|
     get "/chatroom", ChatController, :chatroom
     post "/send_message", ChatController, :send_message
     post "/change_theme", HomeController, :change_theme
-    get "/create_a_tweet", TweetController, :create_tweet
+    get "/create_a_tweet", TweetController, :create_tweet # violated rest on purpose. bug
+    get "/home", TweetController, :home
   end
 
   routes :static do
