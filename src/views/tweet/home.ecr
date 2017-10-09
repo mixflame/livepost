@@ -12,8 +12,10 @@
 
 <div class="panel panel-default">
   <div class="panel-body">
-    <% tweets.find({"tweet" => {"$ne" => ""}}) do |tweet| %>
-        <p class="tweet"><%= HTML.escape(tweet["tweet"].to_s) %> - <%= HTML.escape(tweet["author"].to_s) %></p>
-    <% end %>
+    <div id="tweets">
+        <% tweets.find({"tweet" => {"$ne" => ""}}) do |tweet| %>
+            <p class="tweet"><%= HTML.escape(tweet["tweet"].to_s) %> - <%= HTML.escape(tweet["author"].to_s) %></p>
+        <% end %>
+    </div>
   </div>
 </div>

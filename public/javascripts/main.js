@@ -11,18 +11,21 @@ socket.connect()
       this.message_channel = socket.channel(`board_room:${window.board_name}`)
       this.home_channel = socket.channel(`board_room:home`)
       this.connected_channel = socket.channel(`board_room:connected`)
+      this.tweet_channel = socket.channel("tweet_room:tweets")
       this.pm_channel = socket.channel(`pm_room:${window.handle}`)
       this.channel.join()
       this.message_channel.join();
       this.home_channel.join();
       this.connected_channel.join();
       this.pm_channel.join();
+      this.tweet_channel.join();
       this.channel.on('board:new', function(board) { new_board(board)})
       this.message_channel.on('post:new', function(msg) { new_post(msg)})
       this.pm_channel.on('pm:message', function(msg) { new_message(msg)})
       this.home_channel.on('post:increment', function(board) { increment_posts(board)})
       this.connected_channel.on('socket:connected', function(socket) { connected_socket(socket)})
       this.connected_channel.push('socket:connected', {board: window.board_name}) // i connected
+      this.tweet_channel.on("tweet:new", function(tweet) { new_tweet(tweet) });
       notifyMe("") // enable notifications (no msg)
     })
 
@@ -58,6 +61,11 @@ function send_message(handle, msg) {
   load_embedded_one_post($(".messages > .message").last())
   $(".message_input").val("")
   $('.messages').scrollTop($('.messages')[0].scrollHeight)
+}
+
+function new_tweet(tweet) {
+  alert_bottom(tweet["tweet"] + " - " + tweet["author"])
+  $("#tweets").prepend("<p class='tweet'>" + tweet["tweet"] + " - " + tweet["author"] + "</p>")
 }
 
 $(".send_message").click(function(){
@@ -201,7 +209,7 @@ $("#tweet_form").submit(function createBoard(e) {
   $.ajax({url: "/create_a_tweet", method: "get", data: $('#tweet_form').serialize(), success: function(e){
     e = JSON.parse(e);
     $("input[name*=_csrf]").replaceWith(e['csrf']);
-    if(e['error'])
+    if(e['error'] == "bad password")
       alert(e['error'])
     // $("#captcha_image").attr("src", "/captcha_image?"+ new Date().getTime());
     $("#tweet").val("");

@@ -20,6 +20,8 @@ class TweetController < ApplicationController
             "tweet" => params["tweet"].to_s[0..139] # 140 chars
         })
 
+        UserSocket.broadcast("message", "tweet_room:tweets", "tweet:new", {:tweet => HTML.escape(params["tweet"]), :author => HTML.escape(params["author"])})
+
         {error: "Successfully posted tweet.", csrf: csrf_tag}.to_json
     end
 
