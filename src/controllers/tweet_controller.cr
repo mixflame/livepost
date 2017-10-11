@@ -25,6 +25,15 @@ class TweetController < ApplicationController
         {error: "Successfully posted tweet.", csrf: csrf_tag}.to_json
     end
 
+    def follow_handle
+        p params
+        client = Mongo::Client.new "mongodb://localhost:27017/livepost"
+        db = client["live_post"]
+        followings = db["followings"]
+        followings.insert({"followed" => params["followed"], "following" => params["following"]})
+        {error: "success", csrf: csrf_tag}.to_json
+    end
+
     def home
         @board_name = "home"
         client = Mongo::Client.new "mongodb://localhost:27017/livepost"

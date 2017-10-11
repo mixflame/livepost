@@ -65,8 +65,22 @@ function send_message(handle, msg) {
 
 function new_tweet(tweet) {
   alert_bottom(tweet["tweet"] + " - " + tweet["author"])
-  $("#tweets").prepend("<p class='tweet'>" + tweet["tweet"] + " - " + tweet["author"] + "</p>")
+  $("#tweets").prepend("<p class='tweet'>" + tweet["tweet"] + " - " + tweet["author"] + " <button class='follow_button' data-author='" + tweet["author"] + "'>Follow</button></p>")
 }
+
+$(".follow_button").click(function(event){
+  var author = $(event.target).data("author");
+  console.log("following " + author)
+  var following = window.handle;
+  var csrf = $("input[name='_csrf']").val();
+  $.ajax({url: "/follow_handle", method: "GET", data: {followed: author, following: following, _csrf: csrf}, success: function(e) {
+    e = JSON.parse(e);
+    $("input[name*=_csrf]").replaceWith(e['csrf']);
+    if(e['error'] == "success"){
+      $(event.target).html("Followed")
+    }
+  }})
+})
 
 $(".send_message").click(function(){
   var message = $(".message_input").val()

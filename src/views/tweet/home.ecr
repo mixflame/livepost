@@ -14,7 +14,10 @@
   <div class="panel-body">
     <div id="tweets">
         <% tweets.find({"$query" => {"tweet" => {"$ne" => ""}}, "$orderby" => {"_id" => -1}}) do |tweet| %>
-            <p class="tweet"><%= HTML.escape(tweet["tweet"].to_s) %> - <%= HTML.escape(tweet["author"].to_s) %></p>
+            <p class="tweet">
+            <%= HTML.escape(tweet["tweet"].to_s) %> - <%= HTML.escape(tweet["author"].to_s) %>
+            <button class="follow_button" data-author='<%= HTML.escape(tweet["author"].to_s) %>'>Follow</button>
+            </p>
         <% end %>
     </div>
   </div>
