@@ -44,6 +44,7 @@ Amber::Server.configure do |app|
     get "/create_a_tweet", TweetController, :create_tweet #violated rest on purpose. bug
     get "/home", TweetController, :home
     get "/follow_handle", TweetController, :follow_handle
+    get "/unfollow_handle", TweetController, :unfollow_handle
   end
 
   routes :static do

@@ -69,6 +69,10 @@ function new_tweet(tweet) {
 }
 
 $(".follow_button").click(function(event){
+  if($(event.target).html() == "Following") {
+    unfollow_handle(event);
+    return false;
+  }
   var author = $(event.target).data("author");
   console.log("following " + author)
   var following = window.handle;
@@ -77,12 +81,28 @@ $(".follow_button").click(function(event){
     e = JSON.parse(e);
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error'] == "success"){
-      $(event.target).html("Followed")
+      $(event.target).html("Following")
     } else {
       alert(e["error"])
     }
   }})
 })
+
+function unfollow_handle(event) {
+  var author = $(event.target).data("author");
+  console.log("unfollowing " + author)
+  var following = window.handle;
+  var csrf = $("input[name='_csrf']").val();
+  $.ajax({url: "/unfollow_handle", method: "GET", data: {followed: author, following: following, _csrf: csrf}, success: function(e) {
+    e = JSON.parse(e);
+    $("input[name*=_csrf]").replaceWith(e['csrf']);
+    if(e['error'] == "success"){
+      $(event.target).html("Follow")
+    } else {
+      alert(e["error"])
+    }
+  }})
+}
 
 // 12 bucks...
 
