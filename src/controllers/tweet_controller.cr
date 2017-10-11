@@ -26,7 +26,12 @@ class TweetController < ApplicationController
     end
 
     def follow_handle
-        p params
+        if params["following"] == "anonymous" || params["following"] == ""
+            return {error: "Anonymous can't follow a handle."}.to_json
+        end
+        if params["followed"] == "anonymous"
+            return {error: "Can't follow anonymous"}.to_json
+        end
         client = Mongo::Client.new "mongodb://localhost:27017/livepost"
         db = client["live_post"]
         followings = db["followings"]
@@ -39,6 +44,7 @@ class TweetController < ApplicationController
         client = Mongo::Client.new "mongodb://localhost:27017/livepost"
         db = client["live_post"]
         tweets = db["tweets"]
+        followings = db["followings"]
         render("home.ecr")
     end
 end

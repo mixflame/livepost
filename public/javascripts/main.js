@@ -78,9 +78,13 @@ $(".follow_button").click(function(event){
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error'] == "success"){
       $(event.target).html("Followed")
+    } else {
+      alert(e["error"])
     }
   }})
 })
+
+// 12 bucks...
 
 $(".send_message").click(function(){
   var message = $(".message_input").val()

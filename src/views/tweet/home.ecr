@@ -16,7 +16,8 @@
         <% tweets.find({"$query" => {"tweet" => {"$ne" => ""}}, "$orderby" => {"_id" => -1}}) do |tweet| %>
             <p class="tweet">
             <%= HTML.escape(tweet["tweet"].to_s) %> - <%= HTML.escape(tweet["author"].to_s) %>
-            <button class="follow_button" data-author='<%= HTML.escape(tweet["author"].to_s) %>'>Follow</button>
+            <% followed = followings.find_one({"followed" => tweet["author"], "following" => session[:handle]}).nil? ? "Follow" : "Following" %>
+            <button class="follow_button" data-author='<%= HTML.escape(tweet["author"].to_s) %>'><%= followed %></button>
             </p>
         <% end %>
     </div>
