@@ -55,4 +55,13 @@ class TweetController < ApplicationController
         followings = db["followings"]
         render("home.ecr")
     end
+
+    def followed_tweets
+        @board_name = "home"
+        client = Mongo::Client.new "mongodb://localhost:27017/livepost"
+        db = client["live_post"]
+        tweets = db["tweets"]
+        followings = db["followings"]
+        render("followed_tweets.ecr")
+    end
 end

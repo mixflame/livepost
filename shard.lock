@@ -2,7 +2,7 @@ version: 1.0
 shards:
   amber:
     github: amber-crystal/amber
-    commit: d420d39e83cc1b990e5a056a574a50e0d2f6a022
+    version: 0.2.7
 
   callback:
     github: mosop/callback

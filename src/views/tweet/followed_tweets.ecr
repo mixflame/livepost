@@ -1,0 +1,15 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div id="tweets">
+        <% followings.find({"$query" => {"following" => {"$eq" => session[:handle]}, "followed" => {"$ne" => ""}}}) do |following| %>
+            <% tweets.find({"$query" => {"author" => {"$eq" => following["followed"]}, "tweet" => {"$ne" => ""}}, "$orderby" => {"_id" => -1}}) do |tweet| %>
+                <p class="tweet">
+                    <%= HTML.escape(tweet["tweet"].to_s) %> - <%= HTML.escape(tweet["author"].to_s) %>
+                    <% followed = followings.find_one({"followed" => tweet["author"], "following" => session[:handle]}).nil? ? "Follow" : "Following" %>
+                    <button class="follow_button" data-author='<%= HTML.escape(tweet["author"].to_s) %>'><%= followed %></button>
+                </p>
+            <% end %>
+        <% end %>
+    </div>
+  </div>
+</div>
