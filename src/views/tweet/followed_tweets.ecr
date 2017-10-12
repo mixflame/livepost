@@ -1,4 +1,9 @@
-<div class="panel panel-default">
+<ul class="nav nav-tabs">
+  <li><a href="/home">Home</a></li>
+  <li class="active"><a href="/followed_tweets">Followed Tweets</a></li>
+</ul>
+
+<div class="panel">
   <div class="panel-body">
     <div id="tweets">
         <% followings.find({"$query" => {"following" => {"$eq" => session[:handle]}, "followed" => {"$ne" => ""}}}) do |following| %>
