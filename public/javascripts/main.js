@@ -240,11 +240,11 @@ $("#create-board").submit(function createBoard(e) {
   });
 })
 
-$("#tweet_form").submit(function createBoard(e) {
+$("#tweet_form").submit(function(e) {
   e.preventDefault();
   $("#author").val(stripCombiningMarks($("#author").val()))
   $("#tweet").val(stripCombiningMarks($("#tweet").val()))
-  $.ajax({url: "/create_a_tweet", method: "get", data: $('#tweet_form').serialize(), success: function(e){
+  $.ajax({url: "/create_tweet", method: "get", data: $('#tweet_form').serialize(), success: function(e){
     e = JSON.parse(e);
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error'] == "bad password")
