@@ -67,6 +67,7 @@ function new_tweet(tweet) {
   alert_bottom(tweet["tweet"] + " - " + tweet["author"])
   $("#tweets").prepend("<p class='tweet'>" + tweet["tweet"] + " - " + tweet["author"] + " <button class='follow_button' data-author='" + tweet["author"] + "'>Follow</button></p>")
   load_emojis();
+  load_embedded_one_post($("#tweets > p").first())
 }
 
 $(".follow_button").click(function(event){
