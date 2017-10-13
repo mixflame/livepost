@@ -1,0 +1,15 @@
+<div class="panel">
+  <div class="panel-body">
+    <h1>Livestagram</h1>
+
+    <div id="pictures">
+        <% messages.find({"image" => {"$ne" => ""}}) do |message| %>
+            <% image = message["image"].to_s rescue "" %>
+            <% if image != "Q" && image != "" && image != "CYQwLiBcA0Q" %>
+              <p class="image" style="display: inline"><img class="live-image" width="100" height="100" data-src="<%= image %>" /></p>
+            <% end %>
+        <% end %>
+    </div>
+
+    </div>
+</div>

@@ -7,6 +7,8 @@ You're <%= session[:handle] %>
 <% end %>
 <%- active = context.request.path == "/home" ? "active" : "" %>
 <a class="nav-item <%= active %>" href="/home">LiveTweet</a>
+<%- active = context.request.path == "/livestagram" ? "active" : "" %>
+<a class="nav-item <%= active %>" href="/livestagram">Livestagram</a>
 <% if active == "" && @board_name.to_s != "home" %>
 <a class="nav-item active board-name" href="<%= context.request.path %>"><%= @board_name.to_s %></a>
 <% end %>

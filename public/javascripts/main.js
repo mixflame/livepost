@@ -132,7 +132,7 @@ function new_board(board){
 }
 
 function embed_media() {
-  $("div.post > p > img").each(function(i, e) {
+  $("p > img").each(function(i, e) {
     decoded_base64 = LZString.decompressFromEncodedURIComponent($(e).data("src"))
     if(decoded_base64 != undefined) {
       file_type = decoded_base64.split(",")[0].split(";")[0].split(":")[1]
@@ -586,6 +586,16 @@ $("#show-pm-window").change(function(){
     $(".chat_window").show()
   } else if(show_pm_window == false) {
     $(".chat_window").hide()
+  }
+})
+
+$(".live-image").click(function(e){
+  if($(e.target).prop("width") == "100"){
+    $(e.target).removeAttr("width")
+    $(e.target).removeAttr("height")
+  } else {
+    $(e.target).prop("width", "100")
+    $(e.target).prop("height", "100")
   }
 })
 

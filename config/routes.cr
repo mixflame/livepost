@@ -22,6 +22,7 @@ Amber::Server.configure do |app|
   end
 
   routes :web do
+    
     websocket "/chat", UserSocket
     get "/b/:slug", StaticController, :slug
     get "/", HomeController, :index
@@ -46,6 +47,7 @@ Amber::Server.configure do |app|
     get "/follow_handle", TweetController, :follow_handle
     get "/unfollow_handle", TweetController, :unfollow_handle
     get "/followed_tweets", TweetController, :followed_tweets
+    get "/livestagram", LiveController, :livestagram
   end
 
   routes :static do
