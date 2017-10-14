@@ -360,7 +360,8 @@ $("#remove_post").submit(function(e) {
 
 $("#ban_hash").submit(function(e) {
   e.preventDefault();
-  $.ajax({url: "/ban_hash", method: "POST", type: "form", data: $('#ban_hash').serialize(), success: function(e){
+  $.ajax({url: "/commit_ban_hash", method: "GET", type: "form", data: $('#ban_hash').serialize(), success: function(e){
+    // e = JSON.parse(e);
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error'] != "banned") {
       alert(e['error'])
@@ -373,7 +374,9 @@ $("#ban_hash").submit(function(e) {
 
 $("#unban_hash").submit(function(e) {
   e.preventDefault();
-  $.ajax({url: "/unban_hash", method: "POST", type: "form", data: $('#unban_hash').serialize(), success: function(e){
+  $.ajax({url: "/commit_unban_hash", method: "GET", type: "form", data: $('#unban_hash').serialize(), success: function(e){
+    console.log(e);
+    // e = JSON.parse(e);
     $("input[name*=_csrf]").replaceWith(e['csrf']);
     if(e['error'] != "unbanned") {
       alert(e['error'])

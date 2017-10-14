@@ -9,7 +9,8 @@ class BoardController < ApplicationController
 
     response.content_type = "text/json"
     if collection.count({"name" => {"$eq" => params["board_name"]}}) == 0 && params["board_name"].size < 50
-      ip_hash = OpenSSL::Digest.new("SHA256").update(request.host.to_s).to_s
+      ip = request.headers["X-Forwarded-For"].to_s rescue ""
+      ip_hash = OpenSSL::Digest.new("SHA256").update(ip).to_s
       collection.insert({"name"     => params["board_name"],
                          "password" => params["password"],
                          "ip_hash"  => ip_hash})
@@ -43,7 +44,8 @@ class BoardController < ApplicationController
     message = Markdown.to_html(HTML.escape(params["message"]))
     response.content_type = "text/json"
     if collection.count({"message" => {"$eq" => message}, "name" => {"$eq" => params["board_name"]}, "image" => {"$eq" => params["image"]}}) == 0 && ((params["image"].size / 1024) < 5000 && params["message"].to_s.size < 2000)
-      ip_hash = OpenSSL::Digest.new("SHA256").update(request.host.to_s).to_s
+      ip = request.headers["X-Forwarded-For"].to_s rescue ""
+      ip_hash = OpenSSL::Digest.new("SHA256").update(ip).to_s
       collection.insert({"name" => params["board_name"],
                          "message" => message,
                          "author" => HTML.escape(params["author"]),

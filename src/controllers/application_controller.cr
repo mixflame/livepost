@@ -11,14 +11,14 @@ class ApplicationController < Amber::Controller::Base
   end
 
   def banned?
-    !collection("banned_hashes").find_one({"ip_hash" => OpenSSL::Digest.new("SHA256").update(request.host.to_s).to_s}).nil?
+    ip = request.headers["X-Forwarded-For"].to_s rescue ""
+    ip_hash = OpenSSL::Digest.new("SHA256").update(ip).to_s
+    !collection("banned_hashes").find_one({"ip_hash" => ip_hash}).nil?
   end
 
   def check_ban
-    puts "Checking ban for #{OpenSSL::Digest.new("SHA256").update(request.host.to_s).to_s} #{request.host.to_s}"
-    puts request.headers
     if banned?
-      # response.close
+      response.close
       puts "BANNED ip hash just tried connecting. connection closed."
     end
   end

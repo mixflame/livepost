@@ -33,9 +33,9 @@ Amber::Server.configure do |app|
     get "/delete_post", BoardController, :delete_post
     post "/remove_post", BoardController, :remove_post
     get "/ban_hash", BoardController, :ban_hash
-    post "/ban_hash", BoardController, :commit_ban_hash
+    get "/commit_ban_hash", BoardController, :commit_ban_hash
     get "/unban_hash", BoardController, :unban_hash
-    post "/unban_hash", BoardController, :commit_unban_hash
+    get "/commit_unban_hash", BoardController, :commit_unban_hash
     post "/change_topic", BoardController, :change_topic
     get "/register_handle", HomeController, :register_handle
     post "/register_handle", HomeController, :register_handle_post
