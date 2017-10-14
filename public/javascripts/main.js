@@ -4,9 +4,10 @@ image = new Image() // to imake image code easier
 
 leftMButtonDown = false // we're not holding left m button down by default
 
-socket = new Amber.Socket("/chat")
-socket.connect()
-.then(function() {
+function openWebSocket() {
+  socket = new Amber.Socket("/chat")
+  socket.connect()
+  .then(function() {
       this.channel = socket.channel(`board_room:boards`)
       this.message_channel = socket.channel(`board_room:${window.board_name}`)
       this.home_channel = socket.channel(`board_room:home`)
@@ -27,7 +28,23 @@ socket.connect()
       this.connected_channel.push('socket:connected', {board: window.board_name}) // i connected
       this.tweet_channel.on("tweet:new", function(tweet) { new_tweet(tweet) });
       notifyMe("") // enable notifications (no msg)
-    })
+  })
+}
+
+openWebSocket();
+
+this.socket.ws.onclose = function (event) {
+  console.log('Socket closed');
+  retries = 0
+  retryOpeningWebSocket();
+};
+
+function retryOpeningWebSocket(){
+  if (retries < 2) {
+      setTimeout(openWebSocket, 1000);
+      retries++;
+  }
+}
 
 $(window).on("beforeunload", function (e) {
   this.socket.ws.close();
@@ -612,3 +629,4 @@ $(document).ready(function(){
   }
   $("#show-pm-window").prop("checked", show_pm_window);
 })
+
