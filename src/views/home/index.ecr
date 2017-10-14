@@ -4,7 +4,11 @@
     <p>Users have liveposted <span id="total-posts"><%= messages.count %></span> times!</p>
     <p>The board last liveposted in was <strong id="last-posted"><a href="/b/<%= URI.escape(HTML.escape(last_posted.to_s), false) %>"><%= HTML.escape(last_posted.to_s) %></a></strong></p>
     <p id="sockets-connected"><%= Amber::WebSockets::ClientSockets.client_sockets.size %> sockets connected</p>
-    <p id="ip-hash">Your IP hash is <strong id="hash"><%= OpenSSL::Digest.new("SHA256").update(request.host.to_s) %></strong></p>
+    <%  
+        ip = request.headers["X-Forwarded-For"].to_s rescue ""
+        ip_hash = OpenSSL::Digest.new("SHA256").update(ip).to_s
+    %>
+    <p id="ip-hash">Your IP hash is <strong id="hash"><%= ip_hash %></strong></p>
     <p>For moderators: <a href="/unban_hash">Unban Hash</a></p>
     <p>Save this code and provide to moderators if you are banned.</p>
     <p>Ding: <input type="checkbox" id="ding" /></p>
