@@ -18,4 +18,4 @@ if use_shards
 end
 
 puts "building app"
-run "crystal build /home/mixflame/livepost/src/livepost.cr"
+run "crystal build /home/livepost/livepost/src/livepost.cr"
