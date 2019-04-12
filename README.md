@@ -2,9 +2,9 @@
 
 LivePost is a browser-based communication system that allows truely live forum-style communication with images.
 
-Also, it is anonymous and encrypted with SSL.
+Also, it is anonymous.
 
-[LivePost](https://livepost.mixflame.com)
+[LivePost](http://livepost.mixflame.com)
 
 ## Installation
 
