@@ -4,4 +4,4 @@ echo 'killing livepost'
 pkill livepost
 echo 'starting livepost'
 source ~/.profile
-AMBER_ENV="production" /home/mixflame/livepost/livepost
+AMBER_ENV="production" /home/livepost/livepost/livepost
