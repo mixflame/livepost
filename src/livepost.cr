@@ -20,9 +20,9 @@ collection.remove({"name" => {"$ne" => ""}})
 amber = Amber::Server
 
 # fix with actual env
-# if amber.env == "production"
+# if Amber.env == "production"
 #   puts "production mode. daemonizing."
-#   Daemonize.daemonize(stdout: "/home/mixflame/livepost/production.log", stderr: "/home/mixflame/livepost/error.log", stdin: "/dev/null")
+#   Daemonize.daemonize(stdout: "#{APP_PATH}/production.log", stderr: "#{APP_PATH}/error.log", stdin: "/dev/null")
 # end
 
 amber.instance.run
