@@ -10,9 +10,11 @@ Also, it is anonymous and encrypted with SSL.
 
 Get Crystal [Crystal](https://crystal-lang.org)
 
-* Install dependencies: ```apt-get install libmongoc-dev mongodb libbson-dev crystal build-essentials```
+* Install dependencies: ```apt-get install libmongoc-dev mongodb libbson-dev crystal build-essentials redis-server```
 
 * Run MongoDB: ```mongod```
+
+* Run Redis ```redis-server```
 
 * Install shards ```shards install```
 
