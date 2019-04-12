@@ -1,13 +1,17 @@
-AMBER_ENV = ARGV[0]? || ENV["AMBER_ENV"]? || "development"
-APP_PATH  = __FILE__
+APP_PATH = __FILE__
 
-Amber::Server.configure do |app|
+# require "./initializers/**"
+require "amber"
+
+# load the application_controller before controllers which depend on it
+require "../src/controllers/application_controller"
+require "../src/controllers/**"
+
+# NOTE: Settings should all be in config/environments/env.yml.
+# Anything here will overwrite all environments.
+Amber::Server.configure do |setting|
   # Server options
-  app_path = __FILE__ # Do not change unless you understand what you are doing.
-  app.name = "LivePost web application."
-  app.port = 3000
-  app.host = "0.0.0.0"
-  app.env = (ENV["AMBER_ENV"] ||= "development").to_s
-  app.log = ::Logger.new(STDOUT)
-  app.log.level = ::Logger::INFO
+  setting.name = "LivePost web application."
+  setting.port = 3000 # Port you wish your app to run
+  setting.host = "0.0.0.0"
 end

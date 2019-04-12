@@ -4,7 +4,7 @@ version: 0.1.0
 authors:
   - Amber <contact@ambercr.io>
 
-crystal: 0.23.0
+crystal: 0.27.2
 
 license: MIT
 
@@ -17,5 +17,5 @@ dependencies:
     github: DougEverly/daemonize.cr
 
   mongo:
-    github: datanoise/mongo.cr
+    github: sam0x17/mongo.cr
     branch: master

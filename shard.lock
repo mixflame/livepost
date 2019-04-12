@@ -49,8 +49,8 @@ shards:
     version: 0.3.3
 
   mongo:
-    github: datanoise/mongo.cr
-    commit: 86c9e530c0ac980ed7b15e653746bc5b6f2527fc
+    github: sam0x17/mongo.cr
+    commit: 196d1e9830dad9ecd1aef758da41fc712cb33c86
 
   mysql:
     github: crystal-lang/crystal-mysql
