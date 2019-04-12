@@ -6,21 +6,13 @@ Also, it is anonymous and encrypted with SSL.
 
 [LivePost](https://livepost.mixflame.com)
 
-Support LivePost Development: 1J71oJ9g6Z4L7kDzaSYjaXKA1z1QLWWWAj
-
-Gather with the LivePost developers: irc.rizon.net #livepost
-
 ## Installation
 
 Get Crystal [Crystal](https://crystal-lang.org)
 
-* Install dependencies: ```apt-get install libmongoc-dev mongodb libbson-dev crystal build-essentials redis-server```
-
-* Run redis: ```redis-server```
+* Install dependencies: ```apt-get install libmongoc-dev mongodb libbson-dev crystal build-essentials```
 
 * Run MongoDB: ```mongod```
-
-* Compile and install amber_cmd [amber_cmd](https://github.com/amber-crystal/amber_cmd)
 
 * Install shards ```shards install```
 
