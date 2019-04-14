@@ -1,0 +1,18 @@
+secret_key_base: x6mkMNRnckZXK7HmD1JaVdnnRWGHF-Tdbgsg3wrkMoI
+port: 3000
+name: livepost/
+log: "::Logger.new(STDOUT)"
+log_level: "::Logger::INFO"
+color: true
+host: 0.0.0.0
+port_reuse: false
+process_count: 1
+ssl_key_file: server.key
+ssl_cert_file: server.crt
+redis_url: "redis://localhost:6379"
+session:
+  key: amber.session
+  store: :signed_cookie
+  expires: 0
+secrets:
+  description: Store your development secrets credentials and settings here.
