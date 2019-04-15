@@ -16,4 +16,3 @@ session:
   expires: 0
 secrets:
   description: Store your development secrets credentials and settings here.
-  database:
