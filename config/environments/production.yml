@@ -6,7 +6,7 @@ log_level: "::Logger::INFO"
 color: true
 host: 0.0.0.0
 port_reuse: false
-process_count: (ENV[%(AMBER_PROCESS_COUNT)]? || 1).to_i
+process_count: 1
 ssl_key_file: /etc/letsencrypt/live/livepost.mixflame.com/privkey.pem
 ssl_cert_file: /etc/letsencrypt/live/livepost.mixflame.com/fullchain.pem
 redis_url: "redis://localhost:6379"
